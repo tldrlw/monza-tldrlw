@@ -37,7 +37,8 @@ WORKDIR /app
 # Copy the build output and node_modules from the builder stage
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/public ./public
+# COPY --from=builder /app/public ./public
+# ^ don't have images yet...
 COPY --from=builder /app/package*.json ./
 
 # Expose the port on which the app will run
