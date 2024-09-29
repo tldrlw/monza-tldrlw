@@ -4,11 +4,11 @@ run-name: ${{ github.event_name }}
 # example contents of github context: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs#github-context
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - infrastructure/**
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - infrastructure/**
   workflow_dispatch:
     inputs:
       image_tag:
@@ -48,7 +48,7 @@ jobs:
 
       - name: plan dvm
         id: plan-dvm
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/dev' }}
         env:
           TF_VAR_ENV: dvm
           TF_VAR_IMAGE_TAG: ${{ github.event.inputs.image_tag }}
@@ -58,7 +58,7 @@ jobs:
 
       - name: apply dvm
         id: apply-dvm
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/dev' }}
         env:
           TF_VAR_ENV: dvm
           TF_VAR_IMAGE_TAG: ${{ github.event.inputs.image_tag }}
