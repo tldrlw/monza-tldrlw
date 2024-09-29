@@ -10,7 +10,7 @@ output "TF_VAR_APP_NAME" {
 variable "IMAGE_TAG" {
   type = string
   # not having a default will force me to provide the latest image tag when running terraform locally
-  default = "latest"
+  default = "c43ca8b"
 }
 
 output "TF_VAR_IMAGE_TAG" {
@@ -42,14 +42,14 @@ variable "BLOG_TLDRLW_ALB" {
     name = string
   })
   default = {
-    arn  = "arn:aws:elasticloadbalancing:us-east-1:920394549028:loadbalancer/app/blog-tldrlw/f80f376d5d9e8084"
+    arn  = "arn:aws:elasticloadbalancing:us-east-1:920394549028:loadbalancer/app/blog-tldrlw/15b9d345a3c0b2df"
     name = "blog-tldrlw"
   }
 }
 
 variable "BLOG_TLDRLW_ALB_SG_ID" {
   type    = string
-  default = "sg-06157716156130074"
+  default = "sg-07507bc51908ada43"
 }
 
 variable "TARGET_GROUP" {
@@ -58,14 +58,14 @@ variable "TARGET_GROUP" {
     name = string
   })
   default = {
-    arn  = "arn:aws:elasticloadbalancing:us-east-1:920394549028:targetgroup/monza-tldrlw-tg/8db3096d2f677883"
+    arn  = "arn:aws:elasticloadbalancing:us-east-1:920394549028:targetgroup/monza-tldrlw-tg/85e222105b2d8b48"
     name = "monza-tldrlw-tg"
   }
 }
 
 variable "BLOG_TLDRLW_VPC_ID" {
   type    = string
-  default = "vpc-0e1f2f49524f055a6"
+  default = "vpc-08a677394c24de810"
 }
 
 variable "BLOG_TLDRLW_ECS_CLUSTER_NAME" {
