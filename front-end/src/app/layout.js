@@ -6,6 +6,7 @@ import {
   Titillium_Web,
   IBM_Plex_Mono,
 } from "next/font/google";
+import Header from "@/components/Header";
 
 export const metadata = {
   title: "Monza - F0rmu1a 0ne news and insights",
@@ -25,6 +26,7 @@ const iBMPlexMono = IBM_Plex_Mono({ weight: "400", subsets: ["latin"] });
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Header></Header>
       <body className={iBMPlexMono.className}>{children}</body>
     </html>
   );

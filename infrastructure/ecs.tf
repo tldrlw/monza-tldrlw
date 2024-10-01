@@ -13,7 +13,7 @@ module "ecs_service" {
   container_port              = 3000
   host_port                   = 3000
   environment_variables       = [{ name = "LAMBDA_GET_FUNCTION_URL", value = module.lambda_get.function_url }, { name = "ENV", value = var.ENV }]
-  linux_arm64                 = true
+  # linux_arm64                 = true
   # ^ because using front-end/docker-push.sh
   # cpu                         = "512"
   # memory                      = "1024"
