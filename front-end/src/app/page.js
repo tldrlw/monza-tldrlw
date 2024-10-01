@@ -1,5 +1,7 @@
 import { unstable_noStore as noStore } from "next/cache";
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
+import ListInsights from "@/components/ListInsights";
+import { Suspense } from "react";
 
 export default function App() {
   // build time env vars below
@@ -33,6 +35,9 @@ export default function App() {
         <p>{image}</p>
         <p>{env}</p>
         <p>{lambdaGetFunctionUrl}</p>
+        <Suspense fallback={<p>Loading insights...</p>}>
+          <ListInsights></ListInsights>
+        </Suspense>
       </div>
     </main>
   );
