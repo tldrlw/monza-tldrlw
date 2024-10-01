@@ -1,3 +1,45 @@
+// Function to generate a 10-character unique identifier
+export function generateUniqueId() {
+  const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let uniqueId = "";
+  for (let i = 0; i < 10; i++) {
+    uniqueId += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
+  return uniqueId;
+}
+
+// Function to generate ISO 8601 timestamp
+export function getISO8601Timestamp(date = new Date()) {
+  return date.toISOString();
+}
+
+export function getRandomF1Team() {
+  const teams = [
+    "Mercedes-AMG",
+    "Ferrari",
+    "Red Bull",
+    "McLaren",
+    "Alpine",
+    "Aston Martin",
+    "Williams",
+    "Sauber",
+    "VCaRB",
+    "Haas",
+  ];
+  // Generate a random index and return the corresponding team
+  const randomIndex = Math.floor(Math.random() * teams.length);
+  return teams[randomIndex];
+}
+
+export function getSource() {
+  const sources = ["YouTube", "News", "Podcast", "Race", "FP", "Quali"];
+  // Generate a random index and return the corresponding team
+  const randomIndex = Math.floor(Math.random() * sources.length);
+  return sources[randomIndex];
+}
+
 export function getRandomSentences() {
   // Array of sample words to create sentences
   const words = [

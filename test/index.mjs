@@ -1,6 +1,6 @@
 import { addItemToDynamoDB } from "./add.mjs"; // Assuming this is your add item file
 import { scanDynamoDBTable } from "./scan.mjs"; // Your scan function
-import { getRandomSentences } from "./getRandomSentences.mjs";
+import { getRandomSentences } from "./utils.mjs";
 
 // Define the async function to handle sequential execution
 const run = async () => {

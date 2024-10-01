@@ -1,10 +1,11 @@
 import { unstable_noStore as noStore } from "next/cache";
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
-import ListInsights from "@/components/ListInsights";
 import { Suspense } from "react";
 import Link from "next/link";
+import ListInsights from "@/components/ListInsights";
+import NewInsight from "@/components/NewInsight";
 
-export default function App() {
+export default function Dashboard() {
   // build time env vars below
   // NEXT_PUBLIC_* - https://nextjs.org/docs/app/building-your-application/configuring/environment-variables#bundling-environment-variables-for-the-browser
   const buildTime =
@@ -19,18 +20,16 @@ export default function App() {
 
   return (
     <main>
-      <div className="flex justify-between">
-        <h1 className="text-2xl md:text-3xl mt-1">monza🏎️🏁</h1>
-        <Link
-          href="/auth/login"
-          className="italic text-blue-100 hover:underline content-center mt-1"
-        >
-          admin
-        </Link>
+      <div className="flex flex-row">
+        <div className="basis-1/2">
+          <Suspense fallback={<p>Loading insights...</p>}>
+            <ListInsights></ListInsights>
+          </Suspense>
+        </div>
+        <div className="basis-1/2">
+          <NewInsight></NewInsight>
+        </div>
       </div>
-      <Suspense fallback={<p>Loading insights...</p>}>
-        <ListInsights></ListInsights>
-      </Suspense>
     </main>
   );
 }

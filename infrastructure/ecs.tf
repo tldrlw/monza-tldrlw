@@ -12,7 +12,11 @@ module "ecs_service" {
   vpc_id                      = data.aws_vpc.blog_tldrlw.id
   container_port              = 3000
   host_port                   = 3000
-  environment_variables       = [{ name = "LAMBDA_GET_FUNCTION_URL", value = module.lambda_get.function_url }, { name = "ENV", value = var.ENV }]
+  environment_variables = [
+    { name = "LAMBDA_GET_FUNCTION_URL", value = module.lambda_get.function_url },
+    { name = "LAMBDA_POST_FUNCTION_URL", value = module.lambda_post.function_url },
+    { name = "ENV", value = var.ENV }
+  ]
   # linux_arm64                 = true
   # ^ because using front-end/docker-push.sh
   # cpu                         = "512"

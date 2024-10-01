@@ -3,6 +3,12 @@ import {
   BatchWriteItemCommand,
 } from "@aws-sdk/client-dynamodb";
 import dotenv from "dotenv";
+import {
+  generateUniqueId,
+  getISO8601Timestamp,
+  getSource,
+  getRandomF1Team,
+} from "./utils.mjs";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -16,23 +22,6 @@ const client = new DynamoDBClient({
 export const addItemToDynamoDB = async (insights) => {
   const tableName = process.env.DYDB_TABLE_NAME;
 
-  // Function to generate a 10-character unique identifier
-  function generateUniqueId() {
-    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-    let uniqueId = "";
-    for (let i = 0; i < 10; i++) {
-      uniqueId += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
-    }
-    return uniqueId;
-  }
-
-  // Function to generate ISO 8601 timestamp
-  function getISO8601Timestamp(date = new Date()) {
-    return date.toISOString();
-  }
-
   // DynamoDB params for BatchWriteItemCommand with an array of strings
   const params = {
     RequestItems: {
@@ -44,6 +33,10 @@ export const addItemToDynamoDB = async (insights) => {
               DateTime: { S: getISO8601Timestamp() },
               Title: { S: "Live from Beirut" },
               Link: { S: "https://blog.tldrlw.com" },
+              ImageLink: { S: "Live from Beirut" },
+              ImageCredit: { S: "Live from Beirut" },
+              Team: { S: getRandomF1Team() },
+              Type: { S: getSource() },
               Insights: {
                 L: insights.map((insight) => ({ S: insight })), // Convert array of strings into DynamoDB List format
               },

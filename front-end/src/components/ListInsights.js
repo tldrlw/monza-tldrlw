@@ -37,7 +37,7 @@ export default async function ListInsights() {
       {sortedInsights.map((insight, index) => (
         <div
           key={index}
-          className="my-2 rounded-sm border-2 border-solid border-customOrangeLogo p-2"
+          className="my-2 border-2 border-solid border-customOrangeLogo p-2"
         >
           <div className="text-xs md:text-sm">
             {/* Render the list of strings properly */}
@@ -49,16 +49,25 @@ export default async function ListInsights() {
                 >
                   {insight.Title.S}
                 </a>
+                <div>
+                  <span className="mt-1 md:mt-0 inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+                    {insight.Team.S}
+                  </span>
+                  <span className="ml-2 mt-1 md:mt-0 inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
+                    {insight.Type.S}
+                  </span>
+                </div>
               </div>
               <div className="basis-3/5 flex justify-end items-center">
                 <Image
                   src="https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg"
-                  alt="tldrlw logo"
+                  alt={insight.ImageLink.S}
                   className="w-3/4 md:w-1/3"
                   priority
                   width={500}
                   height={125}
                 />
+                {/* <p className="font-xs">{insight.ImageCredit.S}</p> */}
               </div>
             </div>
             {insight.Insights.L.map((item, idx) => (
