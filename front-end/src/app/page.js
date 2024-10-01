@@ -1,7 +1,17 @@
+import { unstable_noStore as noStore } from "next/cache";
+// ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
+
 export default function App() {
+  // build time env vars below
   const buildTime =
-    process.env.NEXT_PUBLIC_BUILD_TIME || "build time placeholder";
+    process.env.NEXT_PUBLIC_BUILD_TIME || "buildTime placeholder";
   const image = process.env.NEXT_PUBLIC_IMAGE || "image placeholder";
+  // runtime env vars below
+  noStore(); // Opt into dynamic rendering
+  // These values will be evaluated at runtime
+  const env = process.env.ENV || "env placeholder";
+  const lambdaGetFunctionUrl =
+    process.env.LAMBDA_GET_FUNCTION_URL || "lambdaGetFunctionUrl placeholder";
 
   return (
     <main>
@@ -20,6 +30,8 @@ export default function App() {
         </p>
         <p>{buildTime}</p>
         <p>{image}</p>
+        <p>{env}</p>
+        <p>{lambdaGetFunctionUrl}</p>
       </div>
     </main>
   );

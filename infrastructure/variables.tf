@@ -3,37 +3,23 @@ variable "APP_NAME" {
   default = "monza-tldrlw"
 }
 
-output "TF_VAR_APP_NAME" {
-  value = var.APP_NAME
-}
-
 variable "IMAGE_TAG" {
   type = string
   # not having a default will force me to provide the latest image tag when running terraform locally
-  default = "c43ca8b"
-}
-
-output "TF_VAR_IMAGE_TAG" {
-  value = var.IMAGE_TAG
+  default = "fb805b"
+  # gets passed in from .github/workflows/infrastructure.yaml
 }
 
 variable "ENV" {
   type    = string
   default = "dvm"
   # not being used anywhere as of 9/29/24
-}
-
-output "TF_VAR_ENV" {
-  value = var.ENV
+  # as of 9/30/24, "dvm" also gets passed in from .github/workflows/infrastructure.yaml
 }
 
 variable "HOSTNAME" {
   type    = string
   default = "monza.tldrlw.com"
-}
-
-output "TF_VAR_HOSTNAME" {
-  value = var.HOSTNAME
 }
 
 variable "BLOG_TLDRLW_ALB" {
@@ -71,4 +57,14 @@ variable "BLOG_TLDRLW_VPC_ID" {
 variable "BLOG_TLDRLW_ECS_CLUSTER_NAME" {
   type    = string
   default = "main"
-} 
+}
+
+variable "REGION" {
+  type    = string
+  default = "us-east-1"
+}
+
+variable "LAMBDA_PATH" {
+  type    = string
+  default = "lambda"
+}
