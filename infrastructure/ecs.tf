@@ -12,11 +12,16 @@ module "ecs_service" {
   vpc_id                      = data.aws_vpc.blog_tldrlw.id
   container_port              = 3000
   host_port                   = 3000
+  environment_variables       = [{ name = "LAMBDA_GET_FUNCTION_URL", value = module.lambda_get.function_url }, { name = "ENV", value = var.ENV }]
+  linux_arm64                 = true
+  # ^ because using front-end/docker-push.sh
   # cpu                         = "512"
   # memory                      = "1024"
+  # ^ cpu and memory values double of what is set as default in module
 }
 # rm -rf .terraform/modules > terraform init
 # run ^ after pushing up changes to modules when testing locally
 
 # ALB managed in blog-tldrlw repo, that ALB module instantiation also created a seperate listener and target group for this app
 # ECS cluster also being managed in blog-tldrlw repo
+# check data sources to see what unmanaged resources are being pulled
