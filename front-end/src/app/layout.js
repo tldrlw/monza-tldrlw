@@ -26,8 +26,11 @@ const iBMPlexMono = IBM_Plex_Mono({ weight: "400", subsets: ["latin"] });
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Header></Header>
-      <body className={iBMPlexMono.className}>{children}</body>
+      <body className={iBMPlexMono.className}>
+        <Header></Header>
+        <div className="container mx-auto">{children}</div>
+        {/* ^ container will only apply to desktop viewports */}
+      </body>
     </html>
   );
 }

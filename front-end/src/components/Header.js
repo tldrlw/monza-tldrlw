@@ -1,27 +1,21 @@
 import Image from "next/image";
-import resizeImage from "@/utils/resizeImage";
 
 export default async function Header() {
-  const logoDimensions = await resizeImage(
-    "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-no-background.svg",
-    0.5
-  );
-
   return (
-    <main>
-      <div>
-        <div className="mx-auto bg-customBlueLogo px-4 pt-4 md:p-8">
-          <Image
-            src="https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-no-background.svg"
-            alt="tldrlw logo"
-            className="h-auto w-1/2 md:w-1/4"
-            priority
-            width={logoDimensions.width}
-            height={logoDimensions.height}
-          />
-        </div>
+    <div className=" bg-black md:py-12 py-6">
+      <div className="container mx-auto">
+        {/* ^ container will only apply to desktop viewports */}
+        <Image
+          src="https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-no-background.svg"
+          // src="https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg"
+          alt="tldrlw logo"
+          className="w-3/4 md:w-1/3"
+          priority
+          width={500}
+          height={125}
+        />
       </div>
-    </main>
+    </div>
   );
 }
 

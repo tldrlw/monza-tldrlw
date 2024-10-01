@@ -1,4 +1,5 @@
 import getInsights from "@/services/getInsights";
+import Image from "next/image";
 
 export default async function ListInsights() {
   const { data: insights } = await getInsights();
@@ -36,24 +37,39 @@ export default async function ListInsights() {
       {sortedInsights.map((insight, index) => (
         <div
           key={index}
-          className="my-2 flex flex-row rounded-md border-2 border-solid border-green-500 p-2"
+          className="my-2 rounded-sm border-2 border-solid border-customOrangeLogo p-2"
         >
-          <div className="basis-5/6">
+          <div className="text-xs md:text-sm">
             {/* Render the list of strings properly */}
-            <p className="font-bold">
-              {insight.Insights.L.map((item, idx) => (
-                <span key={idx} className="block">
-                  {item.S}{" "}
-                  {/* Correctly extract the 'S' value from the object */}
-                </span>
-              ))}
+            <div className="flex flex-row">
+              <div className="mb-2 text-sm md:text-lg basis-2/5">
+                <a
+                  href={insight.Link.S}
+                  className="text-blue-500 hover:underline"
+                >
+                  {insight.Title.S}
+                </a>
+              </div>
+              <div className="basis-3/5 flex justify-end items-center">
+                <Image
+                  src="https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg"
+                  alt="tldrlw logo"
+                  className="w-3/4 md:w-1/3"
+                  priority
+                  width={500}
+                  height={125}
+                />
+              </div>
+            </div>
+            {insight.Insights.L.map((item, idx) => (
+              <span key={idx} className="block my-2">
+                {item.S} {/* Correctly extract the 'S' value from the object */}
+              </span>
+            ))}
+            {/* <p>{insight.PK.S}</p> */}
+            <p className="font-semibold">
+              {formatToHumanReadable(insight.DateTime.S)}
             </p>
-            <p>
-              ID: <span className="italic">{insight.PK.S}</span>
-            </p>
-          </div>
-          <div className="flex basis-1/6">
-            <p>{formatToHumanReadable(insight.DateTime.S)}</p>
           </div>
         </div>
       ))}

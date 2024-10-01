@@ -42,6 +42,8 @@ export const addItemToDynamoDB = async (insights) => {
             Item: {
               PK: { S: generateUniqueId() },
               DateTime: { S: getISO8601Timestamp() },
+              Title: { S: "Live from Beirut" },
+              Link: { S: "https://blog.tldrlw.com" },
               Insights: {
                 L: insights.map((insight) => ({ S: insight })), // Convert array of strings into DynamoDB List format
               },

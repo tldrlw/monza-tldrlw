@@ -60,7 +60,7 @@ resource "aws_s3_bucket_cors_configuration" "images" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["GET"]
-    allowed_origins = ["https://monza.tldrlw.com", "https://blog.tldrlw.com"] # Restricting to radiotoday.com
+    allowed_origins = ["https://monza.tldrlw.com", "https://blog.tldrlw.com", "http://localhost:3000", "http://100.15.211.96"] # Restricting to deployments and local testing
     expose_headers  = []
     max_age_seconds = 3000
   }
@@ -68,10 +68,11 @@ resource "aws_s3_bucket_cors_configuration" "images" {
 # CORS (Cross-Origin Resource Sharing) settings are essential for allowing browsers to access your S3-hosted images when they are fetched from your domain (https://monza.tldrlw.com). If the CORS configuration is missing or incorrect, you might encounter issues when loading images from your S3 bucket in the browser, especially when making cross-origin requests from different domains or subdomains. CORS ensures that browsers are allowed to fetch resources (like images) from your S3 bucket, specifically for cross-origin requests. Since your images are being hosted on S3 and served on monza.tldrlw.com, it’s important that the S3 bucket allows requests from that domain.
 
 resource "aws_s3_object" "svg_logos" {
-  for_each = toset(var.svg_logos) # Convert list to set for for_each
-  bucket   = aws_s3_bucket.images.bucket
-  key      = "logos/${each.value}"                       # Destination key in S3
-  source   = "${var.svg_logos_source_path}${each.value}" # Source file path
+  for_each     = toset(var.svg_logos) # Convert list to set for for_each
+  bucket       = aws_s3_bucket.images.bucket
+  key          = "logos/${each.value}"                       # Destination key in S3
+  source       = "${var.svg_logos_source_path}${each.value}" # Source file path
+  content_type = "image/svg+xml"                             # Set Content-Type for SVG
   metadata = {
     "cache-control" = "public, max-age=31536000, immutable"
   }

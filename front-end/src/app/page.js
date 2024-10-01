@@ -18,27 +18,23 @@ export default function App() {
 
   return (
     <main>
-      <div>
-        <h1 className="text-2xl">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed.
-        </h1>
-        <h2 className="text-xl">
-          Do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </h2>
-        <p>
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-          nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur.
-        </p>
-        <p>{buildTime}</p>
-        <p>{image}</p>
-        <p>{env}</p>
-        <p>{lambdaGetFunctionUrl}</p>
-        <Suspense fallback={<p>Loading insights...</p>}>
-          <ListInsights></ListInsights>
-        </Suspense>
-      </div>
+      <h1 className="text-2xl md:text-3xl mt-1">monza🏎️🏁</h1>
+      {/* <h2 className="text-xl">
+        Do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </h2>
+      <p>
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+        ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur.
+      </p> */}
+      {/* <p>{buildTime}</p>
+      <p>{image}</p>
+      <p>{env}</p>
+      <p>{lambdaGetFunctionUrl}</p> */}
+      <Suspense fallback={<p>Loading insights...</p>}>
+        <ListInsights></ListInsights>
+      </Suspense>
     </main>
   );
 }
