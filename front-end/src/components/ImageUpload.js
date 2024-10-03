@@ -77,7 +77,9 @@ export default function ImageUpload() {
         <div className="mt-4 p-4 border border-green-200 bg-green-100">
           <p className="mb-2">
             {uploadResult.message},{" "}
-            <span className="underline">copy what's below to "Image Link"</span>
+            <span className="underline">
+              copy what&apos;s below to "Image Link"
+            </span>
           </p>
           <a
             href={uploadResult.url}
