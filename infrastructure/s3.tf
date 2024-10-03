@@ -61,6 +61,7 @@ resource "aws_s3_bucket_cors_configuration" "images" {
     allowed_headers = ["*"]
     allowed_methods = ["GET"]
     allowed_origins = ["https://monza.tldrlw.com", "https://blog.tldrlw.com", "http://localhost:3000", "http://100.15.211.96"] # Restricting to deployments and local testing
+    # last IP is that of my apartment
     expose_headers  = []
     max_age_seconds = 3000
   }

@@ -8,6 +8,8 @@
   "license": "ISC",
   "description": "https://github.com/tldrlw/monza-tldrlw/tree/dev",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.637.0"
+    "@aws-sdk/client-dynamodb": "^3.637.0",
+    "@aws-sdk/client-s3": "^3.663.0",
+    "file-type": "^19.5.0"
   }
 }

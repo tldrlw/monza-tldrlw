@@ -32,5 +32,26 @@ module "lambda_post" {
   dydb_table_permissions = ["dynamodb:BatchWriteItem"]
   function_url_public    = true
 }
+
+module "lambda_post_image" {
+  # source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda?ref=dev"
+  source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
+  source_dir          = var.LAMBDA_PATH
+  handler_file_prefix = "app-post-image"
+  REST_method         = "POST"
+  # ^ not actually used in module.aws_lambda_function_url.self because of use_wildcard_method_in_function_url below
+  function_name = "${var.APP_NAME}-post-image"
+  environment_variables = {
+    S3_BUCKET_NAME = aws_s3_bucket.images.id,
+    REGION         = var.REGION
+  }
+  is_s3                               = true
+  is_dydb                             = false
+  s3_bucket_arn                       = aws_s3_bucket.images.arn
+  s3_bucket_permissions               = ["s3:PutObject"]
+  function_url_public                 = true
+  use_wildcard_method_in_function_url = true
+  # ^ required for lambda functions that upload images to S3
+}
 # rm -rf .terraform/modules
 # run ^ after pushing up changes to modules

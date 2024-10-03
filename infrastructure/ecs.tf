@@ -15,6 +15,7 @@ module "ecs_service" {
   environment_variables = [
     { name = "LAMBDA_GET_FUNCTION_URL", value = module.lambda_get.function_url },
     { name = "LAMBDA_POST_FUNCTION_URL", value = module.lambda_post.function_url },
+    { name = "NEXT_PUBLIC_LAMBDA_POST_IMAGE_FUNCTION_URL", value = module.lambda_post_image.function_url },
     { name = "ENV", value = var.ENV }
   ]
   # linux_arm64                 = true

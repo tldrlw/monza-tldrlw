@@ -32,41 +32,43 @@ export default function NewInsight() {
   const sortedTypes = types.sort();
 
   return (
-    <form
-      action={postInsight}
-      // https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#forms
-      className="my-2 ml-2 border-2 border-solid border-customOrangeLogo p-2 text-xs md:text-sm"
-    >
-      <InputField label="Title" name="title" />
-      <InputField label="Link" name="link" />
-      <InputField label="Image Link" name="imageLink" />
+    <div>
       <ImageUpload />
-      <InputField label="Image Credit" name="imageCredit" />
-      <InputField
-        label="Publication/Channel/Outlet"
-        name="publicationOrChannelOrOutlet"
-      />
-      <InputField
-        label="Author(s)/Participants"
-        name="authorsOrParticipants"
-        placeholder="If more than one, provide names followed by a comma (,)"
-      />
-      <InputField label="Team" name="team" options={sortedTeams} />
-      <InputField label="Type" name="type" options={sortedTypes} />
-      <InputField label="Insight 1" name="insight1" />
-      <InputField label="Insight 2" name="insight2" />
-      <InputField label="Insight 3" name="insight3" />
-      <InputField label="Insight 4" name="insight4" />
-      <InputField label="Insight 5" name="insight5" />
-      <div className="flex justify-end">
-        <button
-          type="submit"
-          className="my-2 rounded-md bg-customOrangeLogo px-4 py-2 font-medium text-white hover:bg-black"
-        >
-          Submit
-        </button>
-      </div>
-    </form>
+      <form
+        action={postInsight}
+        // https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#forms
+        className="my-2 ml-2 border-2 border-solid border-customOrangeLogo p-2 text-xs md:text-sm"
+      >
+        <InputField label="Title" name="title" />
+        <InputField label="Link" name="link" />
+        <InputField label="Image Link" name="imageLink" />
+        <InputField label="Image Credit" name="imageCredit" />
+        <InputField
+          label="Publication/Channel/Outlet"
+          name="publicationOrChannelOrOutlet"
+        />
+        <InputField
+          label="Author(s)/Participants"
+          name="authorsOrParticipants"
+          placeholder="If more than one, provide names followed by a comma (,)"
+        />
+        <InputField label="Team" name="team" options={sortedTeams} />
+        <InputField label="Type" name="type" options={sortedTypes} />
+        <InputField label="Insight 1" name="insight1" />
+        <InputField label="Insight 2" name="insight2" />
+        <InputField label="Insight 3" name="insight3" />
+        <InputField label="Insight 4" name="insight4" />
+        <InputField label="Insight 5" name="insight5" />
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            className="my-2 rounded-md bg-customOrangeLogo px-4 py-2 font-medium text-white hover:bg-black"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 
