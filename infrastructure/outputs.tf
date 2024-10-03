@@ -21,3 +21,19 @@ output "module_lambda_get_function_url" {
 output "module_lambda_get_arn" {
   value = module.lambda_get.arn
 }
+
+output "module_lambda_post_function_url" {
+  value = module.lambda_post.function_url
+}
+
+output "module_lambda_post_arn" {
+  value = module.lambda_post.arn
+}
+
+output "module_lambda_post_image_function_url" {
+  value = module.lambda_post_image.function_url
+}
+
+output "module_lambda_post_image_arn" {
+  value = module.lambda_post_image.arn
+}
