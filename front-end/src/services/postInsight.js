@@ -19,6 +19,8 @@ export default async function postInsight(formData) {
     imageCredit: formData.get("imageCredit"),
     team: formData.get("team"),
     type: formData.get("type"),
+    publicationOrChannelOrOutlet: formData.get("publicationOrChannelOrOutlet"),
+    authorsOrParticipants: formData.get("authorsOrParticipants"),
     insights: [
       formData.get("insight1"),
       formData.get("insight2"),

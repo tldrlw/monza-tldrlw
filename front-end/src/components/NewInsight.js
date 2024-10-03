@@ -1,4 +1,5 @@
 import postInsight from "@/services/postInsight";
+import ImageUpload from "./ImageUpload";
 
 export default function NewInsight() {
   const teams = [
@@ -23,6 +24,8 @@ export default function NewInsight() {
     "Quali",
     "Other",
     "Sprint",
+    "LinkedIn",
+    "Instagram",
   ];
   // Sort the arrays alphabetically
   const sortedTeams = teams.sort();
@@ -37,7 +40,17 @@ export default function NewInsight() {
       <InputField label="Title" name="title" />
       <InputField label="Link" name="link" />
       <InputField label="Image Link" name="imageLink" />
+      <ImageUpload />
       <InputField label="Image Credit" name="imageCredit" />
+      <InputField
+        label="Publication/Channel/Outlet"
+        name="publicationOrChannelOrOutlet"
+      />
+      <InputField
+        label="Author(s)/Participants"
+        name="authorsOrParticipants"
+        placeholder="If more than one, provide names followed by a comma (,)"
+      />
       <InputField label="Team" name="team" options={sortedTeams} />
       <InputField label="Type" name="type" options={sortedTypes} />
       <InputField label="Insight 1" name="insight1" />
@@ -91,7 +104,7 @@ function InputField({
             name={name}
             id={name}
             className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none h-20"
-            // placeholder={placeholder}
+            placeholder={placeholder}
           ></textarea>
         ) : (
           <input
@@ -99,7 +112,7 @@ function InputField({
             name={name}
             id={name}
             className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
-            // placeholder={placeholder}
+            placeholder={placeholder}
           />
         )}
       </div>

@@ -42,23 +42,22 @@ export default async function ListInsights() {
           <div className="text-xs md:text-sm">
             {/* Render the list of strings properly */}
             <div className="flex flex-row">
-              <div className="mb-2 text-sm md:text-lg basis-2/5">
+              <div className="mb-2 text-sm md:text-lg basis-3/5 md:basis-2/5">
                 <a
                   href={insight.Link.S}
                   className="text-blue-500 hover:underline"
                 >
                   {insight.Title.S}
                 </a>
-                <div>
-                  <span className="mt-1 md:mt-0 inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
-                    {insight.Team.S}
-                  </span>
-                  <span className="ml-2 mt-1 md:mt-0 inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
-                    {insight.Type.S}
-                  </span>
+                <div className="flex flex-wrap">
+                  <Pill text={insight.Team.S} color="purple"></Pill>
+                  <Pill text={insight.Type.S} color="green"></Pill>
+                  <Pill text={insight.Type.S} color="red"></Pill>
+                  <Pill text={insight.Type.S} color="cyan"></Pill>
+                  <Pill text={insight.Type.S} color="slate"></Pill>
                 </div>
               </div>
-              <div className="basis-3/5 flex justify-end items-center">
+              <div className="md:basis-3/5 basis-2/5 flex justify-end items-center">
                 <Image
                   src="https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg"
                   alt={insight.ImageLink.S}
@@ -83,5 +82,25 @@ export default async function ListInsights() {
         </div>
       ))}
     </div>
+  );
+}
+
+function Pill({ text, color }) {
+  const colorClasses = {
+    purple: "bg-purple-50 text-purple-700 ring-purple-700/10",
+    green: "bg-green-50 text-green-700 ring-green-700/10",
+    red: "bg-red-50 text-red-700 ring-red-700/10",
+    cyan: "bg-cyan-50 text-cyan-700 ring-cyan-700/10",
+    slate: "bg-slate-50 text-slate-700 ring-slate-700/10",
+  };
+
+  return (
+    <span
+      className={`mr-2 mt-1 md:mt-0 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
+        colorClasses[color] || colorClasses["slate"]
+      }`}
+    >
+      {text}
+    </span>
   );
 }
