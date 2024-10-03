@@ -78,7 +78,7 @@ export default function ImageUpload() {
           <p className="mb-2">
             {uploadResult.message},{" "}
             <span className="underline">
-              copy what&apos;s below to "Image Link"
+              copy what&apos;s below to &quot;Image Link&quot;
             </span>
           </p>
           <a
