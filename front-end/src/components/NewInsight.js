@@ -37,7 +37,7 @@ export default function NewInsight() {
       <form
         action={postInsight}
         // https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#forms
-        className="my-2 ml-2 border-2 border-solid border-customOrangeLogo p-2 text-xs md:text-sm"
+        className="border-2 border-solid border-customOrangeLogo p-2 text-xs md:text-sm"
       >
         <InputField label="Title" name="title" />
         <InputField label="Link" name="link" />
@@ -105,7 +105,7 @@ function InputField({
           <textarea
             name={name}
             id={name}
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none h-20"
+            className="block h-20 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
             placeholder={placeholder}
           ></textarea>
         ) : (

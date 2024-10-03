@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default async function Header() {
   return (
-    <div className=" bg-black md:py-12 py-6">
+    <div className="bg-black py-6 md:py-12">
       <div className="container mx-auto">
         {/* ^ container will only apply to desktop viewports */}
         <Image

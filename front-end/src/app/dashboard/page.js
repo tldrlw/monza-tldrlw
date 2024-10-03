@@ -20,14 +20,14 @@ export default function Dashboard() {
 
   return (
     <main>
-      <div className="flex flex-row">
+      <div className="flex flex-col md:flex-row">
+        <div className="basis-1/2 md:mb-2 md:mr-2">
+          <NewInsight></NewInsight>
+        </div>
         <div className="basis-1/2">
           <Suspense fallback={<p>Loading insights...</p>}>
             <ListInsights></ListInsights>
           </Suspense>
-        </div>
-        <div className="basis-1/2">
-          <NewInsight></NewInsight>
         </div>
       </div>
     </main>

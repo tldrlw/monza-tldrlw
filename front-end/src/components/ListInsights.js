@@ -7,7 +7,7 @@ export default async function ListInsights() {
 
   console.log(
     "front-end/src/components/ListInsights.js - # of insights - ",
-    insights.length
+    insights.length,
   );
 
   // Sort by DateTime in descending order (most recent first)
@@ -42,7 +42,7 @@ export default async function ListInsights() {
           <div className="text-xs md:text-sm">
             {/* Render the list of strings properly */}
             <div className="flex flex-row">
-              <div className="mb-2 text-sm md:text-lg basis-3/5 md:basis-2/5">
+              <div className="mb-2 basis-3/5 text-sm md:basis-2/5 md:text-lg">
                 <a
                   href={insight.Link.S}
                   className="text-blue-500 hover:underline"
@@ -57,7 +57,7 @@ export default async function ListInsights() {
                   <Pill text={insight.Type.S} color="slate"></Pill>
                 </div>
               </div>
-              <div className="md:basis-3/5 basis-2/5 flex justify-end items-center">
+              <div className="flex basis-2/5 items-center justify-end md:basis-3/5">
                 <Image
                   src="https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg"
                   alt={insight.ImageLink.S}
@@ -70,7 +70,7 @@ export default async function ListInsights() {
               </div>
             </div>
             {insight.Insights.L.map((item, idx) => (
-              <span key={idx} className="block my-2">
+              <span key={idx} className="my-2 block">
                 {item.S} {/* Correctly extract the 'S' value from the object */}
               </span>
             ))}
@@ -96,7 +96,7 @@ function Pill({ text, color }) {
 
   return (
     <span
-      className={`mr-2 mt-1 md:mt-0 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
+      className={`mr-2 mt-1 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
         colorClasses[color] || colorClasses["slate"]
       }`}
     >

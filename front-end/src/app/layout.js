@@ -27,9 +27,9 @@ const iBMPlexMono = IBM_Plex_Mono({ weight: "400", subsets: ["latin"] });
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${iBMPlexMono.className} min-h-screen flex flex-col`}>
+      <body className={`${iBMPlexMono.className} flex min-h-screen flex-col`}>
         <Header />
-        <main className="flex-grow container mx-auto">{children}</main>
+        <main className="container mx-auto flex-grow">{children}</main>
         <Footer />
       </body>
     </html>

@@ -34,14 +34,14 @@ export default function ImageUpload() {
   };
 
   return (
-    <div className="my-2 ml-2 border-2 border-solid border-customOrangeLogo p-2 text-xs md:text-sm">
+    <div className="my-2 border-2 border-solid border-customOrangeLogo p-2 text-xs md:text-sm">
       <form onSubmit={handleSubmit}>
         <label htmlFor="uploadImage" className="block text-blue-500">
           Upload Image
         </label>
 
         {/* Container to align inputs and button inline */}
-        <div className="mt-3 mb-2 flex justify-between items-center">
+        <div className="mb-2 mt-3 flex items-center justify-between">
           {/* Inline inputs */}
           <div className="flex items-center">
             {/* Hidden file input */}
@@ -55,7 +55,7 @@ export default function ImageUpload() {
             {/* Styled label acting as the file input trigger */}
             <label
               htmlFor="fileInput"
-              className="cursor-pointer rounded-md px-4 py-2 font-medium bg-slate-200 text-slate-600 hover:bg-slate-600 hover:text-slate-200"
+              className="cursor-pointer rounded-md bg-slate-200 px-4 py-2 font-medium text-slate-600 hover:bg-slate-600 hover:text-slate-200"
             >
               {image ? image.name : "Select Image"}
             </label>
@@ -74,7 +74,7 @@ export default function ImageUpload() {
 
       {/* Conditionally render the upload result */}
       {uploadResult && (
-        <div className="mt-4 p-4 border border-green-200 bg-green-100">
+        <div className="mt-4 border border-green-200 bg-green-100 p-4">
           <p className="mb-2">
             {uploadResult.message},{" "}
             <span className="underline">

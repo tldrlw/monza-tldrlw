@@ -50,7 +50,7 @@ export default async function postInsight(formData) {
     data = await response.json();
     console.log(
       "front-end/src/services/postInsight.js - API call successful",
-      data
+      data,
     );
     revalidateTag("insights");
     // https://nextjs.org/docs/app/api-reference/functions/revalidateTag
@@ -59,7 +59,7 @@ export default async function postInsight(formData) {
   } catch (error) {
     console.error(
       "front-end/src/services/postInsight.js - API call failed",
-      error
+      error,
     );
   }
 

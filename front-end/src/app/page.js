@@ -20,10 +20,10 @@ export default function App() {
   return (
     <main>
       <div className="flex justify-between">
-        <h1 className="text-2xl md:text-3xl mt-1">monza🏎️🏁</h1>
+        <h1 className="mt-1 text-2xl md:text-3xl">monza🏎️🏁</h1>
         <Link
           href="/auth/login"
-          className="italic text-blue-100 hover:underline content-center mt-1"
+          className="mt-1 content-center italic text-blue-100 hover:underline"
         >
           admin
         </Link>

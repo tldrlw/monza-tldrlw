@@ -22,7 +22,7 @@ export default async function postImage(image) {
   console.log(
     "front-end/src/services/postImage.js - image, lambdaPostImageFunctionUrl",
     image,
-    lambdaPostImageFunctionUrl
+    lambdaPostImageFunctionUrl,
   );
 
   // Convert the image to Base64
@@ -46,12 +46,18 @@ export default async function postImage(image) {
     const response = await fetch(lambdaPostImageFunctionUrl, requestOptions);
     const result = await response.json();
     if (!response.ok) {
-      throw new Error(result.message || "Failed to upload image");
+      throw new Error(
+        result.message ||
+          "front-end/src/services/postImage.js - API call - Failed to upload image",
+      );
     }
     console.log(result);
     return result;
   } catch (error) {
-    console.error("Error uploading image:", error);
+    console.error(
+      "front-end/src/services/postImage.js - API call - Error uploading image:",
+      error,
+    );
     throw error;
   }
 }

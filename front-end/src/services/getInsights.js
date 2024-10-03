@@ -31,7 +31,7 @@ export default async function getInsights() {
       // ^ for NO caching
       // https://nextjs.org/docs/app/api-reference/functions/fetch#fetchurl-options
       // you can see differences between cached and non-cached API calls by configuring special logging in `next.config.mjs`, comment out ^ and it'll log 'cache-hit'
-      requestOptions
+      requestOptions,
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -44,7 +44,7 @@ export default async function getInsights() {
   } catch (error) {
     console.error(
       "front-end/src/services/getInsights.js - API call failed",
-      error
+      error,
     );
   }
 
