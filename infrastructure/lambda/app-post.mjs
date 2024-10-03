@@ -48,6 +48,8 @@ export const lambdaHandler = async (event, context) => {
     imageCredit,
     team,
     type,
+    publicationOrChannelOrOutlet,
+    authorsOrParticipants,
     insights, // This should now be an array of strings
   } = requestBody;
 
@@ -80,6 +82,8 @@ export const lambdaHandler = async (event, context) => {
     ImageCredit: { S: imageCredit },
     Team: { S: team },
     Type: { S: type },
+    AuthorsOrParticipants: { S: authorsOrParticipants },
+    PublicationOrChannelOrOutlet: { S: publicationOrChannelOrOutlet },
     Insights: {
       L: insights.map((insight) => ({ S: insight })), // Convert array of strings into DynamoDB List format
     },
