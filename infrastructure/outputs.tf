@@ -37,3 +37,20 @@ output "module_lambda_post_image_function_url" {
 output "module_lambda_post_image_arn" {
   value = module.lambda_post_image.arn
 }
+
+output "cognito_user_pool_id" {
+  value = aws_cognito_user_pool.main.id
+}
+
+output "cognito_user_pool_endpoint" {
+  value = aws_cognito_user_pool.main.endpoint
+}
+
+output "cognito_user_pool_client_secret" {
+  value     = aws_cognito_user_pool_client.main.client_secret
+  sensitive = true
+}
+
+output "cognito_user_pool_client_id" {
+  value = aws_cognito_user_pool_client.main.id
+}
