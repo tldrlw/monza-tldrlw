@@ -15,7 +15,8 @@ export default async function postImage(image) {
   noStore(); // Opt into dynamic rendering
   // This value will be evaluated at runtime
   const lambdaPostImageFunctionUrl =
-    process.env.NEXT_PUBLIC_LAMBDA_POST_IMAGE_FUNCTION_URL ||
+    // process.env.NEXT_PUBLIC_LAMBDA_POST_IMAGE_FUNCTION_URL ||
+    process.env.LAMBDA_POST_IMAGE_FUNCTION_URL ||
     "lambdaPostImageFunctionUrl placeholder";
   // ^ "NEXT_PUBLIC_" since this runs in the browser
 
