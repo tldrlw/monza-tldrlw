@@ -10,6 +10,8 @@ export default async function ListInsights() {
     insights.length,
   );
 
+  console.log(insights);
+
   // Sort by DateTime in descending order (most recent first)
   const sortedInsights = insights.sort((a, b) => {
     const dateA = new Date(a.DateTime.S);
@@ -31,6 +33,25 @@ export default async function ListInsights() {
     // Format the date using Intl.DateTimeFormat
     return new Intl.DateTimeFormat("en-US", options).format(date);
   }
+
+  const getImageSrc = (imageLink) => {
+    const defaultImage =
+      "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg";
+    const validUrlPattern =
+      /^https:\/\/monza-tldrlw-images\.s3\.us-east-1\.amazonaws\.com\/insights\//;
+    // Check if imageLink is a valid URL
+    try {
+      const url = new URL(imageLink);
+      if (validUrlPattern.test(url.href)) {
+        return imageLink;
+      }
+    } catch (err) {
+      // If the input is not a valid URL or the pattern doesn't match, return the default image
+      return defaultImage;
+    }
+    // If the URL is invalid or doesn't match the pattern, return the default image
+    return defaultImage;
+  };
 
   return (
     <div>
@@ -59,9 +80,9 @@ export default async function ListInsights() {
               </div>
               <div className="flex basis-2/5 items-center justify-end md:basis-3/5">
                 <Image
-                  src="https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg"
-                  alt={insight.ImageLink.S}
-                  className="w-3/4 md:w-1/3"
+                  src={getImageSrc(insight.ImageLink?.S)} // Use the helper function to get the correct src
+                  alt={insight.ImageLink?.S || "tldrlw logo"}
+                  className="w-3/4 md:w-2/3"
                   priority
                   width={500}
                   height={125}

@@ -26,6 +26,7 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
     "Sprint",
     "LinkedIn",
     "Instagram",
+    "Threads",
   ];
   // Sort the arrays alphabetically
   const sortedTeams = teams.sort();

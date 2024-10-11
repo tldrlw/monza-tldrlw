@@ -1,6 +1,6 @@
 "use client"; // For client-side component
 
-import postImage from "@/services/postImage";
+import postImage from "@/services/client/postImage";
 import { useState } from "react";
 
 export default function ImageUpload({lambdaPostImageFunctionUrl}) {
