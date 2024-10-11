@@ -10,13 +10,12 @@ const fileToBase64 = (file) =>
   });
 
 export default async function postImage(image, { lambdaPostImageFunctionUrl }) {
-  // ^ since caller is a client component, logs will be in the browser
-
   console.log(
     "front-end/src/services/postImage.js - image, lambdaPostImageFunctionUrl",
     image,
     lambdaPostImageFunctionUrl,
   );
+  // ^ since caller is a client component, logs will be in the browser
 
   // Convert the image to Base64
   const imageBase64 = await fileToBase64(image);
@@ -33,8 +32,6 @@ export default async function postImage(image, { lambdaPostImageFunctionUrl }) {
     },
     body: JSON.stringify(payload),
   };
-
-  // const { lambdaPostImageFunctionUrl } = lambdaPostImageFunctionUrl;
 
   try {
     // Send the payload to the API route

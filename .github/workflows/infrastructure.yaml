@@ -43,9 +43,8 @@ jobs:
 
       - name: run npm install in lambda directory to have node_modules available prior to zipping
         id: npm-install
-        run: |
-          cd lambda
-          npm install
+        working-directory: ./infrastructure/lambda
+        run: npm install
 
       - name: init
         id: init
