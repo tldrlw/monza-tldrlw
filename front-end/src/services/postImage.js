@@ -1,4 +1,5 @@
 import { unstable_noStore as noStore } from "next/cache";
+import "../../envConfig";
 
 const fileToBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -16,7 +17,7 @@ export default async function postImage(image) {
   // This value will be evaluated at runtime
   const lambdaPostImageFunctionUrl =
     // process.env.NEXT_PUBLIC_LAMBDA_POST_IMAGE_FUNCTION_URL ||
-    process.env.LAMBDA_POST_IMAGE_FUNCTION_URL ||
+    process.env.NEXT_PUBLIC_LAMBDA_POST_IMAGE_FUNCTION_URL ||
     "lambdaPostImageFunctionUrl placeholder";
   // ^ "NEXT_PUBLIC_" since this runs in the browser
 
