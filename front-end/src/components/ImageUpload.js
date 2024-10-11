@@ -1,9 +1,9 @@
 "use client"; // For client-side component
 
-import postImage from "@/services/postImage";
+import postImage from "@/services/client/postImage";
 import { useState } from "react";
 
-export default function ImageUpload() {
+export default function ImageUpload({lambdaPostImageFunctionUrl}) {
   const [image, setImage] = useState(null); // Only the image is now required
   const [uploading, setUploading] = useState(false);
   const [uploadResult, setUploadResult] = useState(null); // State for upload result
@@ -24,7 +24,7 @@ export default function ImageUpload() {
 
     try {
       // Pass the image to the postImage function
-      const result = await postImage(image);
+      const result = await postImage(image, lambdaPostImageFunctionUrl);
       setUploadResult(result); // Store the upload result in state
     } catch (error) {
       alert("Error uploading image: " + error.message);

@@ -1,5 +1,3 @@
-import { unstable_noStore as noStore } from "next/cache";
-
 const fileToBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -8,22 +6,13 @@ const fileToBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-export default async function postImage(image) {
-  // "use server";
-  // ^ since caller is a client component, logs will be in the browser
-
-  noStore(); // Opt into dynamic rendering
-  // This value will be evaluated at runtime
-  const lambdaPostImageFunctionUrl =
-    process.env.NEXT_PUBLIC_LAMBDA_POST_IMAGE_FUNCTION_URL ||
-    "lambdaPostImageFunctionUrl placeholder";
-  // ^ "NEXT_PUBLIC_" since this runs in the browser
-
+export default async function postImage(image, { lambdaPostImageFunctionUrl }) {
   console.log(
     "front-end/src/services/postImage.js - image, lambdaPostImageFunctionUrl",
     image,
     lambdaPostImageFunctionUrl,
   );
+  // ^ since caller is a client component, logs will be in the browser
 
   // Convert the image to Base64
   const imageBase64 = await fileToBase64(image);

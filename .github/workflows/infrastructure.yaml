@@ -36,6 +36,16 @@ jobs:
         with:
           terraform_version: $TERRAFORM_VERSION
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: run npm install in lambda directory to have node_modules available prior to zipping
+        id: npm-install
+        working-directory: ./infrastructure/lambda
+        run: npm install
+
       - name: init
         id: init
         working-directory: ./infrastructure
