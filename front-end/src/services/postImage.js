@@ -45,7 +45,8 @@ export default async function postImage(image, functionUrl) {
 
   try {
     // Send the payload to the API route
-    const response = await fetch(functionUrl, requestOptions);
+    console.log(functionUrl)
+    const response = await fetch(functionUrl.functionUrl, requestOptions);
     const result = await response.json();
     if (!response.ok) {
       throw new Error(

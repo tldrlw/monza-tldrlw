@@ -18,7 +18,9 @@ export default function Dashboard() {
   const lambdaGetFunctionUrl =
     process.env.LAMBDA_GET_FUNCTION_URL || "lambdaGetFunctionUrl placeholder";
   const lambdaPostImageFunctionUrl =
-    process.env.LAMBDA_GET_FUNCTION_URL || "lambdaGetFunctionUrl placeholder";
+    process.env.NEXT_PUBLIC_LAMBDA_POST_IMAGE_FUNCTION_URL || "lambdaGetFunctionUrl placeholder";
+
+  console.log(lambdaPostImageFunctionUrl)
 
   return (
     <main>

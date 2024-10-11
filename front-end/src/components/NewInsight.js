@@ -1,7 +1,7 @@
 import postInsight from "@/services/postInsight";
 import ImageUpload from "./ImageUpload";
 
-export default function NewInsight() {
+export default function NewInsight(functionUrl) {
   const teams = [
     "Mercedes-AMG",
     "Ferrari",
@@ -33,7 +33,7 @@ export default function NewInsight() {
 
   return (
     <div>
-      <ImageUpload />
+      <ImageUpload functionUrl={functionUrl} />
       <form
         action={postInsight}
         // https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#forms
