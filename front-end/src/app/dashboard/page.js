@@ -17,12 +17,14 @@ export default function Dashboard() {
   const env = process.env.ENV || "env placeholder";
   const lambdaGetFunctionUrl =
     process.env.LAMBDA_GET_FUNCTION_URL || "lambdaGetFunctionUrl placeholder";
+  const lambdaPostImageFunctionUrl =
+    process.env.LAMBDA_GET_FUNCTION_URL || "lambdaGetFunctionUrl placeholder";
 
   return (
     <main>
       <div className="flex flex-col md:flex-row">
         <div className="basis-1/2 md:mb-2 md:mr-2">
-          <NewInsight></NewInsight>
+          <NewInsight functionUrl={lambdaPostImageFunctionUrl}></NewInsight>
         </div>
         <div className="basis-1/2">
           <Suspense fallback={<p>Loading insights...</p>}>

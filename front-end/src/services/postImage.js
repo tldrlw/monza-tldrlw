@@ -9,7 +9,7 @@ const fileToBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-export default async function postImage(image) {
+export default async function postImage(image, functionUrl) {
   // "use server";
   // ^ since caller is a client component, logs will be in the browser
 
@@ -45,7 +45,7 @@ export default async function postImage(image) {
 
   try {
     // Send the payload to the API route
-    const response = await fetch(lambdaPostImageFunctionUrl, requestOptions);
+    const response = await fetch(functionUrl, requestOptions);
     const result = await response.json();
     if (!response.ok) {
       throw new Error(
