@@ -3,7 +3,7 @@
 import postImage from "@/services/postImage";
 import { useState } from "react";
 
-export default function ImageUpload({functionUrl}) {
+export default function ImageUpload({lambdaPostImageFunctionUrl}) {
   const [image, setImage] = useState(null); // Only the image is now required
   const [uploading, setUploading] = useState(false);
   const [uploadResult, setUploadResult] = useState(null); // State for upload result
@@ -24,7 +24,7 @@ export default function ImageUpload({functionUrl}) {
 
     try {
       // Pass the image to the postImage function
-      const result = await postImage(image, functionUrl);
+      const result = await postImage(image, lambdaPostImageFunctionUrl);
       setUploadResult(result); // Store the upload result in state
     } catch (error) {
       alert("Error uploading image: " + error.message);

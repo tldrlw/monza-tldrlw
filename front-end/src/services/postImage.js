@@ -9,17 +9,8 @@ const fileToBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-export default async function postImage(image, functionUrl) {
-  // "use server";
+export default async function postImage(image, { lambdaPostImageFunctionUrl }) {
   // ^ since caller is a client component, logs will be in the browser
-
-  noStore(); // Opt into dynamic rendering
-  // This value will be evaluated at runtime
-  const lambdaPostImageFunctionUrl =
-    // process.env.NEXT_PUBLIC_LAMBDA_POST_IMAGE_FUNCTION_URL ||
-    process.env.NEXT_PUBLIC_LAMBDA_POST_IMAGE_FUNCTION_URL ||
-    "lambdaPostImageFunctionUrl placeholder";
-  // ^ "NEXT_PUBLIC_" since this runs in the browser
 
   console.log(
     "front-end/src/services/postImage.js - image, lambdaPostImageFunctionUrl",
@@ -43,10 +34,11 @@ export default async function postImage(image, functionUrl) {
     body: JSON.stringify(payload),
   };
 
+  // const { lambdaPostImageFunctionUrl } = lambdaPostImageFunctionUrl;
+
   try {
     // Send the payload to the API route
-    console.log(functionUrl)
-    const response = await fetch(functionUrl.functionUrl, requestOptions);
+    const response = await fetch(lambdaPostImageFunctionUrl, requestOptions);
     const result = await response.json();
     if (!response.ok) {
       throw new Error(
