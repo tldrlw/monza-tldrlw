@@ -1,5 +1,5 @@
 import { unstable_noStore as noStore } from "next/cache";
-import "../../envConfig";
+// import "../../envConfig";
 
 const fileToBase64 = (file) =>
   new Promise((resolve, reject) => {
