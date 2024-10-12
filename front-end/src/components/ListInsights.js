@@ -86,8 +86,7 @@ export default async function ListInsights() {
               </div>
               <div className="flex basis-2/5 items-center justify-end md:basis-3/5">
                 <Image
-                  // src={getImageSrc(insight.ImageLink?.S)} // Use the helper function to get the correct src
-                  src="https://monza-tldrlw-images.s3.amazonaws.com/insights/nms97euqus.jpg" // Use the helper function to get the correct src
+                  src={getImageSrc(insight.ImageLink?.S)} // Use the helper function to get the correct src
                   alt={insight.ImageLink?.S || "tldrlw logo"}
                   className="w-3/4 md:w-2/3"
                   priority
