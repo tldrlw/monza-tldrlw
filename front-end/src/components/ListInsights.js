@@ -10,7 +10,7 @@ export default async function ListInsights() {
     insights.length,
   );
 
-  console.log(insights);
+  // console.log(insights);
 
   // Sort by DateTime in descending order (most recent first)
   const sortedInsights = insights.sort((a, b) => {
@@ -35,22 +35,28 @@ export default async function ListInsights() {
   }
 
   const getImageSrc = (imageLink) => {
+    console.log(imageLink);
     const defaultImage =
       "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg";
     const validUrlPattern =
-      /^https:\/\/monza-tldrlw-images\.s3\.us-east-1\.amazonaws\.com\/insights\//;
+      /^https:\/\/monza-tldrlw-images\.s3\.amazonaws\.com\/insights\//;
     // Check if imageLink is a valid URL
-    try {
-      const url = new URL(imageLink);
-      if (validUrlPattern.test(url.href)) {
-        return imageLink;
-      }
-    } catch (err) {
-      // If the input is not a valid URL or the pattern doesn't match, return the default image
+    if (!imageLink) {
+      console.warn("Missing or undefined imageLink, using default image.");
       return defaultImage;
     }
-    // If the URL is invalid or doesn't match the pattern, return the default image
-    return defaultImage;
+    try {
+      const url = new URL(imageLink); // Validate if imageLink is a valid URL
+      if (validUrlPattern.test(url.href)) {
+        return imageLink; // If it matches the pattern, return the image URL
+      } else {
+        console.warn("Invalid URL pattern, using default image:", imageLink);
+        return defaultImage; // Invalid pattern, return default
+      }
+    } catch (err) {
+      console.error("Error parsing image URL, using default image:", err);
+      return defaultImage; // If invalid URL format, return default
+    }
   };
 
   return (
@@ -86,6 +92,8 @@ export default async function ListInsights() {
                   priority
                   width={500}
                   height={125}
+                  unoptimized // Disable image optimization for this specific image
+                  // without ^, uploaded images couldn't be fetched when deployed to prod (400 error, 'url' related), BUT no issues in dev / see notes section at the end
                 />
                 {/* <p className="font-xs">{insight.ImageCredit.S}</p> */}
               </div>
@@ -125,3 +133,5 @@ function Pill({ text, color }) {
     </span>
   );
 }
+
+// The issue you are encountering is due to Next.js’s built-in Image Optimization API, which modifies the image URL for performance improvements like resizing and quality adjustments. This is why the URL is being rewritten to include /_next/image?url=.... When Next.js tries to fetch the image, it optimizes it and appends parameters like w=1080 (width) and q=75 (quality), and includes the original S3 URL in the url query parameter. If you only want to disable optimization for certain images, you can use the unoptimized attribute in the Image component to bypass the Image Optimization API. This will prevent Next.js from modifying the URL and will serve the image directly from S3.

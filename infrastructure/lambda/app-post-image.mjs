@@ -2,136 +2,120 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { Buffer } from "buffer";
 import { fileTypeFromBuffer } from "file-type"; // Import the file-type library
 
-export const lambdaHandler = async (event, context) => {
-  // Extracting requestContext and context info
+// Initialize the S3 client outside the handler for reuse
+const s3Client = new S3Client({ region: process.env.REGION });
+
+// Helper function to generate a 10-character unique identifier
+const generateUniqueId = () => {
+  const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+  return Array.from({ length: 10 })
+    .map(() => characters.charAt(Math.floor(Math.random() * characters.length)))
+    .join("");
+};
+
+// Helper function to generate ISO 8601 timestamp
+const getISO8601Timestamp = (date = new Date()) => date.toISOString();
+
+// Helper function to decode Base64 and detect file type
+const decodeAndDetermineFileType = async (imageBase64) => {
+  const imageBuffer = Buffer.from(imageBase64, "base64");
+  const fileTypeResult = await fileTypeFromBuffer(imageBuffer);
+  if (!fileTypeResult) throw new Error("Unsupported file type");
+  return {
+    imageBuffer,
+    imageType: fileTypeResult.mime,
+    extension: fileTypeResult.ext,
+  };
+};
+
+// Logs important context information for debugging
+const logContext = (event, context) => {
   const { domainName, http, time } = event.requestContext;
   const { functionName, memoryLimitInMB, logGroupName, invokedFunctionArn } =
     context;
-
-  console.log("from `event.requestContext` and `context`", {
+  console.log("RequestContext and Context:", {
     domainName,
     method: http.method,
     sourceIp: http.sourceIp,
     userAgent: http.userAgent,
     time,
-    // below from context
     functionName,
     memoryLimitInMB,
     logGroupName,
     invokedFunctionArn,
   });
+};
 
-  // Environment variables from Lambda configuration
-  const bucketName = process.env.S3_BUCKET_NAME;
-  const region = process.env.REGION;
-
-  // DynamoDB client configuration
-  const s3Client = new S3Client({ region });
-
-  // Extract request body and decode if Base64
-  let requestBody;
+// Parses the request body and handles errors
+const parseRequestBody = (body) => {
   try {
-    requestBody = JSON.parse(event.body);
-  } catch (err) {
-    console.error("Error parsing request body:", err);
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        message: "Invalid JSON in request body",
-      }),
-    };
+    return JSON.parse(body);
+  } catch {
+    throw new Error("Invalid JSON in request body");
   }
+};
 
-  // Destructure the expected payload from the request body
-  // Extract image data (assuming it's Base64-encoded string)
-  const { imageBase64 } = requestBody;
-
-  console.log("`requestBody`", requestBody);
-
-  if (!imageBase64) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        message: "Image missing in request",
-      }),
-    };
-  }
-
-  // Decode Base64-encoded image
-  const imageBuffer = Buffer.from(imageBase64, "base64");
-
-  // Use file-type to detect the image MIME type from the buffer
-  const fileTypeResult = await fileTypeFromBuffer(imageBuffer);
-  if (!fileTypeResult) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        message: "Unsupported file type or could not determine file type",
-      }),
-    };
-  }
-
-  const { mime: imageType } = fileTypeResult; // Extract the MIME type
-
-  // Extract the file extension from the MIME type (e.g., image/jpeg -> jpeg)
-  const extension = imageType.split("/")[1]; // This will give you "jpeg", "png", etc.
-
-  console.log("Detected image type:", imageType);
-
-  // Function to generate a 10-character unique identifier
-  function generateUniqueId() {
-    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-    let uniqueId = "";
-    for (let i = 0; i < 10; i++) {
-      uniqueId += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
-    }
-    return uniqueId;
-  }
-
-  // Function to generate ISO 8601 timestamp
-  function getISO8601Timestamp(date = new Date()) {
-    return date.toISOString();
-  }
-
-  // Add timestamp as metadata
-  const metadata = {
+// Creates parameters for uploading the image to S3
+const createS3UploadParams = (imageBuffer, imageType, extension) => ({
+  Bucket: process.env.S3_BUCKET_NAME,
+  Key: `insights/${generateUniqueId()}.${extension}`,
+  Body: imageBuffer,
+  ContentType: imageType,
+  Metadata: {
     uploadedTimestamp: getISO8601Timestamp(),
-  };
+    "cache-control": "public, max-age=31536000, immutable",
+  },
+  // CacheControl: "public, max-age=31536000, immutable", // Cache-Control metadata
+});
+// https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/s3/command/PutObjectCommand/
 
-  // S3 upload parameters
-  const params = {
-    Bucket: bucketName, // Your S3 bucket name from environment variable
-    Key: `insights/${generateUniqueId()}.${extension}`, // File path inside the S3 bucket
-    Body: imageBuffer, // Image data
-    ContentType: imageType, // Adjust to the correct MIME type
-    Metadata: metadata, // Attach the timestamp as metadata
-  };
+// Uploads the image to S3
+const uploadImageToS3 = async (params) => {
+  const command = new PutObjectCommand(params);
+  await s3Client.send(command);
+  // const region = process.env.REGION;
+  const bucketName = process.env.S3_BUCKET_NAME;
+  return `https://${bucketName}.s3.amazonaws.com/${params.Key}`;
+};
 
+// Success response for image upload
+const successResponse = (s3Url) => ({
+  statusCode: 200,
+  body: JSON.stringify({
+    message: "Image uploaded successfully",
+    url: s3Url,
+  }),
+});
+
+// Error response handler
+const errorResponse = (message) => ({
+  statusCode: 400,
+  body: JSON.stringify({ message }),
+});
+
+// Main Lambda handler
+export const lambdaHandler = async (event, context) => {
   try {
-    const command = new PutObjectCommand(params);
-    const s3Response = await s3Client.send(command);
+    // Extract request context info
+    logContext(event, context);
 
-    // Construct the S3 URL
-    const s3Url = `https://${bucketName}.s3.${region}.amazonaws.com/${params.Key}`;
+    // Parse and validate request body
+    const { imageBase64 } = parseRequestBody(event.body);
+    if (!imageBase64) throw new Error("Image missing in request");
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: "Image uploaded successfully",
-        s3Response,
-        url: s3Url,
-      }),
-    };
+    // Decode image and determine file type
+    const { imageBuffer, imageType, extension } =
+      await decodeAndDetermineFileType(imageBase64);
+    console.log("Detected image type:", imageType);
+
+    // Define S3 upload parameters
+    const params = createS3UploadParams(imageBuffer, imageType, extension);
+
+    // Upload to S3 and return response
+    const s3Url = await uploadImageToS3(params);
+    return successResponse(s3Url);
   } catch (error) {
-    console.error("Error uploading image to S3:", error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: "Failed to upload image",
-        error: error.message,
-      }),
-    };
+    console.error("Error processing request:", error.message);
+    return errorResponse(error.message);
   }
 };

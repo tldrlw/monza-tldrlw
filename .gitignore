@@ -83,3 +83,5 @@ crash.log
 
 # Ignore JetBrains IDE settings (optional, if you're using IntelliJ, WebStorm, etc.)
 .idea/
+
+test/cognito-creds.mjs
