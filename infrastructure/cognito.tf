@@ -23,8 +23,8 @@ resource "aws_cognito_user_pool_client" "main" {
   logout_urls                  = ["https://${var.HOSTNAME}"]
 }
 
-# resource "aws_cognito_user" "refayat" {
-#   user_pool_id = aws_cognito_user_pool.main.id
-#   username     = "refayat"
-#   password     = ""
-# }
+resource "aws_cognito_user" "refayat" {
+  user_pool_id = aws_cognito_user_pool.main.id
+  username     = data.aws_ssm_parameter.cognito_username_refayat.value
+  password     = data.aws_ssm_parameter.cognito_password_refayat.value
+}

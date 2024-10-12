@@ -37,3 +37,15 @@ data "aws_route53_zone" "tldrlw_com" {
   name         = "tldrlw.com"
   private_zone = false
 }
+
+# Retrieve the Cognito username from SSM Parameter Store
+data "aws_ssm_parameter" "cognito_username_refayat" {
+  name            = "/cognito/username/refayat" # Ensure the correct parameter name
+  with_decryption = true                        # Decrypt SecureString value
+}
+
+# Retrieve the Cognito password from SSM Parameter Store
+data "aws_ssm_parameter" "cognito_password_refayat" {
+  name            = "/cognito/password/refayat" # Ensure the correct parameter name
+  with_decryption = true                        # Decrypt SecureString value
+}
