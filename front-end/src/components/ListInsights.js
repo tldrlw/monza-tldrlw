@@ -93,6 +93,7 @@ export default async function ListInsights() {
                   width={500}
                   height={125}
                   unoptimized // Disable image optimization for this specific image
+                  // without ^, uploaded images couldn't be fetched when deployed to prod (400 error, 'url' related), BUT no issues in dev / see notes section at the end
                 />
                 {/* <p className="font-xs">{insight.ImageCredit.S}</p> */}
               </div>
@@ -132,3 +133,5 @@ function Pill({ text, color }) {
     </span>
   );
 }
+
+// The issue you are encountering is due to Next.js’s built-in Image Optimization API, which modifies the image URL for performance improvements like resizing and quality adjustments. This is why the URL is being rewritten to include /_next/image?url=.... When Next.js tries to fetch the image, it optimizes it and appends parameters like w=1080 (width) and q=75 (quality), and includes the original S3 URL in the url query parameter. If you only want to disable optimization for certain images, you can use the unoptimized attribute in the Image component to bypass the Image Optimization API. This will prevent Next.js from modifying the URL and will serve the image directly from S3.

@@ -60,7 +60,7 @@ resource "aws_s3_bucket_cors_configuration" "images" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["GET"]
-    allowed_origins = ["https://monza.tldrlw.com", "https://blog.tldrlw.com", "http://localhost:3000"] # Restricting to deployments and local testing
+    allowed_origins = ["https://monza.tldrlw.com", "https://blog.tldrlw.com", "http://localhost:3000"] # Restricting to prod deployments and local dev testing
     expose_headers  = []
     max_age_seconds = 3000
   }
