@@ -92,6 +92,7 @@ export default async function ListInsights() {
                   priority
                   width={500}
                   height={125}
+                  unoptimized // Disable image optimization for this specific image
                 />
                 {/* <p className="font-xs">{insight.ImageCredit.S}</p> */}
               </div>

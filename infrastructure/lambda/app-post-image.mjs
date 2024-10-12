@@ -65,8 +65,9 @@ const createS3UploadParams = (imageBuffer, imageType, extension) => ({
     uploadedTimestamp: getISO8601Timestamp(),
     "cache-control": "public, max-age=31536000, immutable",
   },
-  CacheControl: "public, max-age=31536000, immutable", // Cache-Control metadata
+  // CacheControl: "public, max-age=31536000, immutable", // Cache-Control metadata
 });
+// https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/s3/command/PutObjectCommand/
 
 // Uploads the image to S3
 const uploadImageToS3 = async (params) => {
