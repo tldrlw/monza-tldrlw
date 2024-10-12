@@ -63,6 +63,7 @@ const createS3UploadParams = (imageBuffer, imageType, extension) => ({
   ContentType: imageType,
   Metadata: {
     uploadedTimestamp: getISO8601Timestamp(),
+    "cache-control": "public, max-age=31536000, immutable",
   },
   CacheControl: "public, max-age=31536000, immutable", // Cache-Control metadata
 });
@@ -71,7 +72,7 @@ const createS3UploadParams = (imageBuffer, imageType, extension) => ({
 const uploadImageToS3 = async (params) => {
   const command = new PutObjectCommand(params);
   await s3Client.send(command);
-  const region = process.env.REGION;
+  // const region = process.env.REGION;
   const bucketName = process.env.S3_BUCKET_NAME;
   return `https://${bucketName}.s3.amazonaws.com/${params.Key}`;
 };

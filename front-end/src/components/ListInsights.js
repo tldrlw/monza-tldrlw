@@ -10,7 +10,7 @@ export default async function ListInsights() {
     insights.length,
   );
 
-  console.log(insights);
+  // console.log(insights);
 
   // Sort by DateTime in descending order (most recent first)
   const sortedInsights = insights.sort((a, b) => {
@@ -35,6 +35,7 @@ export default async function ListInsights() {
   }
 
   const getImageSrc = (imageLink) => {
+    console.log(imageLink);
     const defaultImage =
       "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg";
     const validUrlPattern =
