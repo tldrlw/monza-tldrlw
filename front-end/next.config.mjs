@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "monza-tldrlw-images.s3.us-east-1.amazonaws.com",
+        hostname: "monza-tldrlw-images.s3.amazonaws.com",
         pathname: "/insights/**",
       },
     ],

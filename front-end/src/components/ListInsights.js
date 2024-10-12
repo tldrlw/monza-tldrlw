@@ -38,7 +38,7 @@ export default async function ListInsights() {
     const defaultImage =
       "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg";
     const validUrlPattern =
-      /^https:\/\/monza-tldrlw-images\.s3\.us-east-1\.amazonaws\.com\/insights\//;
+      /^https:\/\/monza-tldrlw-images\.s3\.amazonaws\.com\/insights\//;
     // Check if imageLink is a valid URL
     if (!imageLink) {
       console.warn("Missing or undefined imageLink, using default image.");
