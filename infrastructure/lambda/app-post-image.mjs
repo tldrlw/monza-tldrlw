@@ -73,7 +73,6 @@ const uploadImageToS3 = async (params) => {
   await s3Client.send(command);
   const region = process.env.REGION;
   const bucketName = process.env.S3_BUCKET_NAME;
-  // return `https://${bucketName}.s3.${region}.amazonaws.com/${params.Key}`;
   return `https://${bucketName}.s3.amazonaws.com/${params.Key}`;
 };
 

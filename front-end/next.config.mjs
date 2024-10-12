@@ -5,7 +5,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "monza-tldrlw-images.s3.amazonaws.com",
-        pathname: "/insights/**",
+        // pathname: "/insights/**",
       },
     ],
   },
