@@ -1,7 +1,6 @@
 const Footer = () => {
-  const buildTime =
-    process.env.NEXT_PUBLIC_BUILD_TIME || "build time placeholder";
-  const image = process.env.NEXT_PUBLIC_IMAGE || "image placeholder";
+  const buildTime = process.env.BUILD_TIME || "build time placeholder";
+  const image = process.env.IMAGE || "image placeholder";
 
   return (
     <footer className="bg-black py-5 text-white md:py-6">
