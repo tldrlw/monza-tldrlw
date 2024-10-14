@@ -6,6 +6,9 @@ export default function Pill({ text, color }) {
     cyan: "bg-cyan-50 text-cyan-700 ring-cyan-700/10",
     yellow: "bg-yellow-50 text-yellow-700 ring-yellow-700/10",
     slate: "bg-slate-50 text-slate-700 ring-slate-700/10",
+    blue: "bg-blue-50 text-blue-700 ring-blue-700/10",
+    orange: "bg-orange-50 text-orange-700 ring-orange-700/10",
+    pink: "bg-pink-50 text-pink-700 ring-pink-700/10",
   };
   return (
     <span

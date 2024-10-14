@@ -83,9 +83,10 @@ export default async function ListInsights({ dashboardView }) {
                 </a>
                 <Pills insight={insight}></Pills>
                 {/* Always show on desktop, hidden on mobile */}
-                <div className="hidden md:block">
+                <div className="hidden text-justify md:block">
                   {insight.Insights.L.map((item, idx) => (
-                    <span key={idx} className="my-2 block">
+                    <span key={idx} className="block pr-2">
+                      <p className="my-1 text-center">+</p>
                       {item.S}{" "}
                       {/* Correctly extract the 'S' value from the object */}
                     </span>
@@ -98,7 +99,7 @@ export default async function ListInsights({ dashboardView }) {
                   src={getImageSrc(insight.ImageLink?.S)} // Use the helper function to get the correct src
                   alt={insight.ImageLink?.S || "tldrlw logo"}
                   // className="md:w-2/3"
-                  className=""
+                  // className={`${dashboardView ? "" : ""}`}
                   priority
                   width={500}
                   height={125}
@@ -109,16 +110,17 @@ export default async function ListInsights({ dashboardView }) {
               </div>
             </div>
             {/* Render only on mobile */}
-            <div className="block md:hidden">
+            <div className="block text-justify md:hidden">
               {insight.Insights.L.map((item, idx) => (
-                <span key={idx} className="my-2 block">
+                <span key={idx} className="block">
+                  <p className="my-1 text-center">+</p>
                   {item.S}{" "}
                   {/* Correctly extract the 'S' value from the object */}
                 </span>
               ))}
             </div>
             {/* <p>{insight.PK.S}</p> */}
-            <p className="font-semibold">
+            <p className="mt-2 font-semibold md:mt-0">
               {formatToHumanReadable(insight.DateTime.S)}
             </p>
           </div>
@@ -132,22 +134,22 @@ function Pills({ insight }) {
   return (
     <div className="flex flex-wrap">
       <Pill text={insight.Team.S} color="purple"></Pill>
-      <Pill text={insight.AuthorsOrParticipants.S} color="green"></Pill>
-      <Pill text={insight.PublicationOrChannelOrOutlet.S} color="red"></Pill>
+      <Pill text={insight.AuthorsOrParticipants.S} color="pink"></Pill>
+      <Pill text={insight.PublicationOrChannelOrOutlet.S} color="green"></Pill>
       <Pill text={insight.Type.S} color="cyan"></Pill>
       {insight.AIAssisted.BOOL && <Pill text="AI-Assisted" color="slate" />}
       {insight.Prod.BOOL && <Pill text="Prod" color="green" />}
       {insight.AdditionalKeyword1.S && (
-        <Pill text={insight.AdditionalKeyword1.S} color="purple" />
+        <Pill text={insight.AdditionalKeyword1.S} color="blue" />
       )}
       {insight.AdditionalKeyword2.S && (
-        <Pill text={insight.AdditionalKeyword2.S} color="green" />
+        <Pill text={insight.AdditionalKeyword2.S} color="orange" />
       )}
       {insight.AdditionalKeyword3.S && (
-        <Pill text={insight.AdditionalKeyword3.S} color="red" />
+        <Pill text={insight.AdditionalKeyword3.S} color="purple" />
       )}
       {insight.AdditionalKeyword4.S && (
-        <Pill text={insight.AdditionalKeyword4.S} color="cyan" />
+        <Pill text={insight.AdditionalKeyword4.S} color="pink" />
       )}
     </div>
   );
