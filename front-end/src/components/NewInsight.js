@@ -78,7 +78,7 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="my-2 rounded-md bg-customOrangeLogo px-4 py-2 font-medium text-white hover:bg-black"
+            className="my-2 rounded-md bg-customOrangeLogo px-4 py-2 font-medium text-white transition duration-200 hover:bg-black"
           >
             Submit
           </button>

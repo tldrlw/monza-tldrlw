@@ -11,7 +11,7 @@ export default async function ListInsights({ dashboardView }) {
     insights.length,
   );
 
-  console.log(insights);
+  // console.log(insights);
 
   // Sort by DateTime in descending order (most recent first)
   const sortedInsights = insights.sort((a, b) => {

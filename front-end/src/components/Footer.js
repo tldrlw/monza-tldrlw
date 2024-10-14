@@ -1,6 +1,5 @@
 const Footer = () => {
-  const buildTime =
-    process.env.NEXT_PUBLIC_BUILD_TIME || "build time placeholder";
+  const buildTime = process.env.NEXT_PUBLIC_BUILD_TIME || "build time placeholder";
   const image = process.env.NEXT_PUBLIC_IMAGE || "image placeholder";
 
   return (

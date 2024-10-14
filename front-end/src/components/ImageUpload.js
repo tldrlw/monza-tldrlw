@@ -3,7 +3,7 @@
 import postImage from "@/services/client/postImage";
 import { useState } from "react";
 
-export default function ImageUpload({lambdaPostImageFunctionUrl}) {
+export default function ImageUpload({ lambdaPostImageFunctionUrl }) {
   const [image, setImage] = useState(null); // Only the image is now required
   const [uploading, setUploading] = useState(false);
   const [uploadResult, setUploadResult] = useState(null); // State for upload result
@@ -55,7 +55,7 @@ export default function ImageUpload({lambdaPostImageFunctionUrl}) {
             {/* Styled label acting as the file input trigger */}
             <label
               htmlFor="fileInput"
-              className="cursor-pointer rounded-md bg-slate-200 px-4 py-2 font-medium text-slate-600 hover:bg-slate-600 hover:text-slate-200"
+              className="cursor-pointer rounded-md bg-slate-200 px-4 py-2 font-medium text-slate-600 transition duration-200 hover:bg-slate-600 hover:text-slate-200"
             >
               {image ? image.name : "Select Image"}
             </label>
@@ -65,7 +65,7 @@ export default function ImageUpload({lambdaPostImageFunctionUrl}) {
           <button
             type="submit"
             disabled={uploading}
-            className="rounded-md bg-customOrangeLogo px-4 py-2 font-medium text-white hover:bg-black"
+            className="rounded-md bg-customOrangeLogo px-4 py-2 font-medium text-white transition duration-200 hover:bg-black"
           >
             {uploading ? "Uploading..." : "Upload"}
           </button>

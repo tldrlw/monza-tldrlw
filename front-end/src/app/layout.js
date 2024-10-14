@@ -8,11 +8,12 @@ import {
 } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ConfigureAmplifyClientSide from "@/app/amplify-cognito-config";
 
 export const metadata = {
-  title: "Monza - F0rmu1a 0ne news and insights",
+  title: "Monza - Formula One News and Insights",
   description:
-    "F0rmu1a 0ne media and fan content coverage (news articles, podcasts, YouTube videos, etc.) insights",
+    "Discover the latest Formula One news, fan content, podcasts, YouTube videos, and in-depth insights on all things F1.",
 };
 
 const lato = Lato({ weight: "400", subsets: ["latin"] });
@@ -29,7 +30,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${iBMPlexMono.className} flex min-h-screen flex-col`}>
         <Header />
-        <main className="container mx-auto flex-grow">{children}</main>
+        <main className="container mx-auto flex-grow">
+          <ConfigureAmplifyClientSide></ConfigureAmplifyClientSide>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

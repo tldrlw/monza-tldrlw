@@ -8,6 +8,7 @@ on:
       - front-end/**
 
 env:
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   AWS_REGION: us-east-1
   ECR_REPO: monza-tldrlw
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
@@ -17,6 +18,8 @@ env:
   WORKFLOW_TRIGGER_REPO: monza-tldrlw
   WORKFLOW_TRIGGER_BRANCH: dev
   WORKFLOW_TRIGGER_FILENAME: infrastructure.yaml
+  COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
+  COGNITO_USER_POOL_CLIENT_ID: ${{ secrets.COGNITO_USER_POOL_CLIENT_ID }}
 
 permissions:
   actions: write
@@ -51,14 +54,16 @@ jobs:
       - name: build the Docker image
         working-directory: ./front-end
         run: |
-          docker build --build-arg BUILD_TIME="${{ env.CURRENT_TIME }}" \
-                       --build-arg IMAGE="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" \
-                       -t "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" .
+          docker build --build-arg COGNITO_USER_POOL_ID="${{ env.COGNITO_USER_POOL_ID }}" \
+                       --build-arg COGNITO_USER_POOL_CLIENT_ID="${{ env.COGNITO_USER_POOL_CLIENT_ID }}" \
+                       --build-arg BUILD_TIME="${{ env.CURRENT_TIME }}" \
+                       --build-arg IMAGE="${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" \
+                       -t "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" .
 
       - name: run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          image-ref: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}"
+          image-ref: "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}"
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
@@ -67,7 +72,7 @@ jobs:
 
       - name: push Docker image to ECR
         run: |
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}
+          docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}
 
       - name: trigger Terraform workflow
         run: |
