@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import ListInsights from "@/components/ListInsights";
 import NewInsight from "@/components/NewInsight";
 import { cookies } from "next/headers";
+import Auth from "@/components/Auth";
 
 export default function Dashboard() {
   noStore(); // Opt into dynamic rendering
@@ -42,16 +43,14 @@ export default function Dashboard() {
   }
   // will need to pass idToken into NewInsight (and also ImageUpload component) component later when POST Lambdas are fronted by APIG with Cognito auth
 
+  const loggedInUser = getLoggedInUser();
+  // ^ passing return value to Auth component
+
   return (
     <main>
       <div className="flex flex-col md:flex-row">
         <div className="basis-1/2 md:mb-2 md:mr-2">
-          <div className="mt-2 border-2 border-solid border-customOrangeLogo p-2 text-xs md:text-sm">
-            <p>
-              Logged in as:{" "}
-              <span className="font-bold">{getLoggedInUser()}</span>
-            </p>
-          </div>
+          <Auth loggedInUser={loggedInUser}></Auth>
           <NewInsight
             lambdaPostImageFunctionUrl={lambdaPostImageFunctionUrl}
           ></NewInsight>
