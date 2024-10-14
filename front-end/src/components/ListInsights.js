@@ -88,7 +88,10 @@ export default async function ListInsights({ dashboardView }) {
               <div className="flex items-center justify-end md:basis-2/6">
                 <Image
                   src={getImageSrc(insight.ImageLink?.S)} // Use the helper function to get the correct src
-                  alt={insight.ImageLink?.S || "tldrlw logo"}
+                  alt={
+                    insight.ImageCredit?.S ||
+                    "tldrlw logo/no image credit provided"
+                  }
                   // className="md:w-2/3"
                   // className={`${dashboardView ? "" : ""}`}
                   priority
@@ -134,7 +137,9 @@ function Pills({ insight }) {
   return (
     <div className="flex flex-wrap">
       <Pill text={insight.Team.S} color="purple"></Pill>
-      <Pill text={insight.AuthorsOrParticipants.S} color="pink"></Pill>
+      {insight.AuthorsOrParticipants.S && (
+        <Pill text={insight.AuthorsOrParticipants.S} color="pink" />
+      )}
       <Pill text={insight.PublicationOrChannelOrOutlet.S} color="green"></Pill>
       <Pill text={insight.Type.S} color="cyan"></Pill>
       {insight.AIAssisted.BOOL && <Pill text="AI-Assisted" color="slate" />}
