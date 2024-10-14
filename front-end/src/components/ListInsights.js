@@ -73,7 +73,7 @@ export default async function ListInsights({ dashboardView }) {
             <div className="md:flex md:flex-row">
               <div className="mb-2 text-sm md:basis-4/6">
                 {dashboardView && (
-                  <p className="font-bold">ID: {insight.PK.S}</p>
+                  <p className="mb-4 font-bold">ID: {insight.PK.S}</p>
                 )}
                 <a
                   href={insight.Link.S}
@@ -82,16 +82,7 @@ export default async function ListInsights({ dashboardView }) {
                   {insight.Title.S}
                 </a>
                 <Pills insight={insight}></Pills>
-                {/* Always show on desktop, hidden on mobile */}
-                <div className="hidden text-justify md:block">
-                  {insight.Insights.L.map((item, idx) => (
-                    <span key={idx} className="block pr-2">
-                      <p className="my-1 text-center">+</p>
-                      {item.S}{" "}
-                      {/* Correctly extract the 'S' value from the object */}
-                    </span>
-                  ))}
-                </div>
+                <Insight insight={insight}></Insight>
               </div>
               {/* <div className="flex items-center justify-end border border-lime-500 md:basis-2/6"> */}
               <div className="flex items-center justify-end md:basis-2/6">
@@ -109,22 +100,31 @@ export default async function ListInsights({ dashboardView }) {
                 {/* <p className="font-xs">{insight.ImageCredit.S}</p> */}
               </div>
             </div>
-            {/* Render only on mobile */}
-            <div className="block text-justify md:hidden">
-              {insight.Insights.L.map((item, idx) => (
-                <span key={idx} className="block">
-                  <p className="my-1 text-center">+</p>
-                  {item.S}{" "}
-                  {/* Correctly extract the 'S' value from the object */}
-                </span>
-              ))}
-            </div>
+            <Insight viewport={"mobile"} insight={insight}></Insight>
             {/* <p>{insight.PK.S}</p> */}
-            <p className="mt-2 font-semibold md:mt-0">
+            <p className="mt-4 font-semibold">
               {formatToHumanReadable(insight.DateTime.S)}
             </p>
           </div>
         </div>
+      ))}
+    </div>
+  );
+}
+
+function Insight({ viewport = "desktop", insight }) {
+  const visibilityClass =
+    viewport === "mobile" ? "block md:hidden" : "hidden md:block";
+  return (
+    <div className={`text-justify ${visibilityClass}`}>
+      {insight.Insights.L.map((item, idx) => (
+        <span
+          key={idx}
+          className={`block ${viewport === "desktop" ? "pr-2" : ""}`}
+        >
+          <p className="my-1 text-center">+</p>
+          {item.S}
+        </span>
       ))}
     </div>
   );
