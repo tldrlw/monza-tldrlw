@@ -48,6 +48,9 @@ export const lambdaHandler = async (event, context) => {
     imageCredit,
     team,
     type,
+    aiAssisted,
+    prod,
+    additionalKeyword,
     publicationOrChannelOrOutlet,
     authorsOrParticipants,
     insights, // This should now be an array of strings
@@ -82,6 +85,9 @@ export const lambdaHandler = async (event, context) => {
     ImageCredit: { S: imageCredit },
     Team: { S: team },
     Type: { S: type },
+    AIAssisted: { BOOL: aiAssisted },
+    Prod: { BOOL: prod },
+    AdditionalKeyword: { S: additionalKeyword },
     AuthorsOrParticipants: { S: authorsOrParticipants },
     PublicationOrChannelOrOutlet: { S: publicationOrChannelOrOutlet },
     Insights: {

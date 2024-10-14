@@ -21,7 +21,7 @@ export default function Dashboard() {
         </div>
         <div className="basis-1/2">
           <Suspense fallback={<p>Loading insights...</p>}>
-            <ListInsights></ListInsights>
+            <ListInsights dashboardView={true}></ListInsights>
           </Suspense>
         </div>
       </div>

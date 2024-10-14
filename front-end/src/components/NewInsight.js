@@ -1,5 +1,6 @@
 import postInsight from "@/services/postInsight";
 import ImageUpload from "./ImageUpload";
+import InputField from "./InputField";
 
 export default function NewInsight(lambdaPostImageFunctionUrl) {
   const teams = [
@@ -42,7 +43,11 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
       >
         <InputField label="Title" name="title" />
         <InputField label="Link" name="link" />
-        <InputField label="Image Link" name="imageLink" />
+        <InputField
+          label="Image Link"
+          name="imageLink"
+          placeholder="Providing no image link will display orange 'tldrlw' logo"
+        />
         <InputField label="Image Credit" name="imageCredit" />
         <InputField
           label="Publication/Channel/Outlet"
@@ -53,8 +58,13 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
           name="authorsOrParticipants"
           placeholder="If more than one, provide names followed by a comma (,)"
         />
-        <InputField label="Team" name="team" options={sortedTeams} />
-        <InputField label="Type" name="type" options={sortedTypes} />
+        <div className="md:flex md:justify-between">
+          <InputField label="Team" name="team" options={sortedTeams} />
+          <InputField label="Type" name="type" options={sortedTypes} />
+          <InputField label="AI-Assisted?" name="aiAssisted" type="checkbox" />
+          <InputField label="Prod?" name="prod" type="checkbox" />
+          <InputField label="Additional Keyword" name="additionalKeyword" />
+        </div>
         <InputField label="Insight 1" name="insight1" />
         <InputField label="Insight 2" name="insight2" />
         <InputField label="Insight 3" name="insight3" />
@@ -69,56 +79,6 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
           </button>
         </div>
       </form>
-    </div>
-  );
-}
-
-function InputField({
-  label,
-  name,
-  type = "text",
-  placeholder = "",
-  options = [],
-}) {
-  // Check if the input field is for an insight (to render a textarea)
-  const isInsightField = name.startsWith("insight");
-  const isDropdown = Array.isArray(options) && options.length > 0; // Check if it's a dropdown
-
-  return (
-    <div className="mb-2">
-      <label htmlFor={name} className="block text-blue-500">
-        {label}
-      </label>
-      <div className="mt-2">
-        {isDropdown ? (
-          <select
-            name={name}
-            id={name}
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
-          >
-            {options.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        ) : isInsightField ? (
-          <textarea
-            name={name}
-            id={name}
-            className="block h-20 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
-            placeholder={placeholder}
-          ></textarea>
-        ) : (
-          <input
-            type={type}
-            name={name}
-            id={name}
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
-            placeholder={placeholder}
-          />
-        )}
-      </div>
     </div>
   );
 }

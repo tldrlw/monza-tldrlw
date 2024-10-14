@@ -22,12 +22,12 @@ export default function App() {
       <div className="flex justify-between">
         <h1 className="mt-1 text-2xl md:text-3xl">monza🏎️🏁</h1>
         <div className="mt-3">
-          <Link
+          {/* <Link
             href="/about"
             className="content-center italic text-blue-100 hover:underline"
           >
             about
-          </Link>
+          </Link> */}
           <Link
             href="/auth/login"
             className="content-center italic text-blue-100 hover:underline"

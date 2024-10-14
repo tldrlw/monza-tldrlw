@@ -31,12 +31,19 @@ export const addItemToDynamoDB = async (insights) => {
             Item: {
               PK: { S: generateUniqueId() },
               DateTime: { S: getISO8601Timestamp() },
-              Title: { S: "Live from Beirut" },
+              Title: { S: "Test" },
               Link: { S: "https://blog.tldrlw.com" },
-              ImageLink: { S: "Live from Beirut" },
-              ImageCredit: { S: "Live from Beirut" },
+              ImageLink: {
+                S: "https://monza-tldrlw-images.s3.amazonaws.com/insights/bjynj5rmw1.jpg",
+              },
+              ImageCredit: { S: "Haas Formula 1 Team" },
               Team: { S: getRandomF1Team() },
               Type: { S: getSource() },
+              AIAssisted: { BOOL: true },
+              Prod: { BOOL: false },
+              AdditionalKeyword: { S: "Toyota" },
+              AuthorsOrParticipants: { S: "Lawrence Barretto" },
+              PublicationOrChannelOrOutlet: { S: "Formula 1 website" },
               Insights: {
                 L: insights.map((insight) => ({ S: insight })), // Convert array of strings into DynamoDB List format
               },
