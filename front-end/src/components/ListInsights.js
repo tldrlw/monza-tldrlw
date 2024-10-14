@@ -73,7 +73,7 @@ export default async function ListInsights({ dashboardView }) {
             <div className="md:flex md:flex-row">
               <div className="mb-2 text-sm md:basis-4/6">
                 {dashboardView && (
-                  <p className="font-bold">ID: {insight.PK.S}</p>
+                  <p className="mb-4 font-bold">ID: {insight.PK.S}</p>
                 )}
                 <a
                   href={insight.Link.S}
@@ -82,23 +82,18 @@ export default async function ListInsights({ dashboardView }) {
                   {insight.Title.S}
                 </a>
                 <Pills insight={insight}></Pills>
-                {/* Always show on desktop, hidden on mobile */}
-                <div className="hidden md:block">
-                  {insight.Insights.L.map((item, idx) => (
-                    <span key={idx} className="my-2 block">
-                      {item.S}{" "}
-                      {/* Correctly extract the 'S' value from the object */}
-                    </span>
-                  ))}
-                </div>
+                <Insight insight={insight}></Insight>
               </div>
               {/* <div className="flex items-center justify-end border border-lime-500 md:basis-2/6"> */}
               <div className="flex items-center justify-end md:basis-2/6">
                 <Image
                   src={getImageSrc(insight.ImageLink?.S)} // Use the helper function to get the correct src
-                  alt={insight.ImageLink?.S || "tldrlw logo"}
+                  alt={
+                    insight.ImageCredit?.S ||
+                    "tldrlw logo/no image credit provided"
+                  }
                   // className="md:w-2/3"
-                  className=""
+                  // className={`${dashboardView ? "" : ""}`}
                   priority
                   width={500}
                   height={125}
@@ -108,17 +103,9 @@ export default async function ListInsights({ dashboardView }) {
                 {/* <p className="font-xs">{insight.ImageCredit.S}</p> */}
               </div>
             </div>
-            {/* Render only on mobile */}
-            <div className="block md:hidden">
-              {insight.Insights.L.map((item, idx) => (
-                <span key={idx} className="my-2 block">
-                  {item.S}{" "}
-                  {/* Correctly extract the 'S' value from the object */}
-                </span>
-              ))}
-            </div>
+            <Insight viewport={"mobile"} insight={insight}></Insight>
             {/* <p>{insight.PK.S}</p> */}
-            <p className="font-semibold">
+            <p className="mt-4 font-semibold">
               {formatToHumanReadable(insight.DateTime.S)}
             </p>
           </div>
@@ -128,17 +115,46 @@ export default async function ListInsights({ dashboardView }) {
   );
 }
 
+function Insight({ viewport = "desktop", insight }) {
+  const visibilityClass =
+    viewport === "mobile" ? "block md:hidden" : "hidden md:block";
+  return (
+    <div className={`text-justify ${visibilityClass}`}>
+      {insight.Insights.L.map((item, idx) => (
+        <span
+          key={idx}
+          className={`block ${viewport === "desktop" ? "pr-2" : ""}`}
+        >
+          <p className="my-1 text-center">+</p>
+          {item.S}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 function Pills({ insight }) {
   return (
     <div className="flex flex-wrap">
       <Pill text={insight.Team.S} color="purple"></Pill>
-      <Pill text={insight.AuthorsOrParticipants.S} color="green"></Pill>
-      <Pill text={insight.PublicationOrChannelOrOutlet.S} color="red"></Pill>
+      {insight.AuthorsOrParticipants.S && (
+        <Pill text={insight.AuthorsOrParticipants.S} color="pink" />
+      )}
+      <Pill text={insight.PublicationOrChannelOrOutlet.S} color="green"></Pill>
       <Pill text={insight.Type.S} color="cyan"></Pill>
       {insight.AIAssisted.BOOL && <Pill text="AI-Assisted" color="slate" />}
       {insight.Prod.BOOL && <Pill text="Prod" color="green" />}
-      {insight.AdditionalKeyword.S && (
-        <Pill text={insight.AdditionalKeyword.S} color="yellow" />
+      {insight.AdditionalKeyword1.S && (
+        <Pill text={insight.AdditionalKeyword1.S} color="blue" />
+      )}
+      {insight.AdditionalKeyword2.S && (
+        <Pill text={insight.AdditionalKeyword2.S} color="orange" />
+      )}
+      {insight.AdditionalKeyword3.S && (
+        <Pill text={insight.AdditionalKeyword3.S} color="purple" />
+      )}
+      {insight.AdditionalKeyword4.S && (
+        <Pill text={insight.AdditionalKeyword4.S} color="pink" />
       )}
     </div>
   );

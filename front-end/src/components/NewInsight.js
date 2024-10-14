@@ -46,7 +46,7 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
         <InputField
           label="Image Link"
           name="imageLink"
-          placeholder="Providing no image link will display orange 'tldrlw' logo"
+          placeholder="Copy image link generated on image upload from above, providing no image link will display orange 'tldrlw' logo"
         />
         <InputField label="Image Credit" name="imageCredit" />
         <InputField
@@ -63,7 +63,12 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
           <InputField label="Type" name="type" options={sortedTypes} />
           <InputField label="AI-Assisted?" name="aiAssisted" type="checkbox" />
           <InputField label="Prod?" name="prod" type="checkbox" />
-          <InputField label="Additional Keyword" name="additionalKeyword" />
+          <InputField label="Additional Keyword 1" name="additionalKeyword1" />
+        </div>
+        <div className="md:flex md:justify-between">
+          <InputField label="Additional Keyword 2" name="additionalKeyword2" />
+          <InputField label="Additional Keyword 3" name="additionalKeyword3" />
+          <InputField label="Additional Keyword 4" name="additionalKeyword4" />
         </div>
         <InputField label="Insight 1" name="insight1" />
         <InputField label="Insight 2" name="insight2" />
