@@ -78,25 +78,7 @@ export default async function ListInsights({ dashboardView }) {
                 >
                   {insight.Title.S}
                 </a>
-                <div className="flex flex-wrap">
-                  <Pill text={insight.Team.S} color="purple"></Pill>
-                  <Pill
-                    text={insight.AuthorsOrParticipants.S}
-                    color="green"
-                  ></Pill>
-                  <Pill
-                    text={insight.PublicationOrChannelOrOutlet.S}
-                    color="red"
-                  ></Pill>
-                  <Pill text={insight.Type.S} color="cyan"></Pill>
-                  {insight.AIAssisted.BOOL && (
-                    <Pill text="AI-Assisted" color="slate" />
-                  )}
-                  {insight.Prod.BOOL && <Pill text="Prod" color="green" />}
-                  {insight.AdditionalKeyword.S && (
-                    <Pill text={insight.AdditionalKeyword.S} color="yellow" />
-                  )}
-                </div>
+                <Pills insight={insight}></Pills>
                 {/* Always show on desktop, hidden on mobile */}
                 <div className="hidden md:block">
                   {insight.Insights.L.map((item, idx) => (
@@ -139,6 +121,22 @@ export default async function ListInsights({ dashboardView }) {
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+function Pills({ insight }) {
+  return (
+    <div className="flex flex-wrap">
+      <Pill text={insight.Team.S} color="purple"></Pill>
+      <Pill text={insight.AuthorsOrParticipants.S} color="green"></Pill>
+      <Pill text={insight.PublicationOrChannelOrOutlet.S} color="red"></Pill>
+      <Pill text={insight.Type.S} color="cyan"></Pill>
+      {insight.AIAssisted.BOOL && <Pill text="AI-Assisted" color="slate" />}
+      {insight.Prod.BOOL && <Pill text="Prod" color="green" />}
+      {insight.AdditionalKeyword.S && (
+        <Pill text={insight.AdditionalKeyword.S} color="yellow" />
+      )}
     </div>
   );
 }
