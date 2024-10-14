@@ -4,14 +4,20 @@ FROM node:18-alpine AS builder
 # Accept the build argument
 ARG BUILD_TIME
 ARG IMAGE
+ARG COGNITO_USER_POOL_ID
+ARG COGNITO_USER_POOL_CLIENT_ID
 
 # Set the environment variable inside the container (optional)
 ENV NEXT_PUBLIC_BUILD_TIME=$BUILD_TIME
 ENV NEXT_PUBLIC_IMAGE=$IMAGE
+ENV NEXT_PUBLIC_COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID
+ENV NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID=$COGNITO_USER_POOL_CLIENT_ID
 
 # Print the build time (optional, for debugging)
 RUN echo "Build time: $BUILD_TIME"
 RUN echo "Image tag: $IMAGE"
+RUN echo "Cognito User Pool ID: $COGNITO_USER_POOL_ID"
+RUN echo "Cognito User Pool Client ID: $COGNITO_USER_POOL_CLIENT_ID"
 
 # Set the working directory inside the container
 WORKDIR /app

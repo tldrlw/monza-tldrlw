@@ -7,9 +7,9 @@ import Link from "next/link";
 export default function App() {
   // build time env vars below
   // NEXT_PUBLIC_* - https://nextjs.org/docs/app/building-your-application/configuring/environment-variables#bundling-environment-variables-for-the-browser
-  const buildTime =
-    process.env.NEXT_PUBLIC_BUILD_TIME || "buildTime placeholder";
-  const image = process.env.NEXT_PUBLIC_IMAGE || "image placeholder";
+  // const buildTime =
+  //   process.env.NEXT_PUBLIC_BUILD_TIME || "buildTime placeholder";
+  // const image = process.env.NEXT_PUBLIC_IMAGE || "image placeholder";
   // runtime env vars below
   noStore(); // Opt into dynamic rendering
   // These values will be evaluated at runtime
