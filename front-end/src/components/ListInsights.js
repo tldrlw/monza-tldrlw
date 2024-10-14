@@ -137,8 +137,17 @@ function Pills({ insight }) {
       <Pill text={insight.Type.S} color="cyan"></Pill>
       {insight.AIAssisted.BOOL && <Pill text="AI-Assisted" color="slate" />}
       {insight.Prod.BOOL && <Pill text="Prod" color="green" />}
-      {insight.AdditionalKeyword.S && (
-        <Pill text={insight.AdditionalKeyword.S} color="yellow" />
+      {insight.AdditionalKeyword1.S && (
+        <Pill text={insight.AdditionalKeyword1.S} color="purple" />
+      )}
+      {insight.AdditionalKeyword2.S && (
+        <Pill text={insight.AdditionalKeyword2.S} color="green" />
+      )}
+      {insight.AdditionalKeyword3.S && (
+        <Pill text={insight.AdditionalKeyword3.S} color="red" />
+      )}
+      {insight.AdditionalKeyword4.S && (
+        <Pill text={insight.AdditionalKeyword4.S} color="cyan" />
       )}
     </div>
   );

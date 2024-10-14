@@ -50,7 +50,10 @@ export const lambdaHandler = async (event, context) => {
     type,
     aiAssisted,
     prod,
-    additionalKeyword,
+    additionalKeyword1,
+    additionalKeyword2,
+    additionalKeyword3,
+    additionalKeyword4,
     publicationOrChannelOrOutlet,
     authorsOrParticipants,
     insights, // This should now be an array of strings
@@ -87,7 +90,10 @@ export const lambdaHandler = async (event, context) => {
     Type: { S: type },
     AIAssisted: { BOOL: aiAssisted },
     Prod: { BOOL: prod },
-    AdditionalKeyword: { S: additionalKeyword },
+    AdditionalKeyword1: { S: additionalKeyword1 },
+    AdditionalKeyword2: { S: additionalKeyword2 },
+    AdditionalKeyword3: { S: additionalKeyword3 },
+    AdditionalKeyword4: { S: additionalKeyword4 },
     AuthorsOrParticipants: { S: authorsOrParticipants },
     PublicationOrChannelOrOutlet: { S: publicationOrChannelOrOutlet },
     Insights: {

@@ -63,7 +63,12 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
           <InputField label="Type" name="type" options={sortedTypes} />
           <InputField label="AI-Assisted?" name="aiAssisted" type="checkbox" />
           <InputField label="Prod?" name="prod" type="checkbox" />
-          <InputField label="Additional Keyword" name="additionalKeyword" />
+          <InputField label="Additional Keyword 1" name="additionalKeyword1" />
+        </div>
+        <div className="md:flex md:justify-between">
+          <InputField label="Additional Keyword 2" name="additionalKeyword 2" />
+          <InputField label="Additional Keyword 3" name="additionalKeyword 3" />
+          <InputField label="Additional Keyword 4" name="additionalKeyword 4" />
         </div>
         <InputField label="Insight 1" name="insight1" />
         <InputField label="Insight 2" name="insight2" />

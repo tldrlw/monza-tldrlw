@@ -21,7 +21,10 @@ export default async function postInsight(formData) {
     type: formData.get("type"),
     aiAssisted: formData.get("aiAssisted") === "on" ? true : false,
     prod: formData.get("prod") === "on" ? true : false,
-    additionalKeyword: formData.get("additionalKeyword"),
+    additionalKeyword1: formData.get("additionalKeyword1"),
+    additionalKeyword2: formData.get("additionalKeyword2"),
+    additionalKeyword3: formData.get("additionalKeyword3"),
+    additionalKeyword4: formData.get("additionalKeyword4"),
     publicationOrChannelOrOutlet: formData.get("publicationOrChannelOrOutlet"),
     authorsOrParticipants: formData.get("authorsOrParticipants"),
     insights: [
