@@ -1,7 +1,8 @@
 import getInsights from "@/services/getInsights";
 import Image from "next/image";
+import Pill from "./Pill";
 
-export default async function ListInsights() {
+export default async function ListInsights({ dashboardView }) {
   const { data: insights } = await getInsights();
   // ^ getInsights() returns the following, so destructuring out "data" and renaming the array to "insights"
 
@@ -10,7 +11,7 @@ export default async function ListInsights() {
     insights.length,
   );
 
-  // console.log(insights);
+  console.log(insights);
 
   // Sort by DateTime in descending order (most recent first)
   const sortedInsights = insights.sort((a, b) => {
@@ -37,7 +38,8 @@ export default async function ListInsights() {
   const getImageSrc = (imageLink) => {
     console.log(imageLink);
     const defaultImage =
-      "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg";
+      // "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg";
+      "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-no-background.svg";
     const validUrlPattern =
       /^https:\/\/monza-tldrlw-images\.s3\.amazonaws\.com\/insights\//;
     // Check if imageLink is a valid URL
@@ -68,27 +70,50 @@ export default async function ListInsights() {
         >
           <div className="text-xs md:text-sm">
             {/* Render the list of strings properly */}
-            <div className="flex flex-row">
-              <div className="mb-2 basis-3/5 text-sm md:basis-2/5 md:text-lg">
+            <div className="md:flex md:flex-row">
+              <div className="mb-2 text-sm md:basis-4/6">
                 <a
                   href={insight.Link.S}
-                  className="text-blue-500 hover:underline"
+                  className="text-blue-500 hover:underline md:text-lg"
                 >
                   {insight.Title.S}
                 </a>
                 <div className="flex flex-wrap">
                   <Pill text={insight.Team.S} color="purple"></Pill>
-                  <Pill text={insight.Type.S} color="green"></Pill>
-                  <Pill text={insight.Type.S} color="red"></Pill>
+                  <Pill
+                    text={insight.AuthorsOrParticipants.S}
+                    color="green"
+                  ></Pill>
+                  <Pill
+                    text={insight.PublicationOrChannelOrOutlet.S}
+                    color="red"
+                  ></Pill>
                   <Pill text={insight.Type.S} color="cyan"></Pill>
-                  <Pill text={insight.Type.S} color="slate"></Pill>
+                  {insight.AIAssisted.BOOL && (
+                    <Pill text="AI-Assisted" color="slate" />
+                  )}
+                  {insight.Prod.BOOL && <Pill text="Prod" color="green" />}
+                  {insight.AdditionalKeyword.S && (
+                    <Pill text={insight.AdditionalKeyword.S} color="yellow" />
+                  )}
+                </div>
+                {/* Always show on desktop, hidden on mobile */}
+                <div className="hidden md:block">
+                  {insight.Insights.L.map((item, idx) => (
+                    <span key={idx} className="my-2 block">
+                      {item.S}{" "}
+                      {/* Correctly extract the 'S' value from the object */}
+                    </span>
+                  ))}
                 </div>
               </div>
-              <div className="flex basis-2/5 items-center justify-end md:basis-3/5">
+              {/* <div className="flex items-center justify-end border border-lime-500 md:basis-2/6"> */}
+              <div className="flex items-center justify-end md:basis-2/6">
                 <Image
                   src={getImageSrc(insight.ImageLink?.S)} // Use the helper function to get the correct src
                   alt={insight.ImageLink?.S || "tldrlw logo"}
-                  className="w-3/4 md:w-2/3"
+                  // className="md:w-2/3"
+                  className=""
                   priority
                   width={500}
                   height={125}
@@ -98,11 +123,15 @@ export default async function ListInsights() {
                 {/* <p className="font-xs">{insight.ImageCredit.S}</p> */}
               </div>
             </div>
-            {insight.Insights.L.map((item, idx) => (
-              <span key={idx} className="my-2 block">
-                {item.S} {/* Correctly extract the 'S' value from the object */}
-              </span>
-            ))}
+            {/* Render only on mobile */}
+            <div className="block md:hidden">
+              {insight.Insights.L.map((item, idx) => (
+                <span key={idx} className="my-2 block">
+                  {item.S}{" "}
+                  {/* Correctly extract the 'S' value from the object */}
+                </span>
+              ))}
+            </div>
             {/* <p>{insight.PK.S}</p> */}
             <p className="font-semibold">
               {formatToHumanReadable(insight.DateTime.S)}
@@ -111,26 +140,6 @@ export default async function ListInsights() {
         </div>
       ))}
     </div>
-  );
-}
-
-function Pill({ text, color }) {
-  const colorClasses = {
-    purple: "bg-purple-50 text-purple-700 ring-purple-700/10",
-    green: "bg-green-50 text-green-700 ring-green-700/10",
-    red: "bg-red-50 text-red-700 ring-red-700/10",
-    cyan: "bg-cyan-50 text-cyan-700 ring-cyan-700/10",
-    slate: "bg-slate-50 text-slate-700 ring-slate-700/10",
-  };
-
-  return (
-    <span
-      className={`mr-2 mt-1 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
-        colorClasses[color] || colorClasses["slate"]
-      }`}
-    >
-      {text}
-    </span>
   );
 }
 
