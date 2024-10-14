@@ -72,6 +72,9 @@ export default async function ListInsights({ dashboardView }) {
             {/* Render the list of strings properly */}
             <div className="md:flex md:flex-row">
               <div className="mb-2 text-sm md:basis-4/6">
+                {dashboardView && (
+                  <p className="font-bold">ID: {insight.PK.S}</p>
+                )}
                 <a
                   href={insight.Link.S}
                   className="text-blue-500 hover:underline md:text-lg"
