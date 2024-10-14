@@ -7,9 +7,8 @@ import Link from "next/link";
 export default function App() {
   // BUILD time env vars below
   // const buildTime =
-  //   process.env.BUILD_TIME || "buildTime placeholder";
+  //   process.env.NEXT_PUBLIC_BUILD_TIME || "buildTime placeholder";
   // NEXT_PUBLIC_* prefix - https://nextjs.org/docs/app/building-your-application/configuring/environment-variables#bundling-environment-variables-for-the-browser
-  // ^ NEXT_PUBLIC_* preifx only required if you want to have these BUILD time env vars available client-side
   // RUNTIME env vars below
   // noStore(); // Opt into dynamic rendering
   // These values will be evaluated at runtime
