@@ -16,6 +16,40 @@ module "lambda_get" {
   function_url_public    = true
 }
 
+module "lambda_get_constructors" {
+  source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
+  source_dir          = var.LAMBDA_PATH
+  handler_file_prefix = "app-get-constructors"
+  REST_method         = "GET"
+  function_name       = "${var.APP_NAME}-get-constructors"
+  environment_variables = {
+    CONSTRUCTORS_DYDB_TABLE_NAME = aws_dynamodb_table.constructors.id,
+    REGION                       = var.REGION
+  }
+  is_s3                  = false
+  is_dydb                = true
+  dydb_table_arn         = aws_dynamodb_table.constructors.arn
+  dydb_table_permissions = ["dynamodb:Scan", "dynamodb:DescribeTable"]
+  function_url_public    = true
+}
+
+module "lambda_get_drivers" {
+  source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
+  source_dir          = var.LAMBDA_PATH
+  handler_file_prefix = "app-get-drivers"
+  REST_method         = "GET"
+  function_name       = "${var.APP_NAME}-get-drivers"
+  environment_variables = {
+    DRIVERS_DYDB_TABLE_NAME = aws_dynamodb_table.drivers.id,
+    REGION                  = var.REGION
+  }
+  is_s3                  = false
+  is_dydb                = true
+  dydb_table_arn         = aws_dynamodb_table.drivers.arn
+  dydb_table_permissions = ["dynamodb:Scan", "dynamodb:DescribeTable"]
+  function_url_public    = true
+}
+
 module "lambda_post" {
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
   source_dir          = var.LAMBDA_PATH

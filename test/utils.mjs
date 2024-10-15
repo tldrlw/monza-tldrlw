@@ -120,5 +120,5 @@ export function getRandomSentences() {
 }
 
 // Example usage:
-const randomSentences = getRandomSentences();
-console.log(randomSentences);
+// const randomSentences = getRandomSentences();
+// console.log(randomSentences);

@@ -1,6 +1,7 @@
 import getInsights from "@/services/getInsights";
 import Image from "next/image";
 import Pill from "./Pill";
+import { formatToHumanReadable, sortDataByTime } from "@/utils";
 
 export default async function ListInsights({ dashboardView }) {
   const { data: insights } = await getInsights();
@@ -12,28 +13,7 @@ export default async function ListInsights({ dashboardView }) {
   );
 
   // console.log(insights);
-
-  // Sort by DateTime in descending order (most recent first)
-  const sortedInsights = insights.sort((a, b) => {
-    const dateA = new Date(a.DateTime.S);
-    const dateB = new Date(b.DateTime.S);
-    return dateB - dateA; // Sort in descending order
-  });
-
-  function formatToHumanReadable(isoString) {
-    const date = new Date(isoString);
-    const options = {
-      year: "numeric",
-      month: "long", // Full month name (e.g., September)
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      timeZoneName: "short", // Includes time zone (e.g., GMT)
-    };
-    // Format the date using Intl.DateTimeFormat
-    return new Intl.DateTimeFormat("en-US", options).format(date);
-  }
+  // console.log(JSON.stringify(insights, null, 2));
 
   const getImageSrc = (imageLink) => {
     console.log(imageLink);
@@ -60,6 +40,9 @@ export default async function ListInsights({ dashboardView }) {
       return defaultImage; // If invalid URL format, return default
     }
   };
+
+  const sortedInsights = sortDataByTime(insights);
+  // console.log(sortedInsights);
 
   return (
     <div>
