@@ -1,16 +1,35 @@
 import { unstable_noStore as noStore } from "next/cache";
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
 
-export default async function getDrivers() {
+noStore(); // Opt into dynamic rendering
+// This value will be evaluated at runtime
+
+const getLambdaFunctionUrl = (type) => {
+  switch (type) {
+    case "constructors":
+      return (
+        process.env.LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL ||
+        "lambdaGetConstructorsFunctionUrl placeholder"
+      );
+    case "drivers":
+      return (
+        process.env.LAMBDA_GET_DRIVERS_FUNCTION_URL ||
+        "lambdaGetDriversFunctionUrl placeholder"
+      );
+    case "insights":
+      return (
+        process.env.LAMBDA_GET_FUNCTION_URL ||
+        "lambdaGetFunctionUrl placeholder"
+      );
+    default:
+      return "Invalid type provided";
+  }
+};
+
+export default async function getConstructors(type) {
   "use server";
 
-  noStore(); // Opt into dynamic rendering
-  // This value will be evaluated at runtime
-  const lambdaGetDriversFunctionUrl =
-    process.env.LAMBDA_GET_DRIVERS_FUNCTION_URL ||
-    "lambdaGetDriversFunctionUrl placeholder";
-
-  console.log("front-end/src/services/getDrivers.js");
+  console.log(`front-end/src/services/get${type}.js`);
 
   const requestOptions = {
     method: "GET",
@@ -23,10 +42,10 @@ export default async function getDrivers() {
 
   try {
     const response = await fetch(
-      lambdaGetDriversFunctionUrl,
-      { next: { tags: ["constructors"] } },
+      getLambdaFunctionUrl(type),
+      { next: { tags: [type] } },
       // https://nextjs.org/docs/app/api-reference/functions/revalidateTag
-      // { tags: ["constructors"] },
+      // { tags: [type] },
       // ^ also works, but not in docs above
       // { cache: "no-store" },
       // ^ for NO caching
@@ -39,15 +58,14 @@ export default async function getDrivers() {
     }
     data = await response.json();
     // console.log(
-    //   "front-end/src/services/getDrivers.js - API call successful",
+    //   `front-end/src/services/get${type}.js - API call successful`,
     //   JSON.stringify(data, null, 2),
     // );
   } catch (error) {
     console.error(
-      "front-end/src/services/getDrivers.js - API call failed",
+      `front-end/src/services/get${type}.js - API call failed`,
       error,
     );
   }
-
   return data;
 }

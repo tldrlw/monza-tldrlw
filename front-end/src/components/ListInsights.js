@@ -1,10 +1,10 @@
-import getInsights from "@/services/getInsights";
+import get from "@/services/get";
 import Image from "next/image";
 import Pill from "./Pill";
 import { formatToHumanReadable, sortDataByTime } from "@/utils";
 
 export default async function ListInsights({ dashboardView }) {
-  const { data: insights } = await getInsights();
+  const { data: insights } = await get("insights");
   // ^ getInsights() returns the following, so destructuring out "data" and renaming the array to "insights"
 
   console.log(

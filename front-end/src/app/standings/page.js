@@ -1,15 +1,14 @@
-import getConstructors from "@/services/getConstructors";
-import getDrivers from "@/services/getDrivers";
+import get from "@/services/get";
 import StandingsTable from "@/components/StandingsTable";
 import { sortDataByTime } from "@/utils";
 import SubHeader from "@/components/SubHeader";
 
 export default async function Standings() {
-  const { data: constructorsStandings } = await getConstructors();
+  const { data: constructorsStandings } = await get("constructors");
   const sortedConstructorsStandings = sortDataByTime(constructorsStandings);
   // console.log(JSON.stringify(sortedConstructorsStandings, null, 2));
 
-  const { data: driversStandings } = await getDrivers();
+  const { data: driversStandings } = await get("drivers");
   const sortedDriversStandings = sortDataByTime(driversStandings);
   // console.log(JSON.stringify(sortedDriversStandings, null, 2));
 
