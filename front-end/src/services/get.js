@@ -1,33 +1,33 @@
 import { unstable_noStore as noStore } from "next/cache";
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
 
-noStore(); // Opt into dynamic rendering
-// This value will be evaluated at runtime
-
-const getLambdaFunctionUrl = (type) => {
-  switch (type) {
-    case "constructors":
-      return (
-        process.env.LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL ||
-        "lambdaGetConstructorsFunctionUrl placeholder"
-      );
-    case "drivers":
-      return (
-        process.env.LAMBDA_GET_DRIVERS_FUNCTION_URL ||
-        "lambdaGetDriversFunctionUrl placeholder"
-      );
-    case "insights":
-      return (
-        process.env.LAMBDA_GET_FUNCTION_URL ||
-        "lambdaGetFunctionUrl placeholder"
-      );
-    default:
-      return "Invalid type provided";
-  }
-};
-
 export default async function getConstructors(type) {
   "use server";
+
+  noStore(); // Opt into dynamic rendering
+  // This value will be evaluated at runtime
+
+  const getLambdaFunctionUrl = (type) => {
+    switch (type) {
+      case "constructors":
+        return (
+          process.env.LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL ||
+          "lambdaGetConstructorsFunctionUrl placeholder"
+        );
+      case "drivers":
+        return (
+          process.env.LAMBDA_GET_DRIVERS_FUNCTION_URL ||
+          "lambdaGetDriversFunctionUrl placeholder"
+        );
+      case "insights":
+        return (
+          process.env.LAMBDA_GET_FUNCTION_URL ||
+          "lambdaGetFunctionUrl placeholder"
+        );
+      default:
+        return "Invalid type provided";
+    }
+  };
 
   console.log(`front-end/src/services/get${type}.js`);
 
