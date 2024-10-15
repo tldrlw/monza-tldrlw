@@ -29,9 +29,19 @@ export default function App() {
           </Link> */}
           <Link
             href="/auth/login"
-            className="content-center italic text-blue-100 hover:underline"
+            className="mr-10 content-center text-xs italic text-blue-100 hover:underline md:text-base"
           >
             admin
+          </Link>
+          <Link
+            href="/standings"
+            className="content-center text-xs italic hover:underline md:text-base"
+          >
+            {/* Responsive text based on viewport */}
+            <span className="md:hidden">👉​ current standings</span>
+            <span className="hidden md:inline">
+              👉​ current standings (drivers and constructors)
+            </span>
           </Link>
         </div>
       </div>
