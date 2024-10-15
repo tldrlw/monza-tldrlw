@@ -2,7 +2,7 @@
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
 import ListInsights from "@/components/ListInsights";
 import { Suspense } from "react";
-import Link from "next/link";
+import SubHeader from "@/components/SubHeader";
 
 export default function App() {
   // BUILD time env vars below
@@ -18,33 +18,7 @@ export default function App() {
 
   return (
     <main>
-      <div className="flex justify-between">
-        <h1 className="mt-1 text-2xl md:text-3xl">monza🏎️🏁</h1>
-        <div className="mt-3">
-          {/* <Link
-            href="/about"
-            className="content-center italic text-blue-100 hover:underline"
-          >
-            about
-          </Link> */}
-          <Link
-            href="/auth/login"
-            className="mr-10 content-center text-xs italic text-blue-100 hover:underline md:text-base"
-          >
-            admin
-          </Link>
-          <Link
-            href="/standings"
-            className="content-center text-xs italic hover:underline md:text-base"
-          >
-            {/* Responsive text based on viewport */}
-            <span className="md:hidden">👉​ current standings</span>
-            <span className="hidden md:inline">
-              👉​ current standings (drivers and constructors)
-            </span>
-          </Link>
-        </div>
-      </div>
+      <SubHeader></SubHeader>
       <Suspense fallback={<p>Loading insights...</p>}>
         <ListInsights></ListInsights>
       </Suspense>
