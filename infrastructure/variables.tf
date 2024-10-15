@@ -6,7 +6,7 @@ variable "APP_NAME" {
 variable "IMAGE_TAG" {
   type = string
   # not having a default will force me to provide the latest image tag when running terraform locally
-  default = "2f3f8f7"
+  default = "eb63cae"
   # gets passed in from .github/workflows/infrastructure.yaml
 }
 

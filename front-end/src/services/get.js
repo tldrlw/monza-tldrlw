@@ -49,8 +49,8 @@ export default async function getConstructors(type) {
       // ^ also works, but not in docs above
       // { cache: "no-store" },
       // ^ for NO caching
-      // https://nextjs.org/docs/app/api-reference/functions/fetch#fetchurl-options
       // you can see differences between cached and non-cached API calls by configuring special logging in `next.config.mjs`, comment out ^ and it'll log 'cache-hit'
+      // https://nextjs.org/docs/app/api-reference/functions/fetch#fetchurl-options
       requestOptions,
     );
     if (!response.ok) {

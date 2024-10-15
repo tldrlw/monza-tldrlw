@@ -1,9 +1,9 @@
 import "./globals.css";
 import {
-  Lato,
-  Chakra_Petch,
-  Dosis,
-  Titillium_Web,
+  // Lato,
+  // Chakra_Petch,
+  // Dosis,
+  // Titillium_Web,
   IBM_Plex_Mono,
 } from "next/font/google";
 import Header from "@/components/Header";
@@ -16,11 +16,11 @@ export const metadata = {
     "Discover the latest Formula One news, fan content, podcasts, YouTube videos, and in-depth insights on all things F1.",
 };
 
-const lato = Lato({ weight: "400", subsets: ["latin"] });
+// const lato = Lato({ weight: "400", subsets: ["latin"] });
 // https://fonts.google.com/specimen/Lato
-const chakraPetch = Chakra_Petch({ weight: "400", subsets: ["latin"] });
-const dosis = Dosis({ weight: "400", subsets: ["latin"] });
-const titilliumWeb = Titillium_Web({ weight: "400", subsets: ["latin"] });
+// const chakraPetch = Chakra_Petch({ weight: "400", subsets: ["latin"] });
+// const dosis = Dosis({ weight: "400", subsets: ["latin"] });
+// const titilliumWeb = Titillium_Web({ weight: "400", subsets: ["latin"] });
 const iBMPlexMono = IBM_Plex_Mono({ weight: "400", subsets: ["latin"] });
 // https://nextjs.org/docs/pages/api-reference/components/font#weight
 // https://nextjs.org/docs/pages/api-reference/components/font#subsets
