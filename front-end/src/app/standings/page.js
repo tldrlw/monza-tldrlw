@@ -2,6 +2,7 @@ import getConstructors from "@/services/getConstructors";
 import getDrivers from "@/services/getDrivers";
 import StandingsTable from "@/components/StandingsTable";
 import { sortDataByTime } from "@/utils";
+import SubHeader from "@/components/SubHeader";
 
 export default async function Standings() {
   const { data: constructorsStandings } = await getConstructors();
@@ -14,6 +15,7 @@ export default async function Standings() {
 
   return (
     <main>
+      <SubHeader currentPage="/standings"></SubHeader>
       <div className="flex flex-col md:flex-row">
         <div className="basis-7/12 md:mb-2 md:mr-2">
           <div className="my-2 border-2 border-solid border-customOrangeLogo p-2">
