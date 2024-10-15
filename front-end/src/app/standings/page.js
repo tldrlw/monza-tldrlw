@@ -25,7 +25,7 @@ export default async function Standings() {
           </div>
         </div>
         <div className="basis-5/12 md:mb-2 md:mr-2">
-          <div className="my-2 border-2 border-solid border-customOrangeLogo p-2">
+          <div className="mb-2 border-2 border-solid border-customOrangeLogo p-2 md:my-2">
             <h1 className="font-bold md:text-lg">Constructors</h1>
             <StandingsTable
               standings={sortedConstructorsStandings[0]}
