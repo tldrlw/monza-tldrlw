@@ -1,9 +1,10 @@
 export default function InputField({
   label = "",
   name,
-  type = "text",
+  type = "text", // Default type is "text"
   placeholder = "",
   options = [],
+  required = false, // Add required prop with default value false
 }) {
   const isInsightField = name.startsWith("insight");
   const isDropdown = Array.isArray(options) && options.length > 0;
@@ -17,7 +18,11 @@ export default function InputField({
           htmlFor={name}
           className={`block text-blue-500 ${name === "prod" ? "underline" : ""}`}
         >
-          {label}
+          {label}{" "}
+          {required && type === "text" && (
+            <span className="text-red-500">*</span>
+          )}{" "}
+          {/* Show asterisk only for required text fields */}
         </label>
       )}
       <div
@@ -56,6 +61,15 @@ export default function InputField({
               className="rounded border-gray-300 shadow-sm focus:border-black focus:ring-black"
             />
           </div>
+        ) : type === "text" ? (
+          <input
+            type={type}
+            name={name}
+            id={name}
+            className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
+            placeholder={placeholder}
+            required={required} // Apply required only for text fields
+          />
         ) : (
           <input
             type={type}
