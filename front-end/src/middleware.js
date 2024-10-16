@@ -14,6 +14,7 @@ export async function middleware(request) {
 
   // Check if the user is on a dashboard page (any route that starts with "/dashboard")
   const isOnDashboard = request.nextUrl.pathname.startsWith("/dashboard");
+  // covers pages within "/dashboard" like "/dashboard/results" as well
 
   // If there's no authenticated user:
   // - Redirect them to "/auth/signin" if they are trying to access the homepage or the dashboard

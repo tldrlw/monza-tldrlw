@@ -17,6 +17,7 @@ module "ecs_service" {
     { name = "LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL", value = module.lambda_get_constructors.function_url },
     { name = "LAMBDA_GET_DRIVERS_FUNCTION_URL", value = module.lambda_get_drivers.function_url },
     { name = "LAMBDA_POST_FUNCTION_URL", value = module.lambda_post.function_url },
+    { name = "LAMBDA_POST_RESULT_FUNCTION_URL", value = module.lambda_post_result.function_url },
     { name = "LAMBDA_POST_IMAGE_FUNCTION_URL", value = module.lambda_post_image.function_url },
     { name = "ENV", value = var.ENV }
   ]

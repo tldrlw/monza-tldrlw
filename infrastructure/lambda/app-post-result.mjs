@@ -41,22 +41,7 @@ export const lambdaHandler = async (event, context) => {
   }
 
   // Destructure the expected payload from the request body
-  const {
-    title,
-    link,
-    imageLink,
-    imageCredit,
-    team,
-    type,
-    aiAssisted,
-    prod,
-    additionalKeyword1,
-    additionalKeyword2,
-    additionalKeyword3,
-    publicationOrChannelOrOutlet,
-    authorsOrParticipants,
-    insights, // This should now be an array of strings
-  } = requestBody;
+  const { race, type, fastestLap, driverOfTheDay, result } = requestBody;
 
   console.log("`requestBody`", requestBody);
 
@@ -81,22 +66,18 @@ export const lambdaHandler = async (event, context) => {
   const item = {
     PK: { S: generateUniqueId() },
     DateTime: { S: getISO8601Timestamp() },
-    Title: { S: title },
-    Link: { S: link },
-    ImageLink: { S: imageLink },
-    ImageCredit: { S: imageCredit },
-    Team: { S: team },
+    Race: { S: race },
     Type: { S: type },
-    AIAssisted: { BOOL: aiAssisted },
-    Prod: { BOOL: prod },
-    AdditionalKeyword1: { S: additionalKeyword1 },
-    AdditionalKeyword2: { S: additionalKeyword2 },
-    AdditionalKeyword3: { S: additionalKeyword3 },
-    AdditionalKeyword4: { S: additionalKeyword4 },
-    AuthorsOrParticipants: { S: authorsOrParticipants },
-    PublicationOrChannelOrOutlet: { S: publicationOrChannelOrOutlet },
-    Insights: {
-      L: insights.map((insight) => ({ S: insight })), // Convert array of strings into DynamoDB List format
+    FastestLap: { S: fastestLap },
+    DriverOfTheDay: { S: driverOfTheDay },
+    Results: {
+      L: result.map((item) => ({
+        M: {
+          Position: { S: item.position },
+          Driver: { S: item.driver },
+          DNF: { BOOL: item.dnf },
+        },
+      })), // Convert array into DynamoDB List format
     },
   };
 

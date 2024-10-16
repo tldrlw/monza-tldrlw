@@ -54,7 +54,7 @@ jobs:
       - name: build the Docker image
         working-directory: ./front-end
         run: |
-          docker build --build-arg COGNITO_USER_POOL_ID="${{ env.COGNITO_USER_POOL_ID }}" \
+          docker build --no-cache --build-arg COGNITO_USER_POOL_ID="${{ env.COGNITO_USER_POOL_ID }}" \
                        --build-arg COGNITO_USER_POOL_CLIENT_ID="${{ env.COGNITO_USER_POOL_CLIENT_ID }}" \
                        --build-arg BUILD_TIME="${{ env.CURRENT_TIME }}" \
                        --build-arg IMAGE="${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" \
