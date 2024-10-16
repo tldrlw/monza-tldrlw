@@ -53,7 +53,6 @@ export const lambdaHandler = async (event, context) => {
     additionalKeyword1,
     additionalKeyword2,
     additionalKeyword3,
-    additionalKeyword4,
     publicationOrChannelOrOutlet,
     authorsOrParticipants,
     insights, // This should now be an array of strings
