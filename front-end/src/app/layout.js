@@ -10,8 +10,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ConfigureAmplifyClientSide from "@/app/amplify-cognito-config";
 
-// test
-
 export const metadata = {
   title: "Monza - Formula One News and Insights",
   description:
