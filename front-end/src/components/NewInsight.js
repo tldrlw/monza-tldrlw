@@ -1,36 +1,25 @@
 import postInsight from "@/services/postInsight";
 import ImageUpload from "./ImageUpload";
 import InputField from "./InputField";
+import { teams } from "@/utils";
 
 export default function NewInsight(lambdaPostImageFunctionUrl) {
-  const teams = [
-    "Mercedes-AMG",
-    "Ferrari",
-    "Red Bull",
-    "McLaren",
-    "Alpine",
-    "Aston Martin",
-    "Williams",
-    "Sauber",
-    "VCaRB",
-    "Haas",
-    "Not team specfic",
-  ];
   const types = [
+    "Free Practice 1",
+    "Free Practice 2",
+    "Free Practice 3",
+    "Sprint",
+    "Quali",
+    "Race",
     "YouTube",
     "News",
     "Podcast",
-    "Race",
-    "Free Practice",
-    "Quali",
     "Other",
-    "Sprint",
     "LinkedIn",
     "Instagram",
     "Threads",
   ];
-  // Sort the arrays alphabetically
-  const sortedTeams = teams.sort();
+  // Sort the array above alphabetically
   const sortedTypes = types.sort();
 
   return (
@@ -59,16 +48,15 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
           placeholder="If more than one, provide names followed by a comma (,)"
         />
         <div className="md:flex md:justify-between">
-          <InputField label="Team" name="team" options={sortedTeams} />
+          <InputField label="Team" name="team" options={teams} />
           <InputField label="Type" name="type" options={sortedTypes} />
           <InputField label="AI-Assisted?" name="aiAssisted" type="checkbox" />
           <InputField label="Prod?" name="prod" type="checkbox" />
-          <InputField label="Additional Keyword 1" name="additionalKeyword1" />
         </div>
-        <div className="md:flex md:justify-between">
+        <div className="md:mt-2 md:flex md:justify-between">
+          <InputField label="Additional Keyword 1" name="additionalKeyword1" />
           <InputField label="Additional Keyword 2" name="additionalKeyword2" />
           <InputField label="Additional Keyword 3" name="additionalKeyword3" />
-          <InputField label="Additional Keyword 4" name="additionalKeyword4" />
         </div>
         <InputField label="Insight 1" name="insight1" />
         <InputField label="Insight 2" name="insight2" />

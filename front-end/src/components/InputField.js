@@ -1,5 +1,5 @@
 export default function InputField({
-  label,
+  label = "",
   name,
   type = "text",
   placeholder = "",
@@ -7,16 +7,22 @@ export default function InputField({
 }) {
   const isInsightField = name.startsWith("insight");
   const isDropdown = Array.isArray(options) && options.length > 0;
+  const isDnfField = name === "dnf";
 
   return (
     <div className="mb-2">
-      <label
-        htmlFor={name}
-        className={`block text-blue-500 ${name === "prod" ? "underline" : ""}`}
+      {/* Standard label rendering */}
+      {!isDnfField && (
+        <label
+          htmlFor={name}
+          className={`block text-blue-500 ${name === "prod" ? "underline" : ""}`}
+        >
+          {label}
+        </label>
+      )}
+      <div
+        className={`mt-2 ${isDnfField ? "flex items-center space-x-2" : ""}`}
       >
-        {label}
-      </label>
-      <div className="mt-2">
         {isDropdown ? (
           <select
             name={name}
@@ -37,12 +43,19 @@ export default function InputField({
             placeholder={placeholder}
           ></textarea>
         ) : type === "checkbox" ? (
-          <input
-            type="checkbox"
-            name={name}
-            id={name}
-            className="rounded border-gray-300 shadow-sm focus:border-black focus:ring-black"
-          />
+          <div className={isDnfField ? "flex items-center space-x-2" : ""}>
+            {isDnfField && (
+              <label htmlFor={name} className="text-blue-500">
+                {label}
+              </label>
+            )}
+            <input
+              type="checkbox"
+              name={name}
+              id={name}
+              className="rounded border-gray-300 shadow-sm focus:border-black focus:ring-black"
+            />
+          </div>
         ) : (
           <input
             type={type}

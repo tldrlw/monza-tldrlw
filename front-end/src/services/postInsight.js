@@ -10,7 +10,7 @@ export default async function postInsight(formData) {
   const lambdaPostFunctionUrl =
     process.env.LAMBDA_POST_FUNCTION_URL || "lambdaPostFunctionUrl placeholder";
 
-  console.log("front-end/src/services/postInsight.js - formData", formData);
+  // console.log("front-end/src/services/postInsight.js - formData", formData);
 
   const payload = {
     title: formData.get("title"),
@@ -24,7 +24,6 @@ export default async function postInsight(formData) {
     additionalKeyword1: formData.get("additionalKeyword1"),
     additionalKeyword2: formData.get("additionalKeyword2"),
     additionalKeyword3: formData.get("additionalKeyword3"),
-    additionalKeyword4: formData.get("additionalKeyword4"),
     publicationOrChannelOrOutlet: formData.get("publicationOrChannelOrOutlet"),
     authorsOrParticipants: formData.get("authorsOrParticipants"),
     insights: [

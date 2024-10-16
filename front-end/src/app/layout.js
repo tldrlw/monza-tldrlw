@@ -11,7 +11,7 @@ import Footer from "@/components/Footer";
 import ConfigureAmplifyClientSide from "@/app/amplify-cognito-config";
 
 export const metadata = {
-  title: "Monza - Formula One News and Insights",
+  title: "Monza - Formula 1 News and Insights",
   description:
     "Discover the latest Formula One news, fan content, podcasts, YouTube videos, and in-depth insights on all things F1.",
 };
