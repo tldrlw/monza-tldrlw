@@ -54,6 +54,10 @@ output "module_lambda_post_image_arn" {
   value = module.lambda_post_image.arn
 }
 
+output "lambda_standings_compute_arn" {
+  value = aws_lambda_function.standings_compute.arn
+}
+
 output "cognito_user_pool_id" {
   value = aws_cognito_user_pool.main.id
 }
