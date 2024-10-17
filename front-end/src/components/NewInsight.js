@@ -22,6 +22,8 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
   // Sort the array above alphabetically
   const sortedTypes = types.sort();
 
+  const teamsWithNotTeamSpecific = ["Not team-specific", ...teams];
+
   return (
     <div>
       <ImageUpload lambdaPostImageFunctionUrl={lambdaPostImageFunctionUrl} />
@@ -50,7 +52,11 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
           placeholder="If more than one, provide names followed by a comma (,)"
         />
         <div className="md:flex md:justify-between">
-          <InputField label="Team" name="team" options={teams} />
+          <InputField
+            label="Team"
+            name="team"
+            options={teamsWithNotTeamSpecific}
+          />
           <InputField label="Type" name="type" options={sortedTypes} />
           <InputField label="AI-Assisted?" name="aiAssisted" type="checkbox" />
           <InputField label="Prod?" name="prod" type="checkbox" />

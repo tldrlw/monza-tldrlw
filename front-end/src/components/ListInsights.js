@@ -130,13 +130,13 @@ function Pills({ insight }) {
       {insight.AdditionalKeyword1.S && (
         <Pill text={insight.AdditionalKeyword1.S} color="blue" />
       )}
-      {insight.AdditionalKeyword2.S && (
+      {insight.AdditionalKeyword2?.S && (
         <Pill text={insight.AdditionalKeyword2.S} color="orange" />
       )}
-      {insight.AdditionalKeyword3.S && (
+      {insight.AdditionalKeyword3?.S && (
         <Pill text={insight.AdditionalKeyword3.S} color="purple" />
       )}
-      {insight.AdditionalKeyword4.S && (
+      {insight.AdditionalKeyword4?.S && (
         <Pill text={insight.AdditionalKeyword4.S} color="pink" />
       )}
     </div>

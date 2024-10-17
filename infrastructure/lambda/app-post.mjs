@@ -92,7 +92,6 @@ export const lambdaHandler = async (event, context) => {
     AdditionalKeyword1: { S: additionalKeyword1 },
     AdditionalKeyword2: { S: additionalKeyword2 },
     AdditionalKeyword3: { S: additionalKeyword3 },
-    AdditionalKeyword4: { S: additionalKeyword4 },
     AuthorsOrParticipants: { S: authorsOrParticipants },
     PublicationOrChannelOrOutlet: { S: publicationOrChannelOrOutlet },
     Insights: {
