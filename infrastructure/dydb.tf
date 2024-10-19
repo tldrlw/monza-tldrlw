@@ -51,7 +51,7 @@ resource "aws_dynamodb_table" "results" {
   }
   tags = {
     Name        = "${var.APP_NAME}-results"
-    Description = "FPs-sprints-qualis-races"
+    Description = "sprints-and-races"
   }
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"

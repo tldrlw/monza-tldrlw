@@ -3,16 +3,7 @@ import { drivers } from "@/utils";
 import postResult from "@/services/postResult";
 
 export default function NewResult() {
-  const types = [
-    "Free Practice 1",
-    "Free Practice 2",
-    "Free Practice 3",
-    "Sprint",
-    "Quali",
-    "Race",
-  ];
-  // Sort the array above alphabetically
-  const sortedTypes = types.sort();
+  const types = ["Quali", "Race", "Sprint"];
 
   const driverNames = drivers.map((driver) => driver.driver);
   const driverNamesWithNA = ["N/A", ...driverNames];
@@ -30,7 +21,7 @@ export default function NewResult() {
       >
         <InputField label="Race" name="race" required={true} />
         <div className="md:flex md:justify-between">
-          <InputField label="Type" name="type" options={sortedTypes} />
+          <InputField label="Type" name="type" options={types} />
           <InputField
             label="Fastest Lap"
             name="fastestLap"

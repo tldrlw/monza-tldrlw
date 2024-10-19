@@ -50,6 +50,23 @@ module "lambda_get_drivers" {
   function_url_public    = true
 }
 
+module "lambda_get_results" {
+  source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
+  source_dir          = var.LAMBDA_PATH
+  handler_file_prefix = "app-get-results"
+  REST_method         = "GET"
+  function_name       = "${var.APP_NAME}-get-results"
+  environment_variables = {
+    RESULTS_DYDB_TABLE_NAME = aws_dynamodb_table.results.id,
+    REGION                  = var.REGION
+  }
+  is_s3                  = false
+  is_dydb                = true
+  dydb_table_arn         = aws_dynamodb_table.results.arn
+  dydb_table_permissions = ["dynamodb:Scan", "dynamodb:DescribeTable"]
+  function_url_public    = true
+}
+
 module "lambda_post" {
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
   source_dir          = var.LAMBDA_PATH
@@ -125,10 +142,13 @@ resource "aws_lambda_function" "standings_compute" {
   source_code_hash = data.archive_file.standings_compute.output_base64sha256
   environment {
     variables = {
-      RESULTS_DYDB_TABLE_NAME      = aws_dynamodb_table.results.id
-      CONSTRUCTORS_DYDB_TABLE_NAME = aws_dynamodb_table.constructors.id
-      DRIVERS_DYDB_TABLE_NAME      = aws_dynamodb_table.drivers.id
-      TEST_DYDB_TABLE_NAME         = aws_dynamodb_table.standings_compute_test.id
+      LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL = module.lambda_get_constructors.function_url
+      LAMBDA_GET_DRIVERS_FUNCTION_URL      = module.lambda_get_drivers.function_url
+      LAMBDA_GET_RESULTS_FUNCTION_URL      = module.lambda_get_results.function_url
+      CONSTRUCTORS_DYDB_TABLE_NAME         = aws_dynamodb_table.constructors.id
+      DRIVERS_DYDB_TABLE_NAME              = aws_dynamodb_table.drivers.id
+      TEST_DYDB_TABLE_NAME                 = aws_dynamodb_table.standings_compute_test.id
+      REGION                               = var.REGION
     }
   }
   memory_size = 128

@@ -40,7 +40,7 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
           placeholder="Copy image link generated on image upload from above, providing no image link will display orange 'tldrlw' logo"
           required={true}
         />
-        <InputField label="Image Credit" name="imageCredit" />
+        <InputField label="Image Credit" name="imageCredit" required={true} />
         <InputField
           label="Publication/Channel/Outlet"
           name="publicationOrChannelOrOutlet"

@@ -73,13 +73,14 @@ export const lambdaHandler = async (event, context) => {
     Results: {
       L: result.map((item) => ({
         M: {
-          Position: { S: item.position },
+          Position: { N: item.position.toString() },
           Driver: { S: item.driver },
           DNF: { BOOL: item.dnf },
         },
       })), // Convert array into DynamoDB List format
     },
   };
+  // You’re correctly converting the position value to an integer using parseInt() in the payload creation function, but in your DynamoDB object definition, you’re using the N type for DynamoDB, which expects the value to be passed as a string. The issue arises because DynamoDB expects the value of N (for numbers) to be passed as a string, even though it’s meant to store a number. You can fix the issue by ensuring that the position is converted to a string before storing it in DynamoDB.
 
   // DynamoDB client configuration
   const client = new DynamoDBClient({ region });

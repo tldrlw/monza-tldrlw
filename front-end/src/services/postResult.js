@@ -21,11 +21,11 @@ export default async function postResult(formData) {
       driverOfTheDay: formData.get("driverOfTheDay"),
       result: [], // This will hold the grouped driver and DNF data
     };
-  
+
     // Iterate through all the form entries
     const formEntries = formData.entries();
     let currentDriver = {};
-  
+
     for (const [name, value] of formEntries) {
       // Process only fields that start with "driver-" or "dnf-"
       if (name.startsWith("driver-")) {
@@ -35,7 +35,7 @@ export default async function postResult(formData) {
         }
         // Start a new driver entry
         currentDriver = {
-          position: name.split("-")[1], // Extract the position from the name (e.g., "driver-1")
+          position: parseInt(name.split("-")[1], 10), // Extract the position from the name (e.g., "driver-1") and convert the position to a number
           driver: value,
           dnf: false, // Default DNF to false
         };
@@ -44,12 +44,12 @@ export default async function postResult(formData) {
         currentDriver.dnf = value === "on";
       }
     }
-  
+
     // Push the last driver after the loop completes
     if (Object.keys(currentDriver).length > 0) {
       payload.result.push(currentDriver);
     }
-  
+
     return payload;
   }
 
@@ -57,36 +57,36 @@ export default async function postResult(formData) {
 
   console.log("front-end/src/services/postResult.js - payload", payload);
 
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    };
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  };
 
-    let data;
+  let data;
 
-    try {
-      const response = await fetch(lambdaPostResultFunctionUrl, requestOptions);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      data = await response.json();
-      console.log(
-        "front-end/src/services/postResult.js - API call successful",
-        data,
-      );
-      revalidateTag("results");
-      // https://nextjs.org/docs/app/api-reference/functions/revalidateTag
-      // https://www.youtube.com/watch?v=VBlSe8tvg4U
-      // ^ using tags to revalidate the cache (i.e., getting the ListResults component to make a new API call to get insights) is explained around 11:00
-    } catch (error) {
-      console.error(
-        "front-end/src/services/postResult.js - API call failed",
-        error,
-      );
+  try {
+    const response = await fetch(lambdaPostResultFunctionUrl, requestOptions);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
     }
+    data = await response.json();
+    console.log(
+      "front-end/src/services/postResult.js - API call successful",
+      data,
+    );
+    revalidateTag("results");
+    // https://nextjs.org/docs/app/api-reference/functions/revalidateTag
+    // https://www.youtube.com/watch?v=VBlSe8tvg4U
+    // ^ using tags to revalidate the cache (i.e., getting the ListResults component to make a new API call to get insights) is explained around 11:00
+  } catch (error) {
+    console.error(
+      "front-end/src/services/postResult.js - API call failed",
+      error,
+    );
+  }
 
-    return data;
+  return data;
 }
