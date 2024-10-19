@@ -1,4 +1,10 @@
+import {
+  DynamoDBClient,
+  BatchWriteItemCommand,
+} from "@aws-sdk/client-dynamodb";
 import dotenv from "dotenv";
+import { generateUniqueId, getISO8601Timestamp } from "./utils.mjs";
+import { drivers, raceScoringSystem, sprintScoringSystem } from "./utils.mjs";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -28,21 +34,8 @@ export function sortDataByTime(data) {
   });
 }
 
-const scoringSystem = [
-  { position: 1, points: 25 },
-  { position: 2, points: 18 },
-  { position: 3, points: 15 },
-  { position: 4, points: 12 },
-  { position: 5, points: 10 },
-  { position: 6, points: 8 },
-  { position: 7, points: 6 },
-  { position: 8, points: 4 },
-  { position: 9, points: 2 },
-  { position: 10, points: 1 },
-  { position: "fastestLap", points: 1 },
-];
-
 async function fetchData(endpoint) {
+  // used to get both drivers and constructors (still need to do) standings
   try {
     const response = await fetch(endpoint); // Make the GET request
     if (!response.ok) {
@@ -123,6 +116,59 @@ function parseResultsData(data) {
   return simplifiedData;
 }
 
+function calculateDriverPoints(results, previousPoints, raceScoringSystem) {
+  // Create a map of positions to points for easier lookup
+  const pointsMap = new Map(
+    raceScoringSystem.map((item) => [item.position, item.points])
+  );
+  // Create a new array with updated driver points
+  return results.map((result) => {
+    // Find the previous points for the driver
+    const previousDriver = previousPoints.find(
+      (driver) => driver.driver === result.driver
+    );
+    // Calculate points based on position and DNF
+    let earnedPoints = result.dnf ? 0 : pointsMap.get(result.position) || 0;
+    // Add additional points if the driver has the fastest lap and didn't DNF
+    if (result.fastestLap && !result.dnf) {
+      earnedPoints += pointsMap.get("fastestLap") || 0;
+    }
+    // Return the updated driver object with new points
+    return {
+      position: result.position,
+      driver: result.driver,
+      points: (previousDriver?.points || 0) + earnedPoints,
+      // dnf: result.dnf,
+      // fastestLap: result.fastestLap,
+    };
+  });
+}
+
+function mergeAndSortDriverData(driversData, updatedPoints) {
+  // Merge driver data with updated points
+  const mergedData = driversData.map((driver) => {
+    const driverPoints = updatedPoints.find(
+      (points) => points.driver === driver.driver
+    );
+
+    return {
+      ...driver,
+      points: driverPoints ? driverPoints.points : 0,
+      dnf: driverPoints ? driverPoints.dnf : false,
+      fastestLap: driverPoints ? driverPoints.fastestLap : false,
+    };
+  });
+
+  // Sort the merged data by points in descending order
+  mergedData.sort((a, b) => b.points - a.points);
+
+  // Update the positions based on the sorted order
+  return mergedData.map((driver, index) => ({
+    ...driver,
+    position: index + 1,
+  }));
+}
+
 async function main() {
   // RETURN NULL IF TYPE OF RESULT IS QUALI
 
@@ -141,6 +187,16 @@ async function main() {
   const sortedResultsData = sortDataByTime(results);
   const parsedResultsData = parseResultsData(sortedResultsData[0]);
   console.log(parsedResultsData);
+
+  const updatedDriverPoints = calculateDriverPoints(
+    parsedResultsData,
+    parsedDriverStandingsData,
+    raceScoringSystem
+  );
+  // console.log(updatedDriverPoints);
+
+  const mergedData = mergeAndSortDriverData(drivers, updatedDriverPoints);
+  console.log(mergedData);
 }
 
 main();

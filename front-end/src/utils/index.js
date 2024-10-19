@@ -33,7 +33,7 @@ export function sortDataByTime(data) {
   });
 }
 
-export const teams = [
+export const constructors = [
   "Alpine Renault",
   "Aston Martin Aramco Mercedes",
   "Ferrari",
@@ -47,51 +47,119 @@ export const teams = [
 ];
 
 export const drivers = [
-  { driver: "Alexander Albon", team: "Williams", nationality: "Thailand 🇹🇭" },
-  { driver: "Carlos Sainz", team: "Ferrari", nationality: "Spain 🇪🇸" },
-  { driver: "Charles Leclerc", team: "Ferrari", nationality: "Monaco 🇲🇨" },
-  { driver: "Daniel Ricciardo", team: "RB", nationality: "Australia 🇦🇺" },
-  { driver: "Esteban Ocon", team: "Alpine", nationality: "France 🇫🇷" },
   {
-    driver: "Fernando Alonso",
-    team: "Aston Martin Aramco",
-    nationality: "Spain 🇪🇸",
+    driver: "Max Verstappen",
+    team: "Red Bull Racing Honda RBPT",
+    nationality: "Netherlands 🇳🇱",
   },
-  { driver: "Franco Colapinto", team: "Williams", nationality: "Argentina 🇦🇷" },
   {
-    driver: "George Russell",
-    team: "Mercedes",
+    driver: "Lando Norris",
+    team: "McLaren Mercedes",
     nationality: "United Kingdom 🇬🇧",
   },
-  { driver: "Kevin Magnussen", team: "Haas", nationality: "Denmark 🇩🇰" },
   {
-    driver: "Lance Stroll",
-    team: "Aston Martin Aramco",
-    nationality: "Canada 🇨🇦",
+    driver: "Charles Leclerc",
+    team: "Ferrari",
+    nationality: "Monaco 🇲🇨",
   },
-  { driver: "Lando Norris", team: "McLaren", nationality: "United Kingdom 🇬🇧" },
+  {
+    driver: "Oscar Piastri",
+    team: "McLaren Mercedes",
+    nationality: "Australia 🇦🇺",
+  },
+  {
+    driver: "Carlos Sainz",
+    team: "Ferrari",
+    nationality: "Spain 🇪🇸",
+  },
   {
     driver: "Lewis Hamilton",
     team: "Mercedes",
     nationality: "United Kingdom 🇬🇧",
   },
-  { driver: "Liam Lawson", team: "RB", nationality: "New Zealand 🇳🇿" },
+  {
+    driver: "George Russell",
+    team: "Mercedes",
+    nationality: "United Kingdom 🇬🇧",
+  },
+  {
+    driver: "Sergio Perez",
+    team: "Red Bull Racing Honda RBPT",
+    nationality: "Mexico 🇲🇽",
+  },
+  {
+    driver: "Fernando Alonso",
+    team: "Aston Martin Aramco Mercedes",
+    nationality: "Spain 🇪🇸",
+  },
+  {
+    driver: "Nico Hulkenberg",
+    team: "Haas Ferrari",
+    nationality: "Germany 🇩🇪",
+  },
+  {
+    driver: "Lance Stroll",
+    team: "Aston Martin Aramco Mercedes",
+    nationality: "Canada 🇨🇦",
+  },
+  {
+    driver: "Yuki Tsunoda",
+    team: "RB Honda RBPT",
+    nationality: "Japan 🇯🇵",
+  },
+  {
+    driver: "Alexander Albon",
+    team: "Williams Mercedes",
+    nationality: "Thailand 🇹🇭",
+  },
+  {
+    driver: "Daniel Ricciardo",
+    team: "RB Honda RBPT",
+    nationality: "Australia 🇦🇺",
+  },
+  {
+    driver: "Pierre Gasly",
+    team: "Alpine Renault",
+    nationality: "France 🇫🇷",
+  },
+  {
+    driver: "Oliver Bearman",
+    team: "Haas Ferrari",
+    nationality: "United Kingdom 🇬🇧",
+  },
+  {
+    driver: "Kevin Magnussen",
+    team: "Haas Ferrari",
+    nationality: "Denmark 🇩🇰",
+  },
+  {
+    driver: "Esteban Ocon",
+    team: "Alpine Renault",
+    nationality: "France 🇫🇷",
+  },
+  {
+    driver: "Franco Colapinto",
+    team: "Williams Mercedes",
+    nationality: "Argentina 🇦🇷",
+  },
+  {
+    driver: "Zhou Guanyu",
+    team: "Kick Sauber Ferrari",
+    nationality: "China 🇨🇳",
+  },
   {
     driver: "Logan Sargeant",
-    team: "Williams",
+    team: "Williams Mercedes",
     nationality: "United States 🇺🇸",
   },
   {
-    driver: "Max Verstappen",
-    team: "Red Bull Racing",
-    nationality: "Netherlands 🇳🇱",
+    driver: "Valtteri Bottas",
+    team: "Kick Sauber Ferrari",
+    nationality: "Finland 🇫🇮",
   },
-  { driver: "Nico Hulkenberg", team: "Haas", nationality: "Germany 🇩🇪" },
-  { driver: "Oliver Bearman", team: "Haas", nationality: "United Kingdom 🇬🇧" },
-  { driver: "Oscar Piastri", team: "McLaren", nationality: "Australia 🇦🇺" },
-  { driver: "Pierre Gasly", team: "Alpine", nationality: "France 🇫🇷" },
-  { driver: "Sergio Perez", team: "Red Bull Racing", nationality: "Mexico 🇲🇽" },
-  { driver: "Valtteri Bottas", team: "Kick Sauber", nationality: "Finland 🇫🇮" },
-  { driver: "Yuki Tsunoda", team: "RB", nationality: "Japan 🇯🇵" },
-  { driver: "Zhou Guanyu", team: "Kick Sauber", nationality: "China 🇨🇳" },
+  {
+    driver: "Liam Lawson",
+    team: "RB Honda RBPT",
+    nationality: "New Zealand 🇳🇿",
+  },
 ];

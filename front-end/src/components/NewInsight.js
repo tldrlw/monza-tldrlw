@@ -1,7 +1,7 @@
 import postInsight from "@/services/postInsight";
 import ImageUpload from "./ImageUpload";
 import InputField from "./InputField";
-import { teams } from "@/utils";
+import { constructors } from "@/utils";
 
 export default function NewInsight(lambdaPostImageFunctionUrl) {
   const types = [
@@ -22,7 +22,7 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
   // Sort the array above alphabetically
   const sortedTypes = types.sort();
 
-  const teamsWithNotTeamSpecific = ["Not team-specific", ...teams];
+  const teamsWithNotTeamSpecific = ["Not team-specific", ...constructors];
 
   return (
     <div>
