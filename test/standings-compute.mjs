@@ -1,10 +1,16 @@
+import dotenv from "dotenv";
 import {
   DynamoDBClient,
   BatchWriteItemCommand,
 } from "@aws-sdk/client-dynamodb";
-import dotenv from "dotenv";
-import { generateUniqueId, getISO8601Timestamp } from "./utils.mjs";
-import { drivers, raceScoringSystem, sprintScoringSystem } from "./utils.mjs";
+import {
+  drivers,
+  raceScoringSystem,
+  sprintScoringSystem,
+  sortDataByTime,
+  generateUniqueId,
+  getISO8601Timestamp,
+} from "./utils.mjs";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -13,26 +19,13 @@ dotenv.config();
 const getDriversURL = process.env.LAMBDA_GET_DRIVERS_FUNCTION_URL;
 const getConstructorsURL = process.env.LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL;
 const getResultsURL = process.env.LAMBDA_GET_RESULTS_FUNCTION_URL;
-// const constructorsTable = process.env.CONSTRUCTORS_DYDB_TABLE_NAME;
-// const driversTable = process.env.DRIVERS_DYDB_TABLE_NAME;
-// const testTable = process.env.TEST_DYDB_TABLE_NAME;
+// const testTable = process.env.TEST_DYDB_TABLE_NAME
 const region = process.env.REGION;
 
 console.log("getDriversURL", getDriversURL);
 console.log("getConstructorsURL", getConstructorsURL);
 console.log("getResultsURL", getResultsURL);
-// console.log("constructorsTable", constructorsTable);
-// console.log("driversTable", driversTable);
 // console.log("testTable", testTable);
-
-// Sort by DateTime in descending order (most recent first)
-export function sortDataByTime(data) {
-  return data.slice().sort((a, b) => {
-    const dateA = new Date(a.DateTime.S);
-    const dateB = new Date(b.DateTime.S);
-    return dateB - dateA;
-  });
-}
 
 async function fetchData(endpoint) {
   // used to get both drivers and constructors (still need to do) standings
@@ -51,7 +44,6 @@ async function fetchData(endpoint) {
 
 function parseDriversData(data) {
   // console.log(JSON.stringify(data.Standings.L, null, 2));
-
   function simplifyData(data) {
     return data.map((item) => ({
       position: parseInt(item.M.position.N, 10), // Convert the position to an integer
@@ -59,7 +51,6 @@ function parseDriversData(data) {
       points: parseInt(item.M.points.N, 10), // Convert the points to an integer
     }));
   }
-
   const simplifiedData = simplifyData(data.Standings.L);
   // console.log(simplifiedData)
   // [
@@ -73,10 +64,8 @@ function parseResultsData(data) {
   // don't forget to do something with fastestLap
   // console.log(JSON.stringify(data, null, 2));
   // console.log(JSON.stringify(data.Results.L, null, 2));
-
   function simplifyRaceData(data) {
     const fastestLapDriver = data.FastestLap.S;
-
     return data.Results.L.map((item) => ({
       position: parseInt(item.M.Position.N, 10), // Convert position to a number
       driver: item.M.Driver.S, // Extract driver name
@@ -84,7 +73,6 @@ function parseResultsData(data) {
       fastestLap: item.M.Driver.S === fastestLapDriver, // Check if this driver got the fastest lap
     }));
   }
-
   const simplifiedData = simplifyRaceData(data);
   // console.log(simplifiedData);
   // [
@@ -154,8 +142,8 @@ function mergeAndSortDriverData(driversData, updatedPoints) {
     return {
       ...driver,
       points: driverPoints ? driverPoints.points : 0,
-      dnf: driverPoints ? driverPoints.dnf : false,
-      fastestLap: driverPoints ? driverPoints.fastestLap : false,
+      // dnf: driverPoints ? driverPoints.dnf : false,
+      // fastestLap: driverPoints ? driverPoints.fastestLap : false,
     };
   });
 
@@ -171,8 +159,8 @@ function mergeAndSortDriverData(driversData, updatedPoints) {
 
 async function main() {
   // RETURN NULL IF TYPE OF RESULT IS QUALI
-
   // get the latest drivers standings and results to perform computation
+
   // get the latest drivers standings
   const { data: driverStandings } = await fetchData(getDriversURL);
   // console.log(JSON.stringify(driverStandings, null, 2));
@@ -181,22 +169,24 @@ async function main() {
   const parsedDriverStandingsData = parseDriversData(
     sortedDriverStandingsData[0]
   );
-  console.log(parsedDriverStandingsData);
+  console.log("parsedDriverStandingsData", parsedDriverStandingsData);
+
   // get the latest results
   const { data: results } = await fetchData(getResultsURL);
   const sortedResultsData = sortDataByTime(results);
+  // console.log('sortedResultsData[0]', sortedResultsData[0]) - same as newItem in Lambda
   const parsedResultsData = parseResultsData(sortedResultsData[0]);
-  console.log(parsedResultsData);
+  console.log("parsedResultsData", parsedResultsData);
 
   const updatedDriverPoints = calculateDriverPoints(
     parsedResultsData,
     parsedDriverStandingsData,
     raceScoringSystem
   );
-  // console.log(updatedDriverPoints);
+  console.log("updatedDriverPoints", updatedDriverPoints);
 
   const mergedData = mergeAndSortDriverData(drivers, updatedDriverPoints);
-  console.log(mergedData);
+  console.log("mergedData", mergedData);
 }
 
 main();

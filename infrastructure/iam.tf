@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "lambda_standings_compute_assume_role" {
+data "aws_iam_policy_document" "lambda_drivers_update_assume_role" {
   statement {
     effect = "Allow"
     principals {
@@ -9,14 +9,14 @@ data "aws_iam_policy_document" "lambda_standings_compute_assume_role" {
   }
 }
 
-resource "aws_iam_role" "lambda_standings_compute" {
-  name               = "${var.APP_NAME}-standings-compute-lambda"
+resource "aws_iam_role" "lambda_drivers_update" {
+  name               = "${var.APP_NAME}-lambda-drivers-update"
   path               = "/lambda/"
-  assume_role_policy = data.aws_iam_policy_document.lambda_standings_compute_assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.lambda_drivers_update_assume_role.json
 }
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role
 
-data "aws_iam_policy_document" "lambda_standings_compute" {
+data "aws_iam_policy_document" "lambda_drivers_update" {
   statement {
     actions = [
       "dynamodb:DescribeStream",
@@ -52,12 +52,12 @@ data "aws_iam_policy_document" "lambda_standings_compute" {
   }
 }
 
-resource "aws_iam_policy" "lambda_standings_compute" {
+resource "aws_iam_policy" "lambda_drivers_update" {
   name   = "lambda_policy"
-  policy = data.aws_iam_policy_document.lambda_standings_compute.json
+  policy = data.aws_iam_policy_document.lambda_drivers_update.json
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_standings_compute" {
-  role       = aws_iam_role.lambda_standings_compute.name
-  policy_arn = aws_iam_policy.lambda_standings_compute.arn
+resource "aws_iam_role_policy_attachment" "lambda_drivers_update" {
+  role       = aws_iam_role.lambda_drivers_update.name
+  policy_arn = aws_iam_policy.lambda_drivers_update.arn
 }
