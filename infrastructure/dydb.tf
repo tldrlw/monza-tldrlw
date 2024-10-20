@@ -51,7 +51,7 @@ resource "aws_dynamodb_table" "results" {
   }
   tags = {
     Name        = "${var.APP_NAME}-results"
-    Description = "FPs-sprints-qualis-races"
+    Description = "sprints-and-races"
   }
   stream_enabled   = true
   stream_view_type = "NEW_IMAGE"
@@ -60,8 +60,8 @@ resource "aws_dynamodb_table" "results" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table
 # best `billing_mode` for dydb: https://www.reddit.com/r/aws/comments/pdsqy5/dynamodb_pricing_model_question_free_tier/
 
-resource "aws_dynamodb_table" "standings_compute_test" {
-  name         = "${var.APP_NAME}-standings-compute-test"
+resource "aws_dynamodb_table" "test" {
+  name         = "${var.APP_NAME}-test"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "PK" # Partition key (unique identifier for the message)
   # Define table attributes
@@ -70,6 +70,6 @@ resource "aws_dynamodb_table" "standings_compute_test" {
     type = "S"
   }
   tags = {
-    Name = "${var.APP_NAME}-standings-compute-test"
+    Name = "${var.APP_NAME}-test"
   }
 }

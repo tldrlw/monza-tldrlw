@@ -1,7 +1,7 @@
 import postInsight from "@/services/postInsight";
 import ImageUpload from "./ImageUpload";
 import InputField from "./InputField";
-import { teams } from "@/utils";
+import { constructors } from "@/utils";
 
 export default function NewInsight(lambdaPostImageFunctionUrl) {
   const types = [
@@ -22,6 +22,8 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
   // Sort the array above alphabetically
   const sortedTypes = types.sort();
 
+  const teamsWithNotTeamSpecific = ["Not team-specific", ...constructors];
+
   return (
     <div>
       <ImageUpload lambdaPostImageFunctionUrl={lambdaPostImageFunctionUrl} />
@@ -38,7 +40,7 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
           placeholder="Copy image link generated on image upload from above, providing no image link will display orange 'tldrlw' logo"
           required={true}
         />
-        <InputField label="Image Credit" name="imageCredit" />
+        <InputField label="Image Credit" name="imageCredit" required={true} />
         <InputField
           label="Publication/Channel/Outlet"
           name="publicationOrChannelOrOutlet"
@@ -50,7 +52,11 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
           placeholder="If more than one, provide names followed by a comma (,)"
         />
         <div className="md:flex md:justify-between">
-          <InputField label="Team" name="team" options={teams} />
+          <InputField
+            label="Team"
+            name="team"
+            options={teamsWithNotTeamSpecific}
+          />
           <InputField label="Type" name="type" options={sortedTypes} />
           <InputField label="AI-Assisted?" name="aiAssisted" type="checkbox" />
           <InputField label="Prod?" name="prod" type="checkbox" />
