@@ -41,12 +41,11 @@ data "aws_iam_policy_document" "lambda_drivers_update" {
   # Permissions to write to another DynamoDB table
   statement {
     actions = [
-      "dynamodb:PutItem",
-      # "dynamodb:UpdateItem",
-      # "dynamodb:DeleteItem"
+      "dynamodb:BatchWriteItem"
     ]
     resources = [
-      aws_dynamodb_table.constructors.arn, aws_dynamodb_table.drivers.arn
+      aws_dynamodb_table.test.arn,
+      aws_dynamodb_table.drivers.arn
     ]
     effect = "Allow"
   }

@@ -77,6 +77,7 @@ export const addItemToDynamoDB = async (testResult) => {
 const testResult = {
   race: "British Grand Prix",
   type: "Race",
+  // type: "Sprint",
   fastestLap: "Lando Norris", // Fastest lap by a driver who finished the race
   driverOfTheDay: "Lando Norris",
   result: [

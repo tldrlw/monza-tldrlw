@@ -136,18 +136,16 @@ data "archive_file" "drivers_update" {
 resource "aws_lambda_function" "drivers_update" {
   function_name    = "${var.APP_NAME}-drivers-update"
   handler          = "app-drivers-update.lambdaHandler" # Your Lambda's entrypoint
-  runtime          = "nodejs20.x"                          # Adjust the runtime as necessary
+  runtime          = "nodejs20.x"                       # Adjust the runtime as necessary
   role             = aws_iam_role.lambda_drivers_update.arn
   filename         = "${var.APP_NAME}-drivers-update.zip" # The zipped Lambda code
   source_code_hash = data.archive_file.drivers_update.output_base64sha256
   environment {
     variables = {
-      LAMBDA_GET_DRIVERS_FUNCTION_URL      = module.lambda_get_drivers.function_url
-      LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL = module.lambda_get_constructors.function_url
-      # TEST_DYDB_TABLE_NAME                 = aws_dynamodb_table.standings_compute_test.id
-      REGION = var.REGION
-      # DRIVERS_DYDB_TABLE_NAME              = aws_dynamodb_table.drivers.id
-      # CONSTRUCTORS_DYDB_TABLE_NAME         = aws_dynamodb_table.constructors.id
+      LAMBDA_GET_DRIVERS_FUNCTION_URL = module.lambda_get_drivers.function_url
+      DRIVERS_DYDB_TABLE_NAME         = aws_dynamodb_table.drivers.id
+      TEST_DYDB_TABLE_NAME            = aws_dynamodb_table.test.id
+      REGION                          = var.REGION
     }
   }
   memory_size = 128
