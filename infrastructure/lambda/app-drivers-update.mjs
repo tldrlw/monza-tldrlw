@@ -55,7 +55,7 @@ export const lambdaHandler = async (event, context) => {
   function normalizeStandings(data) {
     return data.Standings.L.map((item) => ({
       position: parseInt(item.M.position.N, 10), // Extract position and convert to a number. The 10 at the end of parseInt specifies the radix (or base) to be used for converting the string into a number. A radix of 10 indicates that the string should be interpreted as a decimal number. This is important to avoid unexpected results, as omitting the radix can cause JavaScript to interpret the number in other bases like octal (base-8) if the string starts with a 0.
-      driver: item.M.driver.S, // Extract driver name
+      driver: item.M.name.S, // Extract driver name
       points: item.M.points.N, // Extract points as string or convert if needed
     }));
   }
@@ -83,7 +83,7 @@ export const lambdaHandler = async (event, context) => {
     return results.map((result) => {
       // Find the previous points for the driver
       const previousDriver = previousPoints.find(
-        (driver) => driver.driver === result.driver
+        (driver) => driver.name === result.driver
       );
 
       // Calculate points based on position and DNF
@@ -109,7 +109,7 @@ export const lambdaHandler = async (event, context) => {
     // Merge driver data with updated points
     const mergedData = driversData.map((driver) => {
       const driverPoints = updatedPoints.find(
-        (points) => points.driver === driver.driver
+        (points) => points.driver === driver.name
       );
       return {
         ...driver,
@@ -148,7 +148,7 @@ export const lambdaHandler = async (event, context) => {
                   L: mergedData.map((item) => ({
                     M: {
                       position: { N: item.position.toString() }, // Number as string
-                      driver: { S: item.driver }, // String
+                      name: { S: item.name }, // String
                       team: { S: item.team }, // String
                       points: { N: item.points.toString() }, // Number as string
                       nationality: { S: item.nationality }, // String
@@ -225,14 +225,18 @@ export const lambdaHandler = async (event, context) => {
   // Process the single record in the stream event (assuming there's always only one)
   const record = event.Records[0];
 
-  // Only process INSERT events
+  // Only processing INSERT events
+  // Check the event name
   if (record.eventName === "INSERT") {
     console.log("New item inserted:", record.dynamodb.NewImage);
-
     // Extract the new item from the DynamoDB Stream event
     const newItem = unmarshall(record.dynamodb.NewImage);
-
     // Process the new item
     await main(newItem);
+  } else {
+    console.log(
+      "Nothing to do, event is not an INSERT. Event type:",
+      record.eventName
+    );
   }
 };

@@ -1,0 +1,69 @@
+cloud-architecture-diagram
+// need to keep this (but works without it in browser?): https://docs.eraser.io/docs/using-the-vs-code-extension#diagram-syntax
+
+// groups and nodes
+Users [icon: users]
+Route 53 [icon: aws-route-53]
+// lambda functions
+GetInsights [icon: aws-lambda, label: get-insights]
+GetDrivers [icon: aws-lambda, label: get-drivers]
+GetConstructors [icon: aws-lambda, label: get-constructors]
+GetResults [icon: aws-lambda, label: get-results]
+PostInsight [icon: aws-lambda, label: post-insight]
+PostResult [icon: aws-lambda, label: post-result]
+PostImage [icon: aws-lambda, label: post-image]
+ConstructorsUpdate [icon: aws-lambda, label: constructors-update]
+DriversUpdate [icon: aws-lambda, label: drivers-update]
+// dydb tables
+Insights [icon: aws-dynamodb, label: insights]
+Drivers [icon: aws-dynamodb, label: drivers]
+Constructors [icon: aws-dynamodb, label: constructors]
+Results [icon: aws-dynamodb, label: results]
+// s3 buckets
+Images [icon: aws-simple-storage-service]
+// vpc, ecr and ecs
+ECR [icon: aws-elastic-container-registry]
+VPC Subnets [icon: aws-vpc] {
+  ELB [icon: aws-elastic-load-balancing]
+  ECS Cluster [icon: aws-elastic-container-service] {
+    ECS Service [icon: aws-elastic-container-service] {
+      ECS Task [icon: aws-elastic-container-service]
+      NextJS App [icon: next]
+    }
+  }
+}
+// cognito and ssm
+Cognito [icon: aws-cognito]
+SSM [icon: aws-systems-manager]
+// github
+Github [icon: github]
+Github Actions [icon: github-actions]
+Merge [icon: git-merge]
+
+// connections
+Users > Route 53 > ELB > ECS Service
+ECS Service > GetInsights, GetConstructors, GetDrivers, GetResults, PostInsight, PostResult, PostImage
+GetInsights > Insights
+GetDrivers > Drivers
+GetConstructors > Constructors
+GetResults > Results
+PostResult > Results
+PostInsight > Insights
+PostImage > Images
+DriversUpdate > GetDrivers
+ConstructorsUpdate > GetConstructors
+ECS Service > Images
+// internal lambda functions
+Results > DriversUpdate: stream trigger
+Results > ConstructorsUpdate: stream trigger
+DriversUpdate > Drivers: write updated standings
+ConstructorsUpdate > Constructors: write updated standings
+// nextjs
+ECS Task < NextJS App
+ECS Service > ECR
+ECS Service > Cognito
+Cognito > SSM: credentials stored using local-only script
+// github
+Github > Merge
+Merge > Github Actions: from feature to dev or main branch
+Github Actions > ECR: builds and pushes NextJS Docker image
