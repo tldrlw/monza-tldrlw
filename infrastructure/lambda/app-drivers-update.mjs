@@ -74,38 +74,63 @@ export const lambdaHandler = async (event, context) => {
   }
 
   async function calculatePoints(results, previousPoints, scoringSystem) {
+    console.log("calculatePoints - previousPoints", previousPoints);
+    console.log("calculatePoints - results", results);
+
     // Create a map of positions to points for easier lookup
     const pointsMap = new Map(
       scoringSystem.map((item) => [item.position, item.points])
     );
 
-    // Create a new array with updated driver points
-    return results.map((result) => {
-      // Find the previous points for the driver
-      const previousDriver = previousPoints.find(
-        (driver) => driver.name === result.driver
-      );
+    // Create a map of results to access driver results easily by driver name
+    const resultsMap = new Map(
+      results.map((result) => [result.driver, result])
+    );
 
-      // Calculate points based on position and DNF
-      let earnedPoints = result.dnf
-        ? 0
-        : Number(pointsMap.get(result.position)) || 0;
+    // Update points for all drivers (both those who raced and those who didn't)
+    const updatedPoints = previousPoints.map((previousDriver) => {
+      // Check if the driver is in the results (i.e., they participated in the race)
+      const result = resultsMap.get(previousDriver.driver);
 
-      // Add additional points if the driver has the fastest lap and didn't DNF
-      if (result.fastestLap && !result.dnf) {
-        earnedPoints += Number(pointsMap.get("fastestLap")) || 0;
+      if (result) {
+        // Calculate points based on position and DNF
+        let earnedPoints = result.dnf
+          ? 0
+          : Number(pointsMap.get(result.position)) || 0;
+
+        // Add additional points if the driver has the fastest lap and didn't DNF
+        if (result.fastestLap && !result.dnf) {
+          earnedPoints += Number(pointsMap.get("fastestLap")) || 0;
+        }
+
+        // Return the updated driver object with new points
+        return {
+          driver: result.driver,
+          points: (Number(previousDriver.points) || 0) + earnedPoints, // Add new earned points
+        };
+      } else {
+        // If the driver is not in the results, keep their existing points
+        return {
+          driver: previousDriver.driver,
+          points: Number(previousDriver.points), // Keep previous points
+        };
       }
-
-      // Return the updated driver object with new points
-      return {
-        position: result.position,
-        driver: result.driver,
-        points: (Number(previousDriver?.points) || 0) + earnedPoints, // Convert to number and add
-      };
     });
+
+    // Sort drivers by points in descending order (highest points first)
+    updatedPoints.sort((a, b) => b.points - a.points);
+
+    // Update the positions based on the sorted order
+    return updatedPoints.map((driver, index) => ({
+      position: index + 1,
+      driver: driver.driver,
+      points: driver.points,
+    }));
   }
 
   function mergeData(driversData, updatedPoints) {
+    console.log("mergeData - driversData", driversData);
+    console.log("mergeData - updatedPoints", updatedPoints);
     // Merge driver data with updated points
     const mergedData = driversData.map((driver) => {
       const driverPoints = updatedPoints.find(
@@ -218,7 +243,7 @@ export const lambdaHandler = async (event, context) => {
     console.log("mergedData", mergedData);
 
     // write to drivers dydb table (but test table for now)
-    const response = await writeToDydb(testTable, mergedData);
+    const response = await writeToDydb(driversTable, mergedData);
     console.log("dydb write response", response);
   }
 
