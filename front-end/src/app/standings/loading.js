@@ -4,7 +4,7 @@ export default function Loading() {
   return (
     <main>
       <SubHeader currentPage="/standings"></SubHeader>
-      <p>Loading standings...</p>
+      <p className="text-sm md:text-base">Loading standings...</p>
     </main>
   );
 }

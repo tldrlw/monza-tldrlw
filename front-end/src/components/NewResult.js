@@ -1,14 +1,40 @@
 import InputField from "./InputField";
-import { drivers } from "@/utils";
+import { drivers, races } from "@/utils";
 import postResult from "@/services/postResult";
 
 export default function NewResult() {
   const types = ["Quali", "Race", "Sprint"];
 
-  const driverNames = drivers.map((driver) => driver.driver);
+  const driverNames = drivers.map((driver) => driver.name);
   const driverNamesWithNA = ["N/A", ...driverNames];
   // If you want to keep driverNames unchanged and create a new array, you can use the spread operator
   // If you want to avoid modifying the original array and create a new one, use the spread operator (...)
+
+  function lastRaceAndFutureRaces() {
+    const currentDate = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(currentDate.getDate() - 7);
+    // Get the last race that ended within the last 7 days
+    const lastRace = races
+      .filter((race) => {
+        const endDate = new Date(race.endDate);
+        return endDate <= currentDate && endDate >= sevenDaysAgo;
+      })
+      .pop(); // Get the most recent race within the range
+    // Get all future races
+    const futureRaces = races.filter(
+      (race) => new Date(race.endDate) > currentDate,
+    );
+    // Combine the last race (if it exists) with future races
+    const combinedRaces = lastRace
+      ? [lastRace, ...futureRaces]
+      : [...futureRaces];
+    // Sort the races chronologically by startDate
+    const sortedRaces = combinedRaces.sort(
+      (a, b) => new Date(a.startDate) - new Date(b.startDate),
+    );
+    return sortedRaces.map((race) => race.name);
+  }
 
   const positions = Array.from({ length: 20 }, (_, i) => i + 1); // Array of numbers 1-20
 
@@ -19,7 +45,11 @@ export default function NewResult() {
         // https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#forms
         className="my-2 border-2 border-solid border-customOrangeLogo p-2 text-xs md:text-sm"
       >
-        <InputField label="Race" name="race" required={true} />
+        <InputField
+          label="Race"
+          name="race"
+          options={lastRaceAndFutureRaces()}
+        />
         <div className="md:flex md:justify-between">
           <InputField label="Type" name="type" options={types} />
           <InputField

@@ -12,7 +12,7 @@ export default function StandingsTable({ standings, drivers = false }) {
             <tr>
               <th className="border border-gray-300 px-4 py-2">Position</th>
               {drivers && (
-                <th className="border border-gray-300 px-4 py-2">Driver</th>
+                <th className="border border-gray-300 px-4 py-2">Name</th>
               )}
               <th className="border border-gray-300 px-4 py-2">Team</th>
               <th className="border border-gray-300 px-4 py-2">Points</th>
@@ -31,7 +31,7 @@ export default function StandingsTable({ standings, drivers = false }) {
                 </td>
                 {drivers && (
                   <td className="border border-gray-300 px-4 py-2">
-                    {item.M.driver.S}
+                    {item.M.name.S}
                   </td>
                 )}
                 <td className="border border-gray-300 px-4 py-2">

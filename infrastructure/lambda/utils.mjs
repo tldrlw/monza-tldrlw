@@ -1,116 +1,116 @@
 export const drivers = [
   {
-    driver: "Max Verstappen",
+    name: "Max Verstappen",
     team: "Red Bull Racing Honda RBPT",
     nationality: "Netherlands 🇳🇱",
   },
   {
-    driver: "Lando Norris",
+    name: "Lando Norris",
     team: "McLaren Mercedes",
     nationality: "United Kingdom 🇬🇧",
   },
   {
-    driver: "Charles Leclerc",
+    name: "Charles Leclerc",
     team: "Ferrari",
     nationality: "Monaco 🇲🇨",
   },
   {
-    driver: "Oscar Piastri",
+    name: "Oscar Piastri",
     team: "McLaren Mercedes",
     nationality: "Australia 🇦🇺",
   },
   {
-    driver: "Carlos Sainz",
+    name: "Carlos Sainz",
     team: "Ferrari",
     nationality: "Spain 🇪🇸",
   },
   {
-    driver: "Lewis Hamilton",
+    name: "Lewis Hamilton",
     team: "Mercedes",
     nationality: "United Kingdom 🇬🇧",
   },
   {
-    driver: "George Russell",
+    name: "George Russell",
     team: "Mercedes",
     nationality: "United Kingdom 🇬🇧",
   },
   {
-    driver: "Sergio Perez",
+    name: "Sergio Perez",
     team: "Red Bull Racing Honda RBPT",
     nationality: "Mexico 🇲🇽",
   },
   {
-    driver: "Fernando Alonso",
+    name: "Fernando Alonso",
     team: "Aston Martin Aramco Mercedes",
     nationality: "Spain 🇪🇸",
   },
   {
-    driver: "Nico Hulkenberg",
+    name: "Nico Hulkenberg",
     team: "Haas Ferrari",
     nationality: "Germany 🇩🇪",
   },
   {
-    driver: "Lance Stroll",
+    name: "Lance Stroll",
     team: "Aston Martin Aramco Mercedes",
     nationality: "Canada 🇨🇦",
   },
   {
-    driver: "Yuki Tsunoda",
+    name: "Yuki Tsunoda",
     team: "RB Honda RBPT",
     nationality: "Japan 🇯🇵",
   },
   {
-    driver: "Alexander Albon",
+    name: "Alexander Albon",
     team: "Williams Mercedes",
     nationality: "Thailand 🇹🇭",
   },
   {
-    driver: "Daniel Ricciardo",
+    name: "Daniel Ricciardo",
     team: "RB Honda RBPT",
     nationality: "Australia 🇦🇺",
   },
   {
-    driver: "Pierre Gasly",
+    name: "Pierre Gasly",
     team: "Alpine Renault",
     nationality: "France 🇫🇷",
   },
   {
-    driver: "Oliver Bearman",
+    name: "Oliver Bearman",
     team: "Haas Ferrari",
     nationality: "United Kingdom 🇬🇧",
   },
   {
-    driver: "Kevin Magnussen",
+    name: "Kevin Magnussen",
     team: "Haas Ferrari",
     nationality: "Denmark 🇩🇰",
   },
   {
-    driver: "Esteban Ocon",
+    name: "Esteban Ocon",
     team: "Alpine Renault",
     nationality: "France 🇫🇷",
   },
   {
-    driver: "Franco Colapinto",
+    name: "Franco Colapinto",
     team: "Williams Mercedes",
     nationality: "Argentina 🇦🇷",
   },
   {
-    driver: "Zhou Guanyu",
+    name: "Zhou Guanyu",
     team: "Kick Sauber Ferrari",
     nationality: "China 🇨🇳",
   },
   {
-    driver: "Logan Sargeant",
+    name: "Logan Sargeant",
     team: "Williams Mercedes",
     nationality: "United States 🇺🇸",
   },
   {
-    driver: "Valtteri Bottas",
+    name: "Valtteri Bottas",
     team: "Kick Sauber Ferrari",
     nationality: "Finland 🇫🇮",
   },
   {
-    driver: "Liam Lawson",
+    name: "Liam Lawson",
     team: "RB Honda RBPT",
     nationality: "New Zealand 🇳🇿",
   },
@@ -129,6 +129,7 @@ export const raceScoringSystem = [
   { position: 10, points: 1 },
   { position: "fastestLap", points: 1 },
 ];
+// https://www.the-race.com/formula-1/f1-points-system-explained-how-it-works/
 
 export const sprintScoringSystem = [
   { position: 1, points: 8 },
@@ -140,6 +141,7 @@ export const sprintScoringSystem = [
   { position: 7, points: 2 },
   { position: 8, points: 1 },
 ];
+// https://www.formula1.com/en/latest/article/2024-f1-sprint-rules-format-explained.5pQvaAY52nnX9vZYAYgf3O
 
 export const constructors = [
   "Alpine Renault",

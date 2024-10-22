@@ -66,14 +66,15 @@ export const addItemToDynamoDB = async (standings) => {
 };
 
 const standings = [
-  { position: 1, team: "McLaren Mercedes", points: 516 },
-  { position: 2, team: "Red Bull Racing Honda RBPT", points: 475 },
-  { position: 3, team: "Ferrari", points: 441 },
-  { position: 4, team: "Mercedes", points: 329 },
+  // as of 10/21/24
+  { position: 1, team: "McLaren Mercedes", points: 544 },
+  { position: 2, team: "Red Bull Racing Honda RBPT", points: 504 },
+  { position: 3, team: "Ferrari", points: 496 },
+  { position: 4, team: "Mercedes", points: 344 },
   { position: 5, team: "Aston Martin Aramco Mercedes", points: 86 },
-  { position: 6, team: "RB Honda RBPT", points: 34 },
-  { position: 7, team: "Haas Ferrari", points: 31 },
-  { position: 8, team: "Williams Mercedes", points: 16 },
+  { position: 6, team: "Haas Ferrari", points: 38 },
+  { position: 7, team: "RB Honda RBPT", points: 36 },
+  { position: 8, team: "Williams Mercedes", points: 17 },
   { position: 9, team: "Alpine Renault", points: 13 },
   { position: 10, team: "Kick Sauber Ferrari", points: 0 },
 ];
