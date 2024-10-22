@@ -19,7 +19,7 @@ export default function App() {
   return (
     <main>
       <SubHeader></SubHeader>
-      <Suspense fallback={<p>Loading insights...</p>}>
+      <Suspense fallback={<p className="md:text-base text-sm">Loading insights...</p>}>
         <ListInsights></ListInsights>
       </Suspense>
     </main>
