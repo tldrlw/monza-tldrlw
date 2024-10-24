@@ -24,6 +24,11 @@ export default async function getConstructors(type) {
           process.env.LAMBDA_GET_FUNCTION_URL ||
           "lambdaGetFunctionUrl placeholder"
         );
+      case "results":
+        return (
+          process.env.LAMBDA_GET_RESULTS_FUNCTION_URL ||
+          "lambdaGetResultsFunctionUrl placeholder"
+        );
       default:
         return "Invalid type provided";
     }

@@ -40,8 +40,11 @@ export default async function postResult(formData) {
           dnf: false, // Default DNF to false
         };
       } else if (name.startsWith("dnf-")) {
-        // If a DNF field is encountered, set the DNF value
-        currentDriver.dnf = value === "on";
+        // Extract position from the name (e.g., "dnf-1")
+        const position = parseInt(name.split("-")[1], 10);
+        if (currentDriver.position === position) {
+          currentDriver.dnf = value === "on"; // Set DNF value
+        }
       }
     }
 
