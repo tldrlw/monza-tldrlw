@@ -6,6 +6,8 @@ import { formatToHumanReadable, sortDataByTime } from "@/utils";
 export default async function ListInsights({ dashboardView }) {
   const { data: insights } = await get("insights");
   // ^ getInsights() returns the following, so destructuring out "data" and renaming the array to "insights"
+  const sortedInsights = sortDataByTime(insights);
+  // console.log(sortedInsights);
 
   console.log(
     "front-end/src/components/ListInsights.js - # of insights - ",
@@ -40,9 +42,6 @@ export default async function ListInsights({ dashboardView }) {
       return defaultImage; // If invalid URL format, return default
     }
   };
-
-  const sortedInsights = sortDataByTime(insights);
-  // console.log(sortedInsights);
 
   return (
     <div>

@@ -3,10 +3,12 @@ import Auth from "@/components/Auth";
 import { unstable_noStore as noStore } from "next/cache";
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
 import { cookies } from "next/headers";
-import { getLoggedInUser } from "@/utils";
+import { getLoggedInUser, sortDataByTime } from "@/utils";
 import NewResult from "@/components/NewResult";
+import ListResults from "@/components/ListResults";
+import get from "@/services/get";
 
-export default function Results() {
+export default async function Results() {
   noStore(); // Opt into dynamic rendering
 
   // BUILD time env vars
@@ -21,6 +23,9 @@ export default function Results() {
   const loggedInUser = getLoggedInUser(cookieStore, userPoolClientId);
   // ^ passing return value to Auth component
 
+  const { data: results } = await get("results");
+  const sortedResults = sortDataByTime(results);
+
   return (
     <main>
       <SubHeader currentPage={"/dashboard/results"}></SubHeader>
@@ -30,9 +35,10 @@ export default function Results() {
           <NewResult></NewResult>
         </div>
         <div className="basis-1/2">
-          {/* <Suspense fallback={<p>Loading insights...</p>}>
-            <ListInsights dashboardView={true}></ListInsights>
-          </Suspense> */}
+          <ListResults
+            results={sortedResults}
+            dashboardView={true}
+          ></ListResults>
         </div>
       </div>
     </main>

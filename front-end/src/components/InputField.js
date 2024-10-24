@@ -8,7 +8,7 @@ export default function InputField({
 }) {
   const isInsightField = name.startsWith("insight");
   const isDropdown = Array.isArray(options) && options.length > 0;
-  const isDnfField = name === "dnf";
+  const isDnfField = name.startsWith("dnf");
 
   return (
     <div className="mb-2">

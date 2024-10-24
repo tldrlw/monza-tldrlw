@@ -230,12 +230,15 @@ export const lambdaHandler = async (event, context) => {
         normalizedStandings,
         raceScoringSystem
       );
-    } else {
+    } else if (newItem.Type === "Sprint") {
       updatedPoints = await calculatePoints(
         normalizedResults,
         normalizedStandings,
         sprintScoringSystem
       );
+    } else {
+      console.log('Nothing to do, newItem.Type !== "Race" || "Sprint"');
+      return;
     }
 
     // prepares data with updated points for write to driver standings table
