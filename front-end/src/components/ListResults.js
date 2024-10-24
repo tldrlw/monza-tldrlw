@@ -5,7 +5,7 @@ export default async function ListResults({ results, dashboardView = false }) {
       className={`flex flex-col ${
         !dashboardView
           ? "md:mt-2 md:flex-row md:flex-wrap md:justify-center md:space-x-8"
-          : "mt-2"
+          : "md:mt-2"
       }`}
     >
       {results.map((result, index) => (
