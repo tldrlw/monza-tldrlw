@@ -77,7 +77,11 @@ export default function NewResult() {
                 <InputField name={`driver-${position}`} options={driverNames} />
               </div>
               <div className="mr-2 mt-2">
-                <InputField label="DNF?" name="dnf" type="checkbox" />
+                <InputField
+                  label="DNF?"
+                  name={`dnf-${position}`}
+                  type="checkbox"
+                />
               </div>
             </div>
           ))}
