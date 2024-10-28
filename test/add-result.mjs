@@ -15,7 +15,7 @@ const client = new DynamoDBClient({
 
 // Function to add an item to DynamoDB
 export const addItemToDynamoDB = async (testResult) => {
-  const tableName = process.env.RESULTS_DYDB_TABLE_NAME;
+  const tableName = process.env.TEST2_DYDB_TABLE_NAME;
 
   const { race, type, fastestLap, driverOfTheDay, result } = testResult;
 
@@ -75,15 +75,15 @@ export const addItemToDynamoDB = async (testResult) => {
 };
 
 const testResult = {
-  race: "British Grand Prix",
+  race: "Mexico City Grand Prix",
   type: "Race",
   // type: "Sprint",
-  fastestLap: "Lando Norris", // Fastest lap by a driver who finished the race
-  driverOfTheDay: "Lando Norris",
+  fastestLap: "Charles Leclerc", // Fastest lap by a driver who finished the race
+  driverOfTheDay: "Carlos Sainz",
   result: [
     {
       position: 1,
-      driver: "Max Verstappen",
+      driver: "Carlos Sainz",
       dnf: false,
     },
     {
@@ -93,27 +93,27 @@ const testResult = {
     },
     {
       position: 3,
-      driver: "Lewis Hamilton",
-      dnf: false,
-    },
-    {
-      position: 4,
       driver: "Charles Leclerc",
       dnf: false,
     },
     {
-      position: 5,
-      driver: "Carlos Sainz",
+      position: 4,
+      driver: "Lewis Hamilton",
       dnf: false,
     },
     {
-      position: 6,
+      position: 5,
       driver: "George Russell",
       dnf: false,
     },
     {
+      position: 6,
+      driver: "Max Verstappen",
+      dnf: false,
+    },
+    {
       position: 7,
-      driver: "Sergio Perez",
+      driver: "Kevin Magnussen",
       dnf: false,
     },
     {
@@ -123,62 +123,62 @@ const testResult = {
     },
     {
       position: 9,
-      driver: "Fernando Alonso",
-      dnf: false,
-    },
-    {
-      position: 10,
-      driver: "Esteban Ocon",
-      dnf: false,
-    },
-    {
-      position: 11,
-      driver: "Pierre Gasly",
-      dnf: false,
-    },
-    {
-      position: 12,
-      driver: "Lance Stroll",
-      dnf: false,
-    },
-    {
-      position: 13,
-      driver: "Yuki Tsunoda",
-      dnf: false,
-    },
-    {
-      position: 14,
-      driver: "Alexander Albon",
-      dnf: false,
-    },
-    {
-      position: 15,
-      driver: "Valtteri Bottas",
-      dnf: false,
-    },
-    {
-      position: 16,
-      driver: "Kevin Magnussen",
-      dnf: false,
-    },
-    {
-      position: 17,
       driver: "Nico Hulkenberg",
       dnf: false,
     },
     {
-      position: 18,
+      position: 10,
+      driver: "Pierre Gasly",
+      dnf: false,
+    },
+    {
+      position: 11,
+      driver: "Lance Stroll",
+      dnf: false,
+    },
+    {
+      position: 12,
+      driver: "Franco Colapinto",
+      dnf: false,
+    },
+    {
+      position: 13,
+      driver: "Esteban Ocon",
+      dnf: false,
+    },
+    {
+      position: 14,
+      driver: "Valtteri Bottas",
+      dnf: false,
+    },
+    {
+      position: 15,
       driver: "Zhou Guanyu",
+      dnf: false,
+    },
+    {
+      position: 16,
+      driver: "Liam Lawson",
+      dnf: false,
+    },
+    {
+      position: 17,
+      driver: "Sergio Perez",
+      dnf: false,
+    },
+    {
+      position: 18,
+      driver: "Fernando Alonso",
       dnf: true, // Did not finish
     },
     {
       position: 19,
-      driver: "Logan Sargeant",
+      driver: "Alex Albon",
       dnf: true, // Did not finish
     },
     {
       position: 20,
-      driver: "Daniel Ricciardo",
+      driver: "Yuki Tsunoda",
       dnf: true, // Did not finish
     },
   ],

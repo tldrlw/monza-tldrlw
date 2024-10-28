@@ -181,3 +181,31 @@ export function sortDataByTime(data) {
     return dateB - dateA;
   });
 }
+
+export async function fetchData(endpoint) {
+  // used to get current drivers standings
+  try {
+    const response = await fetch(endpoint); // Make the GET request
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`); // Handle HTTP errors
+    }
+    const data = await response.json(); // Parse the JSON from the response
+    return data; // Return the parsed data
+  } catch (error) {
+    console.error("Error fetching data:", error); // Handle errors
+    return null;
+  }
+}
+
+export function normalizeResults(data) {
+  // Destructure to extract the driver who achieved the fastest lap and the race results from the input data
+  const { FastestLap: fastestLapDriver, Results } = data;
+
+  // Map through each result item to create a simplified object
+  return Results.map((item) => ({
+    position: item.Position, // Extract the driver's position in the race
+    driver: item.Driver, // Extract the driver's name
+    dnf: item.DNF, // Extract the DNF (Did Not Finish) status
+    fastestLap: item.Driver === fastestLapDriver, // Check if the current driver achieved the fastest lap
+  }));
+}

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { authenticatedUser } from "@/utils/amplify-server-utils";
 
+// remove this comment
+
 // Middleware function to handle user authentication and redirection logic
 export async function middleware(request) {
   const response = NextResponse.next();

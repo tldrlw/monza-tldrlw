@@ -26,10 +26,11 @@ export const lambdaHandler = async (event, context) => {
   });
 
   // Environment variables from Lambda configuration
-  const getDriversEndpoint = process.env.LAMBDA_GET_DRIVERS_FUNCTION_URL;
-  console.log("getDriversEndpoint", getDriversEndpoint);
-  const driversTable = process.env.DRIVERS_DYDB_TABLE_NAME;
-  console.log("driversTable", driversTable);
+  const getConstructorsEndpoint =
+    process.env.LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL;
+  console.log("getConstructorsEndpoint", getConstructorsEndpoint);
+  const constructorsTable = process.env.CONSTRUCTORS_DYDB_TABLE_NAME;
+  console.log("constructorsTable", constructorsTable);
   const region = process.env.REGION;
 
   console.log(
@@ -40,8 +41,73 @@ export const lambdaHandler = async (event, context) => {
   function normalizeStandings(data) {
     return data.Standings.L.map((item) => ({
       position: parseInt(item.M.position.N, 10), // Extract position and convert to a number. The 10 at the end of parseInt specifies the radix (or base) to be used for converting the string into a number. A radix of 10 indicates that the string should be interpreted as a decimal number. This is important to avoid unexpected results, as omitting the radix can cause JavaScript to interpret the number in other bases like octal (base-8) if the string starts with a 0.
-      driver: item.M.name.S, // Extract driver name
+      team: item.M.team.S, // Extract team name
       points: item.M.points.N, // Extract points as string or convert if needed
+    }));
+  }
+
+  function calculateDriverPoints(results, scoringSystem) {
+    // Create a map of positions to points for easier lookup
+    const pointsMap = new Map(
+      scoringSystem.map((item) => [item.position, item.points])
+    );
+
+    // Create an object to store drivers and their earned points
+    const driverPointsObject = {};
+
+    results.forEach((result) => {
+      let earnedPoints = result.dnf
+        ? 0
+        : Number(pointsMap.get(result.position)) || 0;
+      if (result.fastestLap && !result.dnf) {
+        earnedPoints += Number(pointsMap.get("fastestLap")) || 0;
+      }
+      // Assign points to the driver in the object
+      driverPointsObject[result.driver] = earnedPoints;
+    });
+
+    return driverPointsObject;
+  }
+
+  function calculateTeamPoints(driverPoints, previousPoints) {
+    // Create a map of drivers to their teams for easy lookup
+    const driverTeamMap = new Map(
+      drivers.map((driver) => [driver.name, driver.team])
+    );
+
+    // Create a map to accumulate points per team
+    const newTeamPoints = {};
+
+    // Calculate points per team based on driver points
+    for (const [driver, points] of Object.entries(driverPoints)) {
+      const team = driverTeamMap.get(driver);
+      if (team) {
+        // Initialize team points if not already present and accumulate points
+        newTeamPoints[team] = (newTeamPoints[team] || 0) + points;
+      }
+    }
+
+    // Merge new points with previous standings
+    const updatedTeamStandings = previousPoints.map((standing) => {
+      // Convert previous points to number and add new points if available
+      const currentPoints = Number(standing.points);
+      const additionalPoints = newTeamPoints[standing.team] || 0;
+
+      return {
+        position: standing.position,
+        team: standing.team,
+        points: currentPoints + additionalPoints,
+      };
+    });
+
+    // Sort teams by updated points in descending order
+    updatedTeamStandings.sort((a, b) => b.points - a.points);
+
+    // Update positions based on sorted order
+    return updatedTeamStandings.map((team, index) => ({
+      position: index + 1,
+      team: team.team,
+      points: team.points,
     }));
   }
 
@@ -49,84 +115,17 @@ export const lambdaHandler = async (event, context) => {
     console.log("calculatePoints - previousPoints", previousPoints);
     console.log("calculatePoints - results", results);
 
-    // Create a map of positions to points for easier lookup
-    const pointsMap = new Map(
-      scoringSystem.map((item) => [item.position, item.points])
+    const driverPoints = calculateDriverPoints(results, scoringSystem);
+    // console.log("driverPoints", driverPoints);
+    const updatedTeamStandings = calculateTeamPoints(
+      driverPoints,
+      previousPoints
     );
-
-    // Create a map of results to access driver results easily by driver name
-    const resultsMap = new Map(
-      results.map((result) => [result.driver, result])
-    );
-
-    // Update points for all drivers (both those who raced and those who didn't)
-    const updatedPoints = previousPoints.map((previousDriver) => {
-      // Check if the driver is in the results (i.e., they participated in the race)
-      const result = resultsMap.get(previousDriver.driver);
-
-      if (result) {
-        // Calculate points based on position and DNF
-        let earnedPoints = result.dnf
-          ? 0
-          : Number(pointsMap.get(result.position)) || 0;
-
-        // Add additional points if the driver has the fastest lap and didn't DNF
-        if (result.fastestLap && !result.dnf) {
-          earnedPoints += Number(pointsMap.get("fastestLap")) || 0;
-        }
-
-        // Return the updated driver object with new points
-        return {
-          driver: result.driver,
-          points: (Number(previousDriver.points) || 0) + earnedPoints, // Add new earned points
-        };
-      } else {
-        // If the driver is not in the results, keep their existing points
-        return {
-          driver: previousDriver.driver,
-          points: Number(previousDriver.points), // Keep previous points
-        };
-      }
-    });
-
-    // Sort drivers by points in descending order (highest points first)
-    updatedPoints.sort((a, b) => b.points - a.points);
-
-    // Update the positions based on the sorted order
-    return updatedPoints.map((driver, index) => ({
-      position: index + 1,
-      driver: driver.driver,
-      points: driver.points,
-    }));
+    console.log("updatedTeamStandings", updatedTeamStandings);
+    return updatedTeamStandings;
   }
 
-  function mergeData(driversData, updatedPoints) {
-    console.log("mergeData - driversData", driversData);
-    console.log("mergeData - updatedPoints", updatedPoints);
-    // Merge driver data with updated points
-    const mergedData = driversData.map((driver) => {
-      const driverPoints = updatedPoints.find(
-        (points) => points.driver === driver.name
-      );
-      return {
-        ...driver,
-        points: driverPoints ? driverPoints.points : 0,
-        // dnf: driverPoints ? driverPoints.dnf : false,
-        // fastestLap: driverPoints ? driverPoints.fastestLap : false,
-      };
-    });
-
-    // Sort the merged data by points in descending order
-    mergedData.sort((a, b) => b.points - a.points);
-
-    // Update the positions based on the sorted order
-    return mergedData.map((driver, index) => ({
-      ...driver,
-      position: index + 1,
-    }));
-  }
-
-  async function writeToDydb(tableName, mergedData) {
+  async function writeToDydb(tableName, updatedTeamStandings) {
     // Client configuration
     const client = new DynamoDBClient({
       region: process.env.REGION,
@@ -142,13 +141,11 @@ export const lambdaHandler = async (event, context) => {
                 PK: { S: generateUniqueId() },
                 DateTime: { S: getISO8601Timestamp() },
                 Standings: {
-                  L: mergedData.map((item) => ({
+                  L: updatedTeamStandings.map((item) => ({
                     M: {
                       position: { N: item.position.toString() }, // Number as string
-                      name: { S: item.name }, // String
                       team: { S: item.team }, // String
                       points: { N: item.points.toString() }, // Number as string
-                      nationality: { S: item.nationality }, // String
                     },
                   })), // Convert array of objects into DynamoDB List format
                 },
@@ -183,27 +180,29 @@ export const lambdaHandler = async (event, context) => {
   }
 
   async function main(newItem) {
-    // get the latest driver standings
-    const { data: driverStandings } = await fetchData(getDriversEndpoint);
+    // get the latest constructor standings
+    const { data: constructorStandings } = await fetchData(
+      getConstructorsEndpoint
+    );
 
     // sorting all the returned dydb items by time, then passing in the most recent (first element) to be normalized
-    const sortedStandings = sortDataByTime(driverStandings);
+    const sortedStandings = sortDataByTime(constructorStandings);
     const normalizedStandings = normalizeStandings(sortedStandings[0]);
 
     // normalize the data `newItem` from  the results table
     const normalizedResults = normalizeResults(newItem);
 
     // calculate based on type of newItem, race or sprint
-    let updatedPoints;
+    let updatedStandings;
 
     if (newItem.Type === "Race") {
-      updatedPoints = await calculatePoints(
+      updatedStandings = await calculatePoints(
         normalizedResults,
         normalizedStandings,
         raceScoringSystem
       );
     } else if (newItem.Type === "Sprint") {
-      updatedPoints = await calculatePoints(
+      updatedStandings = await calculatePoints(
         normalizedResults,
         normalizedStandings,
         sprintScoringSystem
@@ -213,12 +212,8 @@ export const lambdaHandler = async (event, context) => {
       return;
     }
 
-    // prepares data with updated points for write to driver standings table
-    const mergedData = mergeData(drivers, updatedPoints);
-    console.log("mergedData", mergedData);
-
-    // write to drivers dydb table
-    const response = await writeToDydb(driversTable, mergedData);
+    // write to constructors dydb table
+    const response = await writeToDydb(constructorsTable, updatedStandings);
     console.log("dydb write response", response);
   }
 

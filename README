@@ -1,3 +1,13 @@
+# important things to know
+
+- if you need to update the list of drivers (their team, nationality, etc.), you need to do it in these places:
+  - `infrastructure/lambda-test/utils.mjs`
+  - `front-end/src/utils/index.js`
+- if you need to update the driver scoring system (sprint and race), you need to do it here:
+  - `infrastructure/lambda-test/utils.mjs`
+
+# random notes
+
 - 10/11/24 - since `node_modules` in `infrastructure/lambda` is part of `.gitignore`, `node_modules` were not included in the lambda deployment package zip file when creating them in the workflow - solution was to include `npm install` in the `infrastructure/lambda` as part of the terraform `infrastructure.yaml` workflow - this wasn't an issue before because the other two lambda functions (`app-get.mjs` and `app-post.mjs`) do not rely on non-AWS sdk npm packages - lambda base layers come pre-packaged with the AWS sdks, so you don't need them available to the function within `node_modules`
 
 - 10/11/24 - since runtime environment variables aren't available in client components, did a hacky thing of pulling it in a server component, then passing it as a component prop down to the client component, see `const lambdaPostImageFunctionUrl =
