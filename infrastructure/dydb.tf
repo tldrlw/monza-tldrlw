@@ -73,3 +73,19 @@ resource "aws_dynamodb_table" "test" {
     Name = "${var.APP_NAME}-test"
   }
 }
+
+resource "aws_dynamodb_table" "test2" {
+  name         = "${var.APP_NAME}-test2"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "PK" # Partition key (unique identifier for the message)
+  # Define table attributes
+  attribute {
+    name = "PK"
+    type = "S"
+  }
+  tags = {
+    Name = "${var.APP_NAME}-test2"
+  }
+  stream_enabled   = true
+  stream_view_type = "NEW_IMAGE"
+}

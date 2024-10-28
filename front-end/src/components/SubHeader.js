@@ -6,7 +6,7 @@ const ResultsLink = () => (
     href="/results"
     className="mr-5 content-center text-xs italic hover:underline md:mr-10 md:text-base"
   >
-    👉​ results
+    👉​results
   </Link>
 );
 
@@ -17,9 +17,9 @@ const StandingsLink = ({ marginRight = true }) => (
       marginRight ? "mr-5 md:mr-10" : ""
     }`}
   >
-    <span className="md:hidden">👉​ standings</span>
+    <span className="md:hidden">👉​standings</span>
     <span className="hidden md:inline">
-      👉​ standings (drivers & constructors)
+      👉​standings (drivers & constructors)
     </span>
   </Link>
 );
@@ -29,7 +29,7 @@ const HomeLink = () => (
     href="/"
     className="content-center text-xs italic hover:underline md:text-base"
   >
-    👉​ home
+    👉​home
   </Link>
 );
 
@@ -38,7 +38,7 @@ const DashboardLink = () => (
     href="/dashboard"
     className="content-center text-xs italic hover:underline md:text-base"
   >
-    👉​ dashboard
+    👉​dashboard
   </Link>
 );
 
@@ -47,7 +47,7 @@ const DashboardResultsLink = () => (
     href="/dashboard/results"
     className="content-center text-xs italic hover:underline md:text-base"
   >
-    👉​ results
+    👉​results
   </Link>
 );
 
@@ -103,7 +103,7 @@ export default function SubHeader({ currentPage = "/" }) {
   return (
     <div className="flex justify-between">
       <h1 className="mt-1 text-2xl md:text-3xl">monza🏎️🏁</h1>
-      <div className="mt-3">
+      <div className="mr-2 mt-3 md:mr-0">
         {/* Conditionally render the 'admin' link unless on specific pages */}
         {shouldRenderLoginLink && <LoginLink />}
 

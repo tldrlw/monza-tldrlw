@@ -87,7 +87,7 @@ export default async function ListInsights({ dashboardView }) {
             </div>
             <Insight viewport={"mobile"} insight={insight}></Insight>
             {/* <p>{insight.PK.S}</p> */}
-            <p className="mt-4 font-semibold">
+            <p className="mt-4 font-semibold italic md:mt-2">
               {formatToHumanReadable(insight.DateTime.S)}
             </p>
           </div>
@@ -101,13 +101,13 @@ function Insight({ viewport = "desktop", insight }) {
   const visibilityClass =
     viewport === "mobile" ? "block md:hidden" : "hidden md:block";
   return (
-    <div className={`text-justify ${visibilityClass}`}>
+    // <div className={`text-justify ${visibilityClass}`}>
+    <div className={visibilityClass}>
       {insight.Insights.L.map((item, idx) => (
         <span
           key={idx}
-          className={`block ${viewport === "desktop" ? "pr-2" : ""}`}
+          className={`mt-4 block ${viewport === "desktop" ? "pr-2" : ""}`}
         >
-          <p className="my-1 text-center">+</p>
           {item.S}
         </span>
       ))}
@@ -117,7 +117,7 @@ function Insight({ viewport = "desktop", insight }) {
 
 function Pills({ insight }) {
   return (
-    <div className="flex flex-wrap">
+    <div className="mt-2 flex flex-wrap">
       <Pill text={insight.Team.S} color="purple"></Pill>
       {insight.AuthorsOrParticipants.S && (
         <Pill text={insight.AuthorsOrParticipants.S} color="pink" />
