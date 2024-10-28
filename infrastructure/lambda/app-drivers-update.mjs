@@ -10,6 +10,8 @@ import {
   sortDataByTime,
   generateUniqueId,
   getISO8601Timestamp,
+  fetchData,
+  normalizeResults,
 } from "./utils.mjs";
 
 export const lambdaHandler = async (event, context) => {
@@ -28,8 +30,6 @@ export const lambdaHandler = async (event, context) => {
   console.log("getDriversEndpoint", getDriversEndpoint);
   const driversTable = process.env.DRIVERS_DYDB_TABLE_NAME;
   console.log("driversTable", driversTable);
-  const testTable = process.env.TEST_DYDB_TABLE_NAME;
-  console.log("testTable", testTable);
   const region = process.env.REGION;
 
   console.log(
@@ -37,39 +37,11 @@ export const lambdaHandler = async (event, context) => {
     JSON.stringify(event, null, 2)
   );
 
-  async function fetchData(endpoint) {
-    // used to get current drivers standings
-    try {
-      const response = await fetch(endpoint); // Make the GET request
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`); // Handle HTTP errors
-      }
-      const data = await response.json(); // Parse the JSON from the response
-      return data; // Return the parsed data
-    } catch (error) {
-      console.error("Error fetching data:", error); // Handle errors
-      return null;
-    }
-  }
-
   function normalizeStandings(data) {
     return data.Standings.L.map((item) => ({
       position: parseInt(item.M.position.N, 10), // Extract position and convert to a number. The 10 at the end of parseInt specifies the radix (or base) to be used for converting the string into a number. A radix of 10 indicates that the string should be interpreted as a decimal number. This is important to avoid unexpected results, as omitting the radix can cause JavaScript to interpret the number in other bases like octal (base-8) if the string starts with a 0.
       driver: item.M.name.S, // Extract driver name
       points: item.M.points.N, // Extract points as string or convert if needed
-    }));
-  }
-
-  function normalizeResults(data) {
-    // Destructure to extract the driver who achieved the fastest lap and the race results from the input data
-    const { FastestLap: fastestLapDriver, Results } = data;
-
-    // Map through each result item to create a simplified object
-    return Results.map((item) => ({
-      position: item.Position, // Extract the driver's position in the race
-      driver: item.Driver, // Extract the driver's name
-      dnf: item.DNF, // Extract the DNF (Did Not Finish) status
-      fastestLap: item.Driver === fastestLapDriver, // Check if the current driver achieved the fastest lap
     }));
   }
 
@@ -245,7 +217,7 @@ export const lambdaHandler = async (event, context) => {
     const mergedData = mergeData(drivers, updatedPoints);
     console.log("mergedData", mergedData);
 
-    // write to drivers dydb table (but test table for now)
+    // write to drivers dydb table
     const response = await writeToDydb(driversTable, mergedData);
     console.log("dydb write response", response);
   }

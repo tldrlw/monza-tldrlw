@@ -1,3 +1,4 @@
+# drivers
 data "archive_file" "drivers_update" {
   type       = "zip"
   source_dir = "${path.root}/${var.LAMBDA_PATH}"
@@ -18,7 +19,6 @@ resource "aws_lambda_function" "drivers_update" {
     variables = {
       LAMBDA_GET_DRIVERS_FUNCTION_URL = module.lambda_get_drivers.function_url
       DRIVERS_DYDB_TABLE_NAME         = aws_dynamodb_table.drivers.id
-      TEST_DYDB_TABLE_NAME            = aws_dynamodb_table.test.id
       REGION                          = var.REGION
     }
   }
@@ -28,12 +28,13 @@ resource "aws_lambda_function" "drivers_update" {
   # https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#function-configuration-deployment-and-execution
 }
 
-resource "aws_lambda_event_source_mapping" "results_table_stream_trigger" {
+resource "aws_lambda_event_source_mapping" "results_to_drivers_stream_trigger" {
   event_source_arn  = aws_dynamodb_table.results.stream_arn
   function_name     = aws_lambda_function.drivers_update.arn
   starting_position = "LATEST" # Adjust based on when you want the stream to start
 }
 
+# constructors
 data "archive_file" "constructors_update" {
   type       = "zip"
   source_dir = "${path.root}/${var.LAMBDA_PATH}"
@@ -54,7 +55,6 @@ resource "aws_lambda_function" "constructors_update" {
     variables = {
       LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL = module.lambda_get_constructors.function_url
       CONSTRUCTORS_DYDB_TABLE_NAME         = aws_dynamodb_table.constructors.id
-      TEST_DYDB_TABLE_NAME                 = aws_dynamodb_table.test.id
       REGION                               = var.REGION
     }
   }
@@ -64,7 +64,7 @@ resource "aws_lambda_function" "constructors_update" {
   # https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#function-configuration-deployment-and-execution
 }
 
-resource "aws_lambda_event_source_mapping" "results_table_stream_trigger" {
+resource "aws_lambda_event_source_mapping" "results_to_constructors_stream_trigger" {
   event_source_arn  = aws_dynamodb_table.results.stream_arn
   function_name     = aws_lambda_function.constructors_update.arn
   starting_position = "LATEST" # Adjust based on when you want the stream to start

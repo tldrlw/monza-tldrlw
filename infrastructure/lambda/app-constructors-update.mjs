@@ -10,6 +10,8 @@ import {
   sortDataByTime,
   generateUniqueId,
   getISO8601Timestamp,
+  fetchData,
+  normalizeResults,
 } from "./utils.mjs";
 
 export const lambdaHandler = async (event, context) => {
@@ -29,29 +31,12 @@ export const lambdaHandler = async (event, context) => {
   console.log("getConstructorsEndpoint", getConstructorsEndpoint);
   const constructorsTable = process.env.CONSTRUCTORS_DYDB_TABLE_NAME;
   console.log("constructorsTable", constructorsTable);
-  const testTable = process.env.TEST_DYDB_TABLE_NAME;
-  console.log("testTable", testTable);
   const region = process.env.REGION;
 
   console.log(
     "DynamoDB Stream event received:",
     JSON.stringify(event, null, 2)
   );
-
-  async function fetchData(endpoint) {
-    // used to get current constructors standings
-    try {
-      const response = await fetch(endpoint); // Make the GET request
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`); // Handle HTTP errors
-      }
-      const data = await response.json(); // Parse the JSON from the response
-      return data; // Return the parsed data
-    } catch (error) {
-      console.error("Error fetching data:", error); // Handle errors
-      return null;
-    }
-  }
 
   function normalizeStandings(data) {
     return data.Standings.L.map((item) => ({
@@ -61,20 +46,7 @@ export const lambdaHandler = async (event, context) => {
     }));
   }
 
-  function normalizeResults(data) {
-    // Destructure to extract the driver who achieved the fastest lap and the race results from the input data
-    const { FastestLap: fastestLapDriver, Results } = data;
-
-    // Map through each result item to create a simplified object
-    return Results.map((item) => ({
-      position: item.Position, // Extract the driver's position in the race
-      driver: item.Driver, // Extract the driver's name
-      dnf: item.DNF, // Extract the DNF (Did Not Finish) status
-      fastestLap: item.Driver === fastestLapDriver, // Check if the current driver achieved the fastest lap
-    }));
-  }
-
-  async function calculateDriverPoints(results, scoringSystem) {
+  function calculateDriverPoints(results, scoringSystem) {
     // Create a map of positions to points for easier lookup
     const pointsMap = new Map(
       scoringSystem.map((item) => [item.position, item.points])
@@ -95,12 +67,6 @@ export const lambdaHandler = async (event, context) => {
     });
 
     return driverPointsObject;
-    // {
-    //   "Carlos Sainz": 25,
-    //   "Lando Norris": 18,
-    //   "Max Verstappen": 6,
-    //   "Charles Leclerc": 15
-    // }
   }
 
   function calculateTeamPoints(driverPoints, previousPoints) {
@@ -112,22 +78,25 @@ export const lambdaHandler = async (event, context) => {
     // Create a map to accumulate points per team
     const newTeamPoints = {};
 
-    // Update each team's points based on driver points
+    // Calculate points per team based on driver points
     for (const [driver, points] of Object.entries(driverPoints)) {
       const team = driverTeamMap.get(driver);
       if (team) {
-        // Initialize team points if not already present
+        // Initialize team points if not already present and accumulate points
         newTeamPoints[team] = (newTeamPoints[team] || 0) + points;
       }
     }
 
     // Merge new points with previous standings
     const updatedTeamStandings = previousPoints.map((standing) => {
+      // Convert previous points to number and add new points if available
+      const currentPoints = Number(standing.points);
+      const additionalPoints = newTeamPoints[standing.team] || 0;
+
       return {
         position: standing.position,
         team: standing.team,
-        points:
-          (Number(standing.points) || 0) + (newTeamPoints[standing.team] || 0),
+        points: currentPoints + additionalPoints,
       };
     });
 
@@ -147,8 +116,67 @@ export const lambdaHandler = async (event, context) => {
     console.log("calculatePoints - results", results);
 
     const driverPoints = calculateDriverPoints(results, scoringSystem);
-    const updatedTeamPoints = calculateTeamPoints(driverPoints, previousPoints);
-    console.log(updatedTeamPoints);
+    // console.log("driverPoints", driverPoints);
+    const updatedTeamStandings = calculateTeamPoints(
+      driverPoints,
+      previousPoints
+    );
+    console.log("updatedTeamStandings", updatedTeamStandings);
+    return updatedTeamStandings;
+  }
+
+  async function writeToDydb(tableName, updatedTeamStandings) {
+    // Client configuration
+    const client = new DynamoDBClient({
+      region: process.env.REGION,
+    });
+
+    // Params for BatchWriteItemCommand with an array of objects
+    const params = {
+      RequestItems: {
+        [tableName]: [
+          {
+            PutRequest: {
+              Item: {
+                PK: { S: generateUniqueId() },
+                DateTime: { S: getISO8601Timestamp() },
+                Standings: {
+                  L: updatedTeamStandings.map((item) => ({
+                    M: {
+                      position: { N: item.position.toString() }, // Number as string
+                      team: { S: item.team }, // String
+                      points: { N: item.points.toString() }, // Number as string
+                    },
+                  })), // Convert array of objects into DynamoDB List format
+                },
+              },
+            },
+          },
+        ],
+      },
+    };
+
+    try {
+      const command = new BatchWriteItemCommand(params);
+      const result = await client.send(command);
+      console.log("Write successful:");
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          message: "Write successful",
+          unprocessedItems: result.UnprocessedItems || [],
+        }),
+      };
+    } catch (error) {
+      console.error("Error writing to DynamoDB table:", error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: "Failed to write to table",
+          error: error.message,
+        }),
+      };
+    }
   }
 
   async function main(newItem) {
@@ -165,16 +193,16 @@ export const lambdaHandler = async (event, context) => {
     const normalizedResults = normalizeResults(newItem);
 
     // calculate based on type of newItem, race or sprint
-    let updatedPoints;
+    let updatedStandings;
 
     if (newItem.Type === "Race") {
-      updatedPoints = await calculatePoints(
+      updatedStandings = await calculatePoints(
         normalizedResults,
         normalizedStandings,
         raceScoringSystem
       );
     } else if (newItem.Type === "Sprint") {
-      updatedPoints = await calculatePoints(
+      updatedStandings = await calculatePoints(
         normalizedResults,
         normalizedStandings,
         sprintScoringSystem
@@ -183,7 +211,14 @@ export const lambdaHandler = async (event, context) => {
       console.log('Nothing to do, newItem.Type !== "Race" || "Sprint"');
       return;
     }
+
+    // write to constructors dydb table
+    const response = await writeToDydb(constructorsTable, updatedStandings);
+    console.log("dydb write response", response);
   }
+
+  // Process the single record in the stream event (assuming there's always only one)
+  const record = event.Records[0];
 
   // Only processing INSERT events
   // Check the event name

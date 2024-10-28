@@ -45,7 +45,6 @@ data "aws_iam_policy_document" "lambda_drivers_update" {
       "dynamodb:BatchWriteItem"
     ]
     resources = [
-      aws_dynamodb_table.test.arn,
       aws_dynamodb_table.drivers.arn
     ]
     effect = "Allow"
@@ -53,7 +52,7 @@ data "aws_iam_policy_document" "lambda_drivers_update" {
 }
 
 resource "aws_iam_policy" "lambda_drivers_update" {
-  name   = "lambda_policy"
+  name   = "${var.APP_NAME}-lambda-drivers-update"
   policy = data.aws_iam_policy_document.lambda_drivers_update.json
 }
 
@@ -90,7 +89,7 @@ data "aws_iam_policy_document" "lambda_constructors_update" {
       "dynamodb:ListStreams"
     ]
     resources = [
-      aws_dynamodb_table.test2.stream_arn
+      aws_dynamodb_table.results.stream_arn
     ]
     effect = "Allow"
   }
@@ -109,7 +108,6 @@ data "aws_iam_policy_document" "lambda_constructors_update" {
       "dynamodb:BatchWriteItem"
     ]
     resources = [
-      aws_dynamodb_table.test.arn,
       aws_dynamodb_table.constructors.arn
     ]
     effect = "Allow"
@@ -117,7 +115,7 @@ data "aws_iam_policy_document" "lambda_constructors_update" {
 }
 
 resource "aws_iam_policy" "lambda_constructors_update" {
-  name   = "lambda_policy"
+  name   = "${var.APP_NAME}-lambda-constructors-update"
   policy = data.aws_iam_policy_document.lambda_constructors_update.json
 }
 
