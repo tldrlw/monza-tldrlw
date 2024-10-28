@@ -28,3 +28,9 @@ resource "aws_cognito_user" "refayat" {
   username     = data.aws_ssm_parameter.cognito_username_refayat.value
   password     = data.aws_ssm_parameter.cognito_password_refayat.value
 }
+
+resource "aws_cognito_user" "ishaba" {
+  user_pool_id = aws_cognito_user_pool.main.id
+  username     = data.aws_ssm_parameter.cognito_username_ishaba.value
+  password     = data.aws_ssm_parameter.cognito_password_ishaba.value
+}
