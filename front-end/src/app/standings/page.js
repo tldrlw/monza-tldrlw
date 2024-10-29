@@ -18,7 +18,7 @@ export default async function Standings() {
       <div className="flex flex-col md:flex-row">
         <div className="basis-7/12 md:mb-2 md:mr-2">
           <div className="my-2 border-2 border-solid border-customOrangeLogo p-2">
-            <h1 className="font-bold md:text-lg">Drivers</h1>
+            <h1 className="text-lg font-bold">Drivers</h1>
             <StandingsTable
               standings={sortedDriversStandings[0]}
               drivers={true}

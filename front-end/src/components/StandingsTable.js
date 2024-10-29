@@ -2,15 +2,21 @@ import { formatToHumanReadable } from "@/utils";
 
 export default function StandingsTable({ standings, drivers = false }) {
   return (
-    <div className="mb-4 mt-2 text-xs md:text-sm">
-      Updated: {formatToHumanReadable(standings.DateTime.S)}
+    <div className="mb-4 mt-2 text-sm md:text-base">
+      <div className="mb-4">
+        Updated:{" "}
+        <span className="font-bold text-emerald-700">
+          {formatToHumanReadable(standings.DateTime.S)}
+        </span>
+      </div>
       <div className="overflow-x-auto">
-        {" "}
         {/* Enables horizontal scrolling on small screens */}
         <table className="min-w-full border-collapse border border-gray-300">
           <thead>
             <tr>
-              <th className="border border-gray-300 px-4 py-2">Position</th>
+              <th className="hidden border border-gray-300 px-4 py-2 md:table-cell">
+                Position
+              </th>
               {drivers && (
                 <th className="border border-gray-300 px-4 py-2">Name</th>
               )}
@@ -26,7 +32,7 @@ export default function StandingsTable({ standings, drivers = false }) {
           <tbody>
             {standings.Standings.L.map((item, index) => (
               <tr key={index}>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="hidden border border-gray-300 px-4 py-2 md:table-cell">
                   {item.M.position.N}
                 </td>
                 {drivers && (

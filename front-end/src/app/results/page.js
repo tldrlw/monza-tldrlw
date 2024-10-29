@@ -6,7 +6,7 @@ import ListResults from "@/components/ListResults";
 export default async function Results() {
   const { data: results } = await get("results");
   const sortedResults = sortDataByTime(results);
-  console.log(JSON.stringify(sortedResults, null, 2));
+  // console.log(JSON.stringify(sortedResults, null, 2));
 
   return (
     <main>

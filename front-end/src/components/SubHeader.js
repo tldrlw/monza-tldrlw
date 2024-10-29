@@ -4,7 +4,7 @@ import Link from "next/link";
 const ResultsLink = () => (
   <Link
     href="/results"
-    className="mr-5 content-center text-xs italic hover:underline md:mr-10 md:text-base"
+    className="mr-5 content-center text-sm italic hover:underline md:mr-10 md:text-base"
   >
     👉​results
   </Link>
@@ -13,7 +13,7 @@ const ResultsLink = () => (
 const StandingsLink = ({ marginRight = true }) => (
   <Link
     href="/standings"
-    className={`content-center text-xs italic hover:underline md:text-base ${
+    className={`content-center text-sm italic hover:underline md:text-base ${
       marginRight ? "mr-5 md:mr-10" : ""
     }`}
   >
@@ -27,7 +27,7 @@ const StandingsLink = ({ marginRight = true }) => (
 const HomeLink = () => (
   <Link
     href="/"
-    className="content-center text-xs italic hover:underline md:text-base"
+    className="content-center text-sm italic hover:underline md:text-base"
   >
     👉​home
   </Link>
@@ -36,7 +36,7 @@ const HomeLink = () => (
 const DashboardLink = () => (
   <Link
     href="/dashboard"
-    className="content-center text-xs italic hover:underline md:text-base"
+    className="content-center text-sm italic hover:underline md:text-base"
   >
     👉​dashboard
   </Link>
@@ -45,7 +45,7 @@ const DashboardLink = () => (
 const DashboardResultsLink = () => (
   <Link
     href="/dashboard/results"
-    className="content-center text-xs italic hover:underline md:text-base"
+    className="content-center text-sm italic hover:underline md:text-base"
   >
     👉​results
   </Link>
@@ -54,7 +54,7 @@ const DashboardResultsLink = () => (
 const LoginLink = () => (
   <Link
     href="/auth/login"
-    className="mr-5 content-center text-xs italic text-blue-100 hover:underline md:mr-10 md:text-base"
+    className="mr-5 content-center text-sm italic text-blue-100 hover:underline md:mr-10 md:text-base"
   >
     admin
   </Link>

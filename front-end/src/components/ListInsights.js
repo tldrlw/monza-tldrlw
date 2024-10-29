@@ -1,7 +1,8 @@
 import get from "@/services/get";
 import Image from "next/image";
 import Pill from "./Pill";
-import { formatToHumanReadable, sortDataByTime } from "@/utils";
+import Insight from "./Insight";
+import { sortDataByTime } from "@/utils";
 
 export default async function ListInsights({ dashboardView }) {
   const { data: insights } = await get("insights");
@@ -18,7 +19,7 @@ export default async function ListInsights({ dashboardView }) {
   // console.log(JSON.stringify(insights, null, 2));
 
   const getImageSrc = (imageLink) => {
-    console.log(imageLink);
+    // console.log(imageLink);
     const defaultImage =
       // "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg";
       "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-no-background.svg";
@@ -50,23 +51,22 @@ export default async function ListInsights({ dashboardView }) {
           key={index}
           className="my-2 border-2 border-solid border-customOrangeLogo p-2"
         >
-          <div className="text-xs md:text-sm">
+          <div className="">
             {/* Render the list of strings properly */}
             <div className="md:flex md:flex-row">
-              <div className="mb-2 text-sm md:basis-4/6">
+              <div className="mb-2 md:basis-4/6">
                 {dashboardView && (
                   <p className="mb-4 font-bold">ID: {insight.PK.S}</p>
                 )}
                 <a
                   href={insight.Link.S}
-                  className="text-blue-500 hover:underline md:text-lg"
+                  className="text-base font-bold text-blue-500 hover:underline md:text-lg"
                 >
                   {insight.Title.S}
                 </a>
                 <Pills insight={insight}></Pills>
                 <Insight insight={insight}></Insight>
               </div>
-              {/* <div className="flex items-center justify-end border border-lime-500 md:basis-2/6"> */}
               <div className="flex items-center justify-end md:basis-2/6">
                 <Image
                   src={getImageSrc(insight.ImageLink?.S)} // Use the helper function to get the correct src
@@ -74,42 +74,17 @@ export default async function ListInsights({ dashboardView }) {
                     insight.ImageCredit?.S ||
                     "tldrlw logo/no image credit provided"
                   }
-                  // className="md:w-2/3"
-                  // className={`${dashboardView ? "" : ""}`}
                   priority
                   width={500}
                   height={125}
                   unoptimized // Disable image optimization for this specific image
                   // without ^, uploaded images couldn't be fetched when deployed to prod (400 error, 'url' related), BUT no issues in dev / see notes section at the end
                 />
-                {/* <p className="font-xs">{insight.ImageCredit.S}</p> */}
               </div>
             </div>
             <Insight viewport={"mobile"} insight={insight}></Insight>
-            {/* <p>{insight.PK.S}</p> */}
-            <p className="mt-4 font-semibold italic md:mt-2">
-              {formatToHumanReadable(insight.DateTime.S)}
-            </p>
           </div>
         </div>
-      ))}
-    </div>
-  );
-}
-
-function Insight({ viewport = "desktop", insight }) {
-  const visibilityClass =
-    viewport === "mobile" ? "block md:hidden" : "hidden md:block";
-  return (
-    // <div className={`text-justify ${visibilityClass}`}>
-    <div className={visibilityClass}>
-      {insight.Insights.L.map((item, idx) => (
-        <span
-          key={idx}
-          className={`mt-4 block ${viewport === "desktop" ? "pr-2" : ""}`}
-        >
-          {item.S}
-        </span>
       ))}
     </div>
   );
@@ -124,8 +99,8 @@ function Pills({ insight }) {
       )}
       <Pill text={insight.PublicationOrChannelOrOutlet.S} color="green"></Pill>
       <Pill text={insight.Type.S} color="cyan"></Pill>
-      {insight.AIAssisted.BOOL && <Pill text="AI-Assisted" color="slate" />}
-      {insight.Prod.BOOL && <Pill text="Prod" color="green" />}
+      {insight.AIAssisted.BOOL && <Pill text="AI-Assisted" color="yellow" />}
+      {insight.Prod.BOOL && <Pill text="Prod" color="slate" />}
       {insight.AdditionalKeyword1.S && (
         <Pill text={insight.AdditionalKeyword1.S} color="blue" />
       )}
@@ -133,11 +108,12 @@ function Pills({ insight }) {
         <Pill text={insight.AdditionalKeyword2.S} color="orange" />
       )}
       {insight.AdditionalKeyword3?.S && (
-        <Pill text={insight.AdditionalKeyword3.S} color="purple" />
+        <Pill text={insight.AdditionalKeyword3.S} color="red" />
       )}
       {insight.AdditionalKeyword4?.S && (
-        <Pill text={insight.AdditionalKeyword4.S} color="pink" />
+        <Pill text={insight.AdditionalKeyword4.S} color="green" />
       )}
+      {/* ^ newer insights do not have a fourth keyword, just left this here for data pre 10/16/24 */}
     </div>
   );
 }
