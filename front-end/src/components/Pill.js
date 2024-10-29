@@ -12,7 +12,7 @@ export default function Pill({ text, color }) {
   };
   return (
     <span
-      className={`mr-2 mt-1 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${text === "Prod" ? "underline" : ""} ${
+      className={`mr-2 mt-1 inline-flex items-center rounded-md px-2 py-1 text-xs ring-1 ring-inset md:text-sm ${text === "Prod" ? "underline" : ""} ${
         colorClasses[color] || colorClasses["slate"]
       } `}
     >

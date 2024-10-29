@@ -16,16 +16,16 @@ export default async function Standings() {
     <main>
       <SubHeader currentPage="/standings"></SubHeader>
       <div className="flex flex-col md:flex-row">
-        <div className="basis-7/12 md:mb-2 md:mr-2">
+        <div className="basis-8/12 md:mb-2 md:mr-2">
           <div className="my-2 border-2 border-solid border-customOrangeLogo p-2">
-            <h1 className="font-bold md:text-lg">Drivers</h1>
+            <h1 className="text-lg font-bold">Drivers</h1>
             <StandingsTable
               standings={sortedDriversStandings[0]}
               drivers={true}
             ></StandingsTable>
           </div>
         </div>
-        <div className="basis-5/12 md:mb-2 md:mr-2">
+        <div className="basis-4/12 md:mb-2 md:mr-2">
           <div className="mb-2 border-2 border-solid border-customOrangeLogo p-2 md:my-2">
             <h1 className="font-bold md:text-lg">Constructors</h1>
             <StandingsTable
