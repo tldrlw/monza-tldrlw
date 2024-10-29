@@ -64,7 +64,7 @@ export default async function ListInsights({ dashboardView }) {
                 >
                   {insight.Title.S}
                 </a>
-                <Pills insight={insight}></Pills>
+                <Pills insight={insight} dashboardView={dashboardView}></Pills>
                 <Insight insight={insight}></Insight>
               </div>
               <div className="flex items-center justify-end md:basis-2/6">
@@ -90,7 +90,7 @@ export default async function ListInsights({ dashboardView }) {
   );
 }
 
-function Pills({ insight }) {
+function Pills({ insight, dashboardView }) {
   return (
     <div className="mt-2 flex flex-wrap">
       <Pill text={insight.Team.S} color="purple"></Pill>
@@ -100,7 +100,8 @@ function Pills({ insight }) {
       <Pill text={insight.PublicationOrChannelOrOutlet.S} color="green"></Pill>
       <Pill text={insight.Type.S} color="cyan"></Pill>
       {insight.AIAssisted.BOOL && <Pill text="AI-Assisted" color="yellow" />}
-      {insight.Prod.BOOL && <Pill text="Prod" color="slate" />}
+      {dashboardView && insight.Prod.BOOL && <Pill text="Prod" color="slate" />}
+      {/* ^ no point displaying this to users */}
       {insight.AdditionalKeyword1.S && (
         <Pill text={insight.AdditionalKeyword1.S} color="blue" />
       )}
