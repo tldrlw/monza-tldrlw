@@ -12,6 +12,7 @@ module "ecs_service" {
   vpc_id                      = data.aws_vpc.blog_tldrlw.id
   container_port              = 3000
   host_port                   = 3000
+  iam_user_for_container_shell = "local"
   environment_variables = [
     { name = "LAMBDA_GET_FUNCTION_URL", value = module.lambda_get.function_url },
     { name = "LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL", value = module.lambda_get_constructors.function_url },
