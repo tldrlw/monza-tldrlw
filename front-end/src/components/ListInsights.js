@@ -15,6 +15,8 @@ export default async function ListInsights({ dashboardView }) {
     insights.length,
   );
 
+  // delete later
+
   // console.log(insights);
   // console.log(JSON.stringify(insights, null, 2));
 
