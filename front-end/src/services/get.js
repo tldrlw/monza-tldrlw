@@ -50,11 +50,8 @@ export default async function getConstructors(type) {
       getLambdaFunctionUrl(type),
       { next: { tags: [type] } },
       // https://nextjs.org/docs/app/api-reference/functions/revalidateTag
-      // { tags: [type] },
-      // ^ also works, but not in docs above
-      { cache: "force-cache" | "no-store" },
-      // ^ https://nextjs.org/docs/app/api-reference/functions/fetch#optionscache
-      // you can see differences between cached and non-cached API calls by configuring special logging in `next.config.mjs`, comment out ^ and it'll log 'cache-hit'
+      { cache: "force-cache" },
+      // https://nextjs.org/docs/app/api-reference/functions/fetch#optionscache
       // https://nextjs.org/docs/app/api-reference/next-config-js/logging
       requestOptions,
     );
