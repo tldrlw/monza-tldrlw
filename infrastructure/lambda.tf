@@ -7,7 +7,7 @@ module "lambda_get" {
   environment_variables = {
     DYDB_TABLE_NAME = aws_dynamodb_table.insights.id,
     REGION          = var.REGION
-    LIMIT           = 40
+    LIMIT           = 60
   }
   is_s3                  = false
   is_dydb                = true
@@ -123,3 +123,6 @@ module "lambda_post_image" {
 }
 # rm -rf .terraform/modules
 # run ^ after pushing up changes to modules
+
+# important note for lambda_post_image
+# AWS Lambda has a 6MB payload limit for synchronous invocations, but it’s generally best to keep image sizes under 5MB. Even slightly larger images, such as 5.3MB, may fail to upload due to factors like base64 encoding, which increases the payload size by about 33%, along with the inclusion of headers and metadata. These additional elements count toward the limit, potentially pushing the total payload over the 6MB threshold. To prevent issues, it’s recommended to compress or resize images before uploading. Alternatively, consider storing large files directly in S3 and passing the file URL to your Lambda function for processing.
