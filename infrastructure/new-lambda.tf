@@ -45,12 +45,12 @@ variable "handler_file_prefix" {
 
 variable "memory_size" {
   type    = string
-  default = 128
+  default = 1028
 }
 
 variable "timeout" {
   type    = string
-  default = "3"
+  default = "5"
 }
 
 # assume role policy
