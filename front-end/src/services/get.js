@@ -21,9 +21,8 @@ export default async function getConstructors(type) {
         );
       case "insights":
         return (
-          // process.env.LAMBDA_GET_FUNCTION_URL ||
-          // test
-          process.env.LAMBDA_GET_TEST ||
+          process.env.LAMBDA_GET_FUNCTION_URL ||
+          // process.env.LAMBDA_GET_TEST ||
           "lambdaGetFunctionUrl placeholder"
         );
       case "results":
