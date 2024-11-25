@@ -28,12 +28,6 @@ resource "aws_lambda_function" "my_lambda" {
 }
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function
 
-resource "aws_lambda_provisioned_concurrency_config" "example" {
-  function_name                     = aws_lambda_function.my_lambda.function_name
-  provisioned_concurrent_executions = 10
-  qualifier                         = aws_lambda_function.my_lambda.version
-}
-
 variable "source_dir" {
   type    = string
   default = "lambda"
