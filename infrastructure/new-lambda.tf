@@ -40,7 +40,7 @@ variable "function_name" {
 
 variable "handler_file_prefix" {
   type    = string
-  default = "app-get"
+  default = "app-get-test"
 }
 
 variable "memory_size" {
@@ -118,4 +118,17 @@ resource "aws_iam_policy" "lambda_logging" {
 resource "aws_iam_role_policy_attachment" "lambda_logging" {
   role       = aws_iam_role.lambda.name
   policy_arn = aws_iam_policy.lambda_logging.arn
+}
+
+resource "aws_lambda_permission" "api_gateway_invoke" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.my_lambda.arn
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.private_api.execution_arn}/*/*/*"
+  # source_arn = "arn:aws:execute-api:${var.REGION}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.private_api.id}/*"
+}
+
+output "aws_api_gateway_rest_api_private_api_execution_arn" {
+  value = aws_api_gateway_rest_api.private_api.execution_arn
 }

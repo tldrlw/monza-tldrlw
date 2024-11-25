@@ -2,8 +2,8 @@ resource "aws_api_gateway_rest_api" "private_api" {
   name              = "${var.APP_NAME}-private-api"
   put_rest_api_mode = "merge"
   endpoint_configuration {
-    types = ["PRIVATE"]
-    # vpc_endpoint_ids = [aws_vpc_endpoint.example[0].id, aws_vpc_endpoint.example[1].id, aws_vpc_endpoint.example[2].id]
+    types            = ["PRIVATE"]
+    vpc_endpoint_ids = [aws_vpc_endpoint.api_gateway.id]
   }
 }
 
@@ -62,11 +62,13 @@ resource "aws_security_group" "api_gateway_sg" {
 }
 
 resource "aws_vpc_endpoint" "api_gateway" {
-  vpc_id             = var.BLOG_TLDRLW_VPC_ID
-  service_name       = "com.amazonaws.${var.REGION}.execute-api"
-  vpc_endpoint_type  = "Interface"
-  subnet_ids         = data.aws_subnets.vpc_subnets.ids
-  security_group_ids = [aws_security_group.api_gateway_sg.id]
+  vpc_id              = var.BLOG_TLDRLW_VPC_ID
+  service_name        = "com.amazonaws.${var.REGION}.execute-api"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = data.aws_subnets.vpc_subnets.ids
+  security_group_ids  = [aws_security_group.api_gateway_sg.id]
+  private_dns_enabled = true
+  # ^ requests to the standard API Gateway domain name (e.g., https://<api-id>.execute-api.us-east-1.amazonaws.com) resolve to the private IP addresses of the VPC endpoint. This allows private, secure communication within the VPC without routing through the public internet.
 }
 
 resource "aws_api_gateway_integration" "lambda_integration" {
