@@ -61,3 +61,5 @@ data "aws_ssm_parameter" "cognito_password_ishaba" {
   name            = "/cognito/password/ishaba"
   with_decryption = true
 }
+
+data "aws_caller_identity" "current" {}
