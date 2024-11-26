@@ -21,8 +21,7 @@ export default async function getConstructors(type) {
         );
       case "insights":
         return (
-          process.env.LAMBDA_GET_FUNCTION_URL ||
-          "lambdaGetFunctionUrl placeholder"
+          process.env.LAMBDA_GET_INSIGHTS || "lambdaGetFunctionUrl placeholder"
         );
       case "results":
         return (
@@ -63,6 +62,7 @@ export default async function getConstructors(type) {
     //   `front-end/src/services/get${type}.js - API call successful`,
     //   JSON.stringify(data, null, 2),
     // );
+    console.log(getLambdaFunctionUrl(type));
   } catch (error) {
     console.error(
       `front-end/src/services/get${type}.js - API call failed`,

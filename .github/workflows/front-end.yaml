@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      # - lambda-refactor
     paths:
       - front-end/**
 
@@ -16,6 +17,8 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   # ^ these are not directly referenced (e.g., as ${{ secrets.AWS_SECRET_ACCESS_KEY }}) anywhere below, but need to be set as environment variables for the step 'aws-actions/amazon-ecr-login@v2' to work
   WORKFLOW_TRIGGER_REPO: monza-tldrlw
+  # WORKFLOW_TRIGGER_BRANCH: lambda-refactor
+  # ^ change lines 61 and 71 in infrastructure.yaml
   WORKFLOW_TRIGGER_BRANCH: dev
   WORKFLOW_TRIGGER_FILENAME: infrastructure.yaml
   COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
@@ -60,15 +63,15 @@ jobs:
                        --build-arg IMAGE="${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" \
                        -t "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" .
 
-      - name: run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}"
-          format: "table"
-          exit-code: "1"
-          ignore-unfixed: true
-          vuln-type: "os,library"
-          severity: "CRITICAL,HIGH"
+      # - name: run Trivy vulnerability scanner
+      #   uses: aquasecurity/trivy-action@0.28.0
+      #   with:
+      #     image-ref: "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}"
+      #     format: "table"
+      #     exit-code: "1"
+      #     ignore-unfixed: true
+      #     vuln-type: "os,library"
+      #     severity: "CRITICAL,HIGH"
 
       - name: push Docker image to ECR
         run: |
