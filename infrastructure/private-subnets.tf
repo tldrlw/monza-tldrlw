@@ -1,17 +1,4 @@
 ### for λs in VPC ###
-# NAT Gateway in a Public Subnet
-resource "aws_nat_gateway" "main" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = data.aws_subnets.blog_tldrlw.ids[0]
-}
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway
-
-# Elastic IP for the NAT Gateway
-resource "aws_eip" "nat" {
-  domain = "vpc"
-}
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip
-
 # Private Subnets
 resource "aws_subnet" "private" {
   count                   = 3
@@ -27,10 +14,7 @@ resource "aws_subnet" "private" {
 # Route Table for Private Subnets
 resource "aws_route_table" "private" {
   vpc_id = var.BLOG_TLDRLW_VPC_ID
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main.id
-  }
+  # For Gateway VPC Endpoints like DynamoDB, there’s no need to manually add routes to the route table because the aws_vpc_endpoint resource automatically handles this. When you specify the route_table_ids in the aws_vpc_endpoint configuration, AWS automatically adds the necessary routes to the specified route tables, associating the endpoint with the correct prefix list for DynamoDB traffic. This is different from Interface Endpoints (e.g., for API Gateway), which require specific configurations. Manually adding routes with aws_route would cause conflicts or errors, as the endpoint already provides the required connectivity, ensuring seamless and private access to DynamoDB.
 }
 
 # Associate Private Subnets with Private Route Table
@@ -38,5 +22,18 @@ resource "aws_route_table_association" "private" {
   count          = 3
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private.id
+}
+
+# VPC Endpoint for DynamoDB (Gateway Endpoint)
+resource "aws_vpc_endpoint" "dynamodb" {
+  vpc_id            = var.BLOG_TLDRLW_VPC_ID
+  service_name      = "com.amazonaws.${var.REGION}.dynamodb"
+  vpc_endpoint_type = "Gateway" # DynamoDB requires a Gateway VPC Endpoint
+  route_table_ids = [
+    aws_route_table.private.id
+  ]
+  tags = {
+    Name = "${var.APP_NAME}-dynamodb-vpc-endpoint"
+  }
 }
 ### for λs in VPC ###

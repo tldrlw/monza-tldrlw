@@ -72,3 +72,10 @@ data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {
   state = "available"
 }
+
+data "aws_internet_gateway" "blog_tldrlw" {
+  filter {
+    name   = "attachment.vpc-id"
+    values = [var.BLOG_TLDRLW_VPC_ID]
+  }
+}
