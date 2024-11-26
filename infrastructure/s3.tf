@@ -53,7 +53,7 @@ resource "aws_s3_bucket_cors_configuration" "images" {
 }
 # CORS (Cross-Origin Resource Sharing) settings are essential for allowing browsers to access your S3-hosted images when they are fetched from your domain (https://monza.tldrlw.com). If the CORS configuration is missing or incorrect, you might encounter issues when loading images from your S3 bucket in the browser, especially when making cross-origin requests from different domains or subdomains. CORS ensures that browsers are allowed to fetch resources (like images) from your S3 bucket, specifically for cross-origin requests. Since your images are being hosted on S3 and served on monza.tldrlw.com, it’s important that the S3 bucket allows requests from that domain.
 
-resource "aws_s3_object" "SVG_LOGOS" {
+resource "aws_s3_object" "svg_logos" {
   for_each     = toset(var.SVG_LOGOS) # Convert list to set for for_each
   bucket       = aws_s3_bucket.images.bucket
   key          = "logos/${each.value}"                       # Destination key in S3

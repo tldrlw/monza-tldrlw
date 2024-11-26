@@ -58,7 +58,7 @@ jobs:
 
       - name: plan dvm
         id: plan-dvm
-        if: ${{ github.ref == 'refs/heads/lambda-refactor' }}
+        if: ${{ github.ref == 'refs/heads/dev' }}
         env:
           TF_VAR_ENV: dvm
           TF_VAR_IMAGE_TAG: ${{ github.event.inputs.image_tag }}
@@ -68,7 +68,7 @@ jobs:
 
       - name: apply dvm
         id: apply-dvm
-        if: ${{ github.ref == 'refs/heads/lambda-refactor' }}
+        if: ${{ github.ref == 'refs/heads/dev' }}
         env:
           TF_VAR_ENV: dvm
           TF_VAR_IMAGE_TAG: ${{ github.event.inputs.image_tag }}

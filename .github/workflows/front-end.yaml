@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - dev
-      - lambda-refactor
+      # - lambda-refactor
     paths:
       - front-end/**
 
@@ -17,7 +17,9 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   # ^ these are not directly referenced (e.g., as ${{ secrets.AWS_SECRET_ACCESS_KEY }}) anywhere below, but need to be set as environment variables for the step 'aws-actions/amazon-ecr-login@v2' to work
   WORKFLOW_TRIGGER_REPO: monza-tldrlw
-  WORKFLOW_TRIGGER_BRANCH: lambda-refactor
+  # WORKFLOW_TRIGGER_BRANCH: lambda-refactor
+  # ^ change lines 61 and 71 in infrastructure.yaml
+  WORKFLOW_TRIGGER_BRANCH: dev
   WORKFLOW_TRIGGER_FILENAME: infrastructure.yaml
   COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
   COGNITO_USER_POOL_CLIENT_ID: ${{ secrets.COGNITO_USER_POOL_CLIENT_ID }}
