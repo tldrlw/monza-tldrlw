@@ -7,6 +7,26 @@ data "archive_file" "lambda" {
 }
 # https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file
 
+resource "aws_security_group" "lambda_sg" {
+  name        = "lambda-sg"
+  description = "Security group for Lambda functions"
+  vpc_id      = var.BLOG_TLDRLW_VPC_ID
+  ingress {
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.api_gateway_sg.id]
+    description     = "Allow traffic from API Gateway"
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outbound traffic (e.g., calls to external services like S3, DynamoDB)"
+  }
+}
+
 resource "aws_lambda_function" "my_lambda" {
   # If the file is not in the current working directory you will need to include a
   # path.module in the filename.
@@ -24,6 +44,11 @@ resource "aws_lambda_function" "my_lambda" {
       REGION          = var.REGION
       LIMIT           = 60
     }
+  }
+  vpc_config {
+    # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
+    subnet_ids         = aws_subnet.private[*].id
+    security_group_ids = [aws_security_group.lambda_sg.id]
   }
 }
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function
@@ -127,6 +152,32 @@ resource "aws_lambda_permission" "api_gateway_invoke" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.private_api.execution_arn}/*/*/*"
   # source_arn = "arn:aws:execute-api:${var.REGION}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.private_api.id}/*"
+}
+
+# EC2 permissions for Lambda to create and manage network interfaces
+data "aws_iam_policy_document" "lambda_vpc_permissions" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ec2:CreateNetworkInterface",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DeleteNetworkInterface"
+    ]
+    resources = ["*"]
+    # Lambda requires specific EC2 permissions when configured to run within a VPC. The ec2:CreateNetworkInterface permission is necessary for Lambda to create a network interface (ENI) in the VPC to facilitate function execution. The ec2:DescribeNetworkInterfaces permission is required to retrieve details about the network interface during execution, and the ec2:DeleteNetworkInterface permission allows Lambda to clean up the ENI after execution to avoid resource leaks.
+  }
+}
+
+resource "aws_iam_policy" "lambda_vpc_permissions" {
+  name        = "${var.function_name}-vpc-permissions"
+  path        = "/lambda/"
+  description = "IAM policy for Lambda to manage network interfaces in a VPC"
+  policy      = data.aws_iam_policy_document.lambda_vpc_permissions.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_vpc_permissions" {
+  role       = aws_iam_role.lambda.name
+  policy_arn = aws_iam_policy.lambda_vpc_permissions.arn
 }
 
 output "aws_api_gateway_rest_api_private_api_execution_arn" {

@@ -31,13 +31,6 @@ resource "aws_api_gateway_method" "method" {
   authorization = "NONE"
 }
 
-data "aws_subnets" "vpc_subnets" {
-  filter {
-    name   = "vpc-id"
-    values = [var.BLOG_TLDRLW_VPC_ID]
-  }
-}
-
 # The security group ensures that only authorized resources, such as your ECS service tasks, can access the private API Gateway endpoint.
 # By default, without proper security group rules, the endpoint could potentially accept traffic from any resource in the VPC. Assigning a security group allows you to restrict this to only the ECS service or other approved resources.
 # Using a dedicated security group for the API Gateway VPC endpoint makes it easier to manage and audit access policies for this specific resource.
@@ -65,7 +58,7 @@ resource "aws_vpc_endpoint" "api_gateway" {
   vpc_id              = var.BLOG_TLDRLW_VPC_ID
   service_name        = "com.amazonaws.${var.REGION}.execute-api"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = data.aws_subnets.vpc_subnets.ids
+  subnet_ids          = data.aws_subnets.blog_tldrlw.ids
   security_group_ids  = [aws_security_group.api_gateway_sg.id]
   private_dns_enabled = true
   # ^ requests to the standard API Gateway domain name (e.g., https://<api-id>.execute-api.us-east-1.amazonaws.com) resolve to the private IP addresses of the VPC endpoint. This allows private, secure communication within the VPC without routing through the public internet.

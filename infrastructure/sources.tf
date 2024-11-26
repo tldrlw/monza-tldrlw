@@ -25,6 +25,11 @@ data "aws_subnets" "blog_tldrlw" {
     name   = "vpc-id"
     values = [var.BLOG_TLDRLW_VPC_ID]
   }
+  filter {
+    name   = "tag:Name"  # Filters based on the Name tag
+    values = ["public*"] # Matches subnets with names starting with 'public'
+  }
+  # ^ had to add this because creating private subnets in the VPC in this repo for λs to be in the VPC, VPC endpoint was picking up subnets in the same AZ instead of different ones before adding this filter
 }
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnets
 
@@ -63,3 +68,7 @@ data "aws_ssm_parameter" "cognito_password_ishaba" {
 }
 
 data "aws_caller_identity" "current" {}
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
