@@ -20,17 +20,6 @@ resource "aws_api_gateway_resource" "insights" {
   path_part   = "insights"
 }
 
-output "aws_api_gateway_resource_insights_path" {
-  value = aws_api_gateway_resource.insights.path
-}
-
-resource "aws_api_gateway_method" "method" {
-  rest_api_id   = aws_api_gateway_rest_api.private_api.id
-  resource_id   = aws_api_gateway_resource.insights.id
-  http_method   = "GET"
-  authorization = "NONE"
-}
-
 # The security group ensures that only authorized resources, such as your ECS service tasks, can access the private API Gateway endpoint.
 # By default, without proper security group rules, the endpoint could potentially accept traffic from any resource in the VPC. Assigning a security group allows you to restrict this to only the ECS service or other approved resources.
 # Using a dedicated security group for the API Gateway VPC endpoint makes it easier to manage and audit access policies for this specific resource.
@@ -64,15 +53,6 @@ resource "aws_vpc_endpoint" "api_gateway" {
   # ^ requests to the standard API Gateway domain name (e.g., https://<api-id>.execute-api.us-east-1.amazonaws.com) resolve to the private IP addresses of the VPC endpoint. This allows private, secure communication within the VPC without routing through the public internet.
 }
 
-resource "aws_api_gateway_integration" "lambda_integration" {
-  rest_api_id             = aws_api_gateway_rest_api.private_api.id
-  resource_id             = aws_api_gateway_resource.insights.id
-  http_method             = aws_api_gateway_method.method.http_method
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.my_lambda.invoke_arn
-}
-
 resource "aws_api_gateway_deployment" "api_deployment" {
   depends_on = [aws_api_gateway_rest_api_policy.private_api_policy]
   # ^ infrastructure/api-gateway-iam.tf
@@ -96,8 +76,3 @@ resource "aws_api_gateway_stage" "api_stage" {
   }
 }
 # https://registry.terraform.io/providers/hashicorp/aws/5.77.0/docs/resources/api_gateway_stage
-
-output "aws_api_gateway_stage_id" {
-  value = aws_api_gateway_stage.api_stage.id
-}
-# ^ not the same as stage name, in this case it's "ags-6ap8m5zb2j-dvm", has the stage name only at the end

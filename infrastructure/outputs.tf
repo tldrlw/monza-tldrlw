@@ -14,13 +14,13 @@ output "TF_VAR_HOSTNAME" {
   value = var.HOSTNAME
 }
 
-output "module_lambda_get_function_url" {
-  value = module.lambda_get.function_url
-}
+# output "module_lambda_get_function_url" {
+#   value = module.lambda_get.function_url
+# }
 
-output "module_lambda_get_arn" {
-  value = module.lambda_get.arn
-}
+# output "module_lambda_get_arn" {
+#   value = module.lambda_get.arn
+# }
 
 output "module_lambda_get_constructors_function_url" {
   value = module.lambda_get_constructors.function_url

@@ -69,3 +69,17 @@ variable "LAMBDA_PATH" {
   type    = string
   default = "lambda"
 }
+
+variable "SVG_LOGOS" {
+  type = list(string)
+  default = [
+    "logo-black.svg",
+    "logo-color.svg",
+    "logo-no-background.svg",
+    "logo-white.svg",
+  ]
+}
+
+variable "SVG_LOGOS_SOURCE_PATH" {
+  default = "/Users/refayathaque/Desktop/tldrlw/tldrlw-logo-zip-file/svg/" # Use the full path to avoid issues with `~`
+}
