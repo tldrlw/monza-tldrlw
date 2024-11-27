@@ -6,7 +6,7 @@ variable "APP_NAME" {
 variable "IMAGE_TAG" {
   type = string
   # not having a default will force me to provide the latest image tag when running terraform locally
-  default = "1ab3ba9"
+  default = "a5f6e86"
   # gets passed in from .github/workflows/infrastructure.yaml
 }
 
@@ -14,7 +14,6 @@ variable "ENV" {
   type    = string
   default = "dvm"
   # being passed into the ecs service module as env var, but not using it in the next.js app
-  # as of 11/25/24, using it in api gateway stage config, and for that, also in the ecs service module as env var (part of api gateway endpoint)
   # as of 9/30/24, "dvm" also gets passed in from .github/workflows/infrastructure.yaml
 }
 
