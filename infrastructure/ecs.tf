@@ -14,7 +14,8 @@ module "ecs_service" {
   host_port                   = 3000
   environment_variables = [
     # { name = "LAMBDA_GET_FUNCTION_URL", value = module.lambda_get.function_url },
-    { name = "LAMBDA_GET_INSIGHTS", value = "https://${aws_api_gateway_rest_api.private_api.id}.execute-api.${var.REGION}.amazonaws.com/${var.ENV}${aws_api_gateway_resource.insights.path}" },
+    # { name = "LAMBDA_GET_INSIGHTS", value = "https://${aws_api_gateway_rest_api.private_api.id}.execute-api.${var.REGION}.amazonaws.com/${var.ENV}${aws_api_gateway_resource.insights.path}" },
+    { name = "LAMBDA_GET_INSIGHTS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["insights"]}" },
     { name = "LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL", value = module.lambda_get_constructors.function_url },
     { name = "LAMBDA_GET_DRIVERS_FUNCTION_URL", value = module.lambda_get_drivers.function_url },
     { name = "LAMBDA_GET_RESULTS_FUNCTION_URL", value = module.lambda_get_results.function_url },
