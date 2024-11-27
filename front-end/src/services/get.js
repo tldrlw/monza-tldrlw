@@ -9,16 +9,6 @@ export default async function getConstructors(type) {
 
   const getLambdaFunctionUrl = (type) => {
     switch (type) {
-      case "constructors":
-        return (
-          process.env.LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL ||
-          "lambdaGetConstructorsFunctionUrl placeholder"
-        );
-      case "drivers":
-        return (
-          process.env.LAMBDA_GET_DRIVERS_FUNCTION_URL ||
-          "lambdaGetDriversFunctionUrl placeholder"
-        );
       case "insights":
         return (
           process.env.LAMBDA_GET_INSIGHTS || "lambdaGetFunctionUrl placeholder"
@@ -27,6 +17,16 @@ export default async function getConstructors(type) {
         return (
           process.env.LAMBDA_GET_RESULTS_FUNCTION_URL ||
           "lambdaGetResultsFunctionUrl placeholder"
+        );
+      case "drivers":
+        return (
+          process.env.LAMBDA_GET_DRIVERS_FUNCTION_URL ||
+          "lambdaGetDriversFunctionUrl placeholder"
+        );
+      case "constructors":
+        return (
+          process.env.LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL ||
+          "lambdaGetConstructorsFunctionUrl placeholder"
         );
       default:
         return "Invalid type provided";
