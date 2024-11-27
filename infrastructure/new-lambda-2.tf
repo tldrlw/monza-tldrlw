@@ -1,6 +1,6 @@
 module "lambda_get_insights" {
-  source = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2?ref=dev"
-  # source           = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2"
+  # source = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2?ref=dev"
+  source           = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2"
   DYDB_PERMISSIONS = ["dynamodb:Scan", "dynamodb:DescribeTable"]
   DYDB_TABLE_ARN   = aws_dynamodb_table.insights.arn
   ENV_VARS = {
@@ -21,6 +21,7 @@ module "lambda_get_insights" {
   VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
   VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
 }
+# must modify locals and aws_api_gateway_deployment depends_on when adding new apig-lambda-2 instantiations
 
 # Collect methods and integrations
 locals {
@@ -37,7 +38,8 @@ locals {
 }
 
 module "lambda_stack" {
-  source                        = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack?ref=dev"
+  # source                        = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack?ref=dev"
+  source                        = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack"
   PRIVATE_APIG_RESOURCES        = ["insights"]
   PRIVATE_APIG_STAGE_NAME       = var.PRIVATE_APIG_STAGE_NAME
   APP_NAME                      = var.APP_NAME
