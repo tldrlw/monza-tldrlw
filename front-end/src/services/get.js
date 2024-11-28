@@ -33,7 +33,7 @@ export default async function getConstructors(type) {
     }
   };
 
-  console.log(`front-end/src/services/get${type}.js`);
+  console.info(`front-end/src/services/get-<${type.toUpperCase()}>.js`);
 
   const requestOptions = {
     method: "GET",
