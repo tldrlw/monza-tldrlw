@@ -27,7 +27,7 @@ module "lambda_get_constructors" {
   DYDB_PERMISSIONS = ["dynamodb:Scan", "dynamodb:DescribeTable"]
   DYDB_TABLE_ARN   = aws_dynamodb_table.constructors.arn
   ENV_VARS = {
-    DYDB_TABLE_NAME = aws_dynamodb_table.constructors.id,
+    CONSTRUCTORS_DYDB_TABLE_NAME = aws_dynamodb_table.constructors.id,
     REGION          = var.REGION
   }
   HANDLER_FILE_PREFIX              = "app-get-constructors"
@@ -49,7 +49,7 @@ module "lambda_get_drivers" {
   DYDB_PERMISSIONS = ["dynamodb:Scan", "dynamodb:DescribeTable"]
   DYDB_TABLE_ARN   = aws_dynamodb_table.drivers.arn
   ENV_VARS = {
-    DYDB_TABLE_NAME = aws_dynamodb_table.drivers.id,
+    DRIVERS_DYDB_TABLE_NAME = aws_dynamodb_table.drivers.id,
     REGION          = var.REGION
   }
   HANDLER_FILE_PREFIX              = "app-get-drivers"

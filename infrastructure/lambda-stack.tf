@@ -16,7 +16,7 @@ locals {
 module "lambda_stack" {
   # source                        = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack?ref=dev"
   source                        = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack"
-  PRIVATE_APIG_RESOURCES        = ["insights", "drivers", "constructors"]
+  PRIVATE_APIG_RESOURCES        = ["insights", "constructors", "drivers"]
   PRIVATE_APIG_STAGE_NAME       = var.PRIVATE_APIG_STAGE_NAME
   APP_NAME                      = var.APP_NAME
   ECS_SERVICE_SECURITY_GROUP_ID = module.ecs_service.ecs_security_group_id
