@@ -44,7 +44,7 @@ variable "HOSTNAME" {
 variable "IMAGE_TAG" {
   type = string
   # not having a default will force me to provide the latest image tag when running terraform locally
-  default = "a5f6e86"
+  default = "f51c5b6"
   # gets passed in from .github/workflows/infrastructure.yaml
 }
 
@@ -86,4 +86,10 @@ variable "TARGET_GROUP" {
     arn  = "arn:aws:elasticloadbalancing:us-east-1:920394549028:targetgroup/monza-tldrlw-tg/85e222105b2d8b48"
     name = "monza-tldrlw-tg"
   }
+}
+
+variable "VPN_CIDR" {
+  type    = string
+  default = "38.42.2.219/32"
+  # ^ The /32 suffix specifies a single IP address.
 }

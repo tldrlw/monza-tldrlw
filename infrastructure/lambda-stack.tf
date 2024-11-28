@@ -15,8 +15,8 @@ locals {
 }
 
 module "lambda_stack" {
-  # source                        = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack?ref=dev"
-  source                        = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack"
+  source = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack?ref=dev"
+  # source                        = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack"
   PRIVATE_APIG_RESOURCES        = ["insights", "constructors", "drivers", "results"]
   PRIVATE_APIG_STAGE_NAME       = var.PRIVATE_APIG_STAGE_NAME
   APP_NAME                      = var.APP_NAME
@@ -24,6 +24,7 @@ module "lambda_stack" {
   PUBLIC_SUBNET_IDS             = data.aws_subnets.blog_tldrlw.ids
   REGION                        = var.REGION
   VPC_ID                        = var.BLOG_TLDRLW_VPC_ID
+  VPN_CIDR                      = var.VPN_CIDR
 }
 # rm -rf .terraform/modules
 
