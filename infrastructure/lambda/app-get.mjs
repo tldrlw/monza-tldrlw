@@ -3,8 +3,8 @@ import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb"; // ES Mo
 export const lambdaHandler = async (event, context) => {
   // Environment variables from Lambda configuration
   const limitAsEnvVar = process.env.LIMIT; // assuming it's coming from an environment variable
-  const limit = parseInt(limitAsEnvVar, 10) ?? 30; // Convert to integer, fallback to 10 if null or undefined
-  const tableName = process.env.DRIVERS_DYDB_TABLE_NAME;
+  const limit = parseInt(limitAsEnvVar, 10) ?? 100; // Convert to integer, fallback to 100 if null or undefined
+  const tableName = process.env.DYDB_TABLE_NAME;
   const region = process.env.REGION;
 
   // DynamoDB client configuration

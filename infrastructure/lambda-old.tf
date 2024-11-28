@@ -1,12 +1,12 @@
 module "lambda_get_constructors_old" {
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
   source_dir          = var.LAMBDA_PATH
-  handler_file_prefix = "app-get-constructors"
+  handler_file_prefix = "app-get"
   REST_method         = "GET"
   function_name       = "${var.APP_NAME}-get-constructors-old"
   environment_variables = {
-    CONSTRUCTORS_DYDB_TABLE_NAME = aws_dynamodb_table.constructors.id,
-    REGION                       = var.REGION
+    DYDB_TABLE_NAME = aws_dynamodb_table.constructors.id,
+    REGION          = var.REGION
   }
   is_s3                  = false
   is_dydb                = true
@@ -18,12 +18,12 @@ module "lambda_get_constructors_old" {
 module "lambda_get_drivers_old" {
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
   source_dir          = var.LAMBDA_PATH
-  handler_file_prefix = "app-get-drivers"
+  handler_file_prefix = "app-get"
   REST_method         = "GET"
   function_name       = "${var.APP_NAME}-get-drivers-old"
   environment_variables = {
-    DRIVERS_DYDB_TABLE_NAME = aws_dynamodb_table.drivers.id,
-    REGION                  = var.REGION
+    DYDB_TABLE_NAME = aws_dynamodb_table.drivers.id,
+    REGION          = var.REGION
   }
   is_s3                  = false
   is_dydb                = true

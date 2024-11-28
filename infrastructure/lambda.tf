@@ -6,9 +6,8 @@ module "lambda_get_insights" {
   ENV_VARS = {
     DYDB_TABLE_NAME = aws_dynamodb_table.insights.id,
     REGION          = var.REGION
-    LIMIT           = 60
   }
-  HANDLER_FILE_PREFIX              = "app-get-insights"
+  HANDLER_FILE_PREFIX              = "app-get"
   HTTP_METHOD                      = "GET"
   MEMORY_SIZE                      = 1028
   NAME                             = "${var.APP_NAME}-get-insights"
@@ -27,10 +26,10 @@ module "lambda_get_constructors" {
   DYDB_PERMISSIONS = ["dynamodb:Scan", "dynamodb:DescribeTable"]
   DYDB_TABLE_ARN   = aws_dynamodb_table.constructors.arn
   ENV_VARS = {
-    CONSTRUCTORS_DYDB_TABLE_NAME = aws_dynamodb_table.constructors.id,
-    REGION                       = var.REGION
+    DYDB_TABLE_NAME = aws_dynamodb_table.constructors.id,
+    REGION          = var.REGION
   }
-  HANDLER_FILE_PREFIX              = "app-get-constructors"
+  HANDLER_FILE_PREFIX              = "app-get"
   HTTP_METHOD                      = "GET"
   MEMORY_SIZE                      = 1028
   NAME                             = "${var.APP_NAME}-get-constructors"
@@ -49,10 +48,10 @@ module "lambda_get_drivers" {
   DYDB_PERMISSIONS = ["dynamodb:Scan", "dynamodb:DescribeTable"]
   DYDB_TABLE_ARN   = aws_dynamodb_table.drivers.arn
   ENV_VARS = {
-    DRIVERS_DYDB_TABLE_NAME = aws_dynamodb_table.drivers.id,
-    REGION                  = var.REGION
+    DYDB_TABLE_NAME = aws_dynamodb_table.drivers.id,
+    REGION          = var.REGION
   }
-  HANDLER_FILE_PREFIX              = "app-get-drivers"
+  HANDLER_FILE_PREFIX              = "app-get"
   HTTP_METHOD                      = "GET"
   MEMORY_SIZE                      = 1028
   NAME                             = "${var.APP_NAME}-get-drivers"
@@ -71,10 +70,10 @@ module "lambda_get_results" {
   DYDB_PERMISSIONS = ["dynamodb:Scan", "dynamodb:DescribeTable"]
   DYDB_TABLE_ARN   = aws_dynamodb_table.results.arn
   ENV_VARS = {
-    RESULTS_DYDB_TABLE_NAME = aws_dynamodb_table.results.id,
-    REGION                  = var.REGION
+    DYDB_TABLE_NAME = aws_dynamodb_table.results.id,
+    REGION          = var.REGION
   }
-  HANDLER_FILE_PREFIX              = "app-get-results"
+  HANDLER_FILE_PREFIX              = "app-get"
   HTTP_METHOD                      = "GET"
   MEMORY_SIZE                      = 1028
   NAME                             = "${var.APP_NAME}-get-results"
