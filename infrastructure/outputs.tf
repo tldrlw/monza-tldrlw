@@ -14,30 +14,6 @@ output "TF_VAR_HOSTNAME" {
   value = var.HOSTNAME
 }
 
-# output "module_lambda_get_function_url" {
-#   value = module.lambda_get.function_url
-# }
-
-# output "module_lambda_get_arn" {
-#   value = module.lambda_get.arn
-# }
-
-output "module_lambda_get_constructors_function_url" {
-  value = module.lambda_get_constructors.function_url
-}
-
-output "module_lambda_get_constructors_arn" {
-  value = module.lambda_get_constructors.arn
-}
-
-output "module_lambda_get_drivers_function_url" {
-  value = module.lambda_get_drivers.function_url
-}
-
-output "module_lambda_get_drivers_arn" {
-  value = module.lambda_get_drivers.arn
-}
-
 output "module_lambda_get_results_function_url" {
   value = module.lambda_get_results.function_url
 }
