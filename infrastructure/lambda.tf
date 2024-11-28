@@ -28,7 +28,7 @@ module "lambda_get_constructors" {
   DYDB_TABLE_ARN   = aws_dynamodb_table.constructors.arn
   ENV_VARS = {
     CONSTRUCTORS_DYDB_TABLE_NAME = aws_dynamodb_table.constructors.id,
-    REGION          = var.REGION
+    REGION                       = var.REGION
   }
   HANDLER_FILE_PREFIX              = "app-get-constructors"
   HTTP_METHOD                      = "GET"
@@ -50,7 +50,7 @@ module "lambda_get_drivers" {
   DYDB_TABLE_ARN   = aws_dynamodb_table.drivers.arn
   ENV_VARS = {
     DRIVERS_DYDB_TABLE_NAME = aws_dynamodb_table.drivers.id,
-    REGION          = var.REGION
+    REGION                  = var.REGION
   }
   HANDLER_FILE_PREFIX              = "app-get-drivers"
   HTTP_METHOD                      = "GET"
@@ -59,6 +59,28 @@ module "lambda_get_drivers" {
   PRIVATE_APIG_EXECUTION_ARN       = module.lambda_stack.private_apig_execution_arn
   PRIVATE_APIG_ID                  = module.lambda_stack.private_apig_id
   PRIVATE_APIG_RESOURCE_ID         = module.lambda_stack.private_apig_resource_ids["drivers"]
+  PRIVATE_APIG_SECURITY_GROUP_ID   = module.lambda_stack.private_apig_security_group_id
+  PRIVATE_SUBNET_IDS               = module.lambda_stack.private_subnet_ids
+  SOURCE_DIR                       = "lambda"
+  VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
+  VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
+}
+
+module "lambda_get_results" {
+  source           = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2"
+  DYDB_PERMISSIONS = ["dynamodb:Scan", "dynamodb:DescribeTable"]
+  DYDB_TABLE_ARN   = aws_dynamodb_table.results.arn
+  ENV_VARS = {
+    RESULTS_DYDB_TABLE_NAME = aws_dynamodb_table.results.id,
+    REGION                  = var.REGION
+  }
+  HANDLER_FILE_PREFIX              = "app-get-results"
+  HTTP_METHOD                      = "GET"
+  MEMORY_SIZE                      = 1028
+  NAME                             = "${var.APP_NAME}-get-results"
+  PRIVATE_APIG_EXECUTION_ARN       = module.lambda_stack.private_apig_execution_arn
+  PRIVATE_APIG_ID                  = module.lambda_stack.private_apig_id
+  PRIVATE_APIG_RESOURCE_ID         = module.lambda_stack.private_apig_resource_ids["results"]
   PRIVATE_APIG_SECURITY_GROUP_ID   = module.lambda_stack.private_apig_security_group_id
   PRIVATE_SUBNET_IDS               = module.lambda_stack.private_subnet_ids
   SOURCE_DIR                       = "lambda"

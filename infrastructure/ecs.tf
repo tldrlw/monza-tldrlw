@@ -16,7 +16,7 @@ module "ecs_service" {
     { name = "LAMBDA_GET_INSIGHTS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["insights"]}" },
     { name = "LAMBDA_GET_CONSTRUCTORS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["constructors"]}" },
     { name = "LAMBDA_GET_DRIVERS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["drivers"]}" },
-    { name = "LAMBDA_GET_RESULTS_FUNCTION_URL", value = module.lambda_get_results.function_url },
+    { name = "LAMBDA_GET_RESULTS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["results"]}" },
     { name = "LAMBDA_POST_FUNCTION_URL", value = module.lambda_post.function_url },
     { name = "LAMBDA_POST_RESULT_FUNCTION_URL", value = module.lambda_post_result.function_url },
     { name = "LAMBDA_POST_IMAGE_FUNCTION_URL", value = module.lambda_post_image.function_url },

@@ -14,14 +14,6 @@ output "TF_VAR_HOSTNAME" {
   value = var.HOSTNAME
 }
 
-output "module_lambda_get_results_function_url" {
-  value = module.lambda_get_results.function_url
-}
-
-output "module_lambda_get_results_arn" {
-  value = module.lambda_get_results.arn
-}
-
 output "module_lambda_post_function_url" {
   value = module.lambda_post.function_url
 }
