@@ -90,6 +90,5 @@ variable "TARGET_GROUP" {
 
 variable "VPN_CIDR" {
   type    = string
-  default = "38.42.2.219/32"
-  # ^ The /32 suffix specifies a single IP address.
+  default = "10.1.0.0/22"
 }
