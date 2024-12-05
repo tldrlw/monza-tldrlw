@@ -86,4 +86,28 @@ module "lambda_get_results" {
   VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
   VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
 }
+
+module "lambda_post_image_new" {
+  source         = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-s3?ref=dev"
+  S3_PERMISSIONS = ["s3:PutObject"]
+  S3_BUCKET_ARN  = aws_s3_bucket.images.arn
+  ENV_VARS = {
+    S3_BUCKET_NAME = aws_s3_bucket.images.id,
+    REGION         = var.REGION
+  }
+  HANDLER_FILE_PREFIX            = "app-post-image-new"
+  HTTP_METHOD                    = "POST"
+  MEMORY_SIZE                    = 1028
+  NAME                           = "${var.APP_NAME}-post-image-new"
+  PRIVATE_APIG_EXECUTION_ARN     = module.lambda_stack.private_apig_execution_arn
+  PRIVATE_APIG_ID                = module.lambda_stack.private_apig_id
+  PRIVATE_APIG_RESOURCE_ID       = module.lambda_stack.private_apig_resource_ids["images"]
+  PRIVATE_APIG_SECURITY_GROUP_ID = module.lambda_stack.private_apig_security_group_id
+  PRIVATE_SUBNET_IDS             = module.lambda_stack.private_subnet_ids
+  SOURCE_DIR                     = "lambda"
+  VPC_ENDPOINT_S3_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_s3_prefix_list_id
+  VPC_ID                         = var.BLOG_TLDRLW_VPC_ID
+}
+# rm -rf .terraform/modules
+
 # must modify locals and aws_api_gateway_deployment depends_on when adding new apig-lambda-2 instantiations, and also (maybe) PRIVATE_APIG_RESOURCES in lambda_stack module

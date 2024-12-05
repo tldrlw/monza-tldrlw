@@ -20,7 +20,8 @@ module "ecs_service" {
     { name = "LAMBDA_GET_RESULTS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["results"]}" },
     { name = "LAMBDA_POST_FUNCTION_URL", value = module.lambda_post.function_url },
     { name = "LAMBDA_POST_RESULT_FUNCTION_URL", value = module.lambda_post_result.function_url },
-    { name = "LAMBDA_POST_IMAGE_FUNCTION_URL", value = module.lambda_post_image.function_url },
+    # { name = "LAMBDA_POST_IMAGE", value = module.lambda_post_image.function_url },
+    { name = "LAMBDA_POST_IMAGE", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["results"]}" },
     { name = "ENV", value = var.ENV }
   ]
   # linux_arm64                 = true

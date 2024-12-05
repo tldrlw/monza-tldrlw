@@ -12,8 +12,7 @@ export default function Dashboard() {
   noStore(); // Opt into dynamic rendering
   // These values will be evaluated at runtime
   const lambdaPostImageFunctionUrl =
-    process.env.LAMBDA_POST_IMAGE_FUNCTION_URL ||
-    "lambdaPostImageFunctionUrl placeholder";
+    process.env.LAMBDA_POST_IMAGE || "lambdaPostImageFunctionUrl placeholder";
 
   // BUILD time env vars
   const userPoolClientId =

@@ -6,6 +6,7 @@ locals {
       module.lambda_get_constructors,
       module.lambda_get_drivers,
       module.lambda_get_results,
+      module.lambda_post_image_new,
       # Add more Lambda module instantiations here, e.g.,...
       ] : {
       method_id = lambda_module.private_apig_method_id
@@ -17,7 +18,7 @@ locals {
 module "lambda_stack" {
   source = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack?ref=dev"
   # source                        = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack"
-  PRIVATE_APIG_RESOURCES        = ["insights", "constructors", "drivers", "results"]
+  PRIVATE_APIG_RESOURCES        = ["insights", "constructors", "drivers", "results", "images"]
   PRIVATE_APIG_STAGE_NAME       = var.PRIVATE_APIG_STAGE_NAME
   APP_NAME                      = var.APP_NAME
   ECS_SERVICE_SECURITY_GROUP_ID = module.ecs_service.ecs_security_group_id
@@ -39,6 +40,8 @@ resource "aws_api_gateway_deployment" "private" {
     module.lambda_get_drivers.private_apig_integration_uri,
     module.lambda_get_results.private_apig_method_id,
     module.lambda_get_results.private_apig_integration_uri,
+    module.lambda_post_image_new.private_apig_method_id,
+    module.lambda_post_image_new.private_apig_integration_uri,
   ]
   rest_api_id = module.lambda_stack.private_apig_id
   triggers = {
