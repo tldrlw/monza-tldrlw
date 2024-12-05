@@ -1,10 +1,11 @@
 module "ecs_service" {
+  # source                      = "git::https://github.com/tldrlw/terraform-modules.git//ecs-service?ref=dev"
   source                      = "git::https://github.com/tldrlw/terraform-modules.git//ecs-service"
-  app_name                    = var.APP_NAME
+  APP_NAME                    = var.APP_NAME
   ecr_repo_url                = aws_ecr_repository.main.repository_url
   image_tag                   = var.IMAGE_TAG
   ecs_cluster_id              = data.aws_ecs_cluster.blog_tldrlw.id
-  task_count                  = 1
+  ECS_CLUSTER_NAME            = var.BLOG_TLDRLW_ECS_CLUSTER_NAME
   alb_target_group_arn        = data.aws_lb_target_group.main.arn
   source_security_group_id    = data.aws_security_group.blog_tldrlw_alb.id
   security_group_egress_cidrs = ["0.0.0.0/0"]

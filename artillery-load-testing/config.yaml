@@ -1,0 +1,22 @@
+# config is what defines how our load test will run, e.g. the URL of the system we're testing, how much load will be generated, any plugins we want to use, and so on.
+config:
+  target: "https://monza.tldrlw.com" # Replace with your service DNS
+  phases:
+    - duration: 120 # Total test duration: 2 minutes
+      arrivalRate: 5 # Start with 5 requests per second
+    - duration: 180 # Increase the load gradually
+      arrivalRate: 10
+      rampTo: 20 # Ramp up to 20 requests per second over 3 minutes
+    - duration: 120 # Sustained peak load
+      arrivalRate: 20
+  defaults:
+    headers:
+      Content-Type: "application/json" # Add any headers your app might need
+
+# scenarios is where we define what the virtual users created by Artillery will do. A scenario is usually a sequence of steps that describes a user session in the app.
+scenarios:
+  - flow:
+      - get:
+          url: "/results" # Replace with your service path
+      - get:
+          url: "/standings" # Replace with your service path

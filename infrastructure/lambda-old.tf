@@ -1,3 +1,4 @@
+// currently being used by points calculator λs, will later be refactored to be in SG
 module "lambda_get_constructors_old" {
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
   source_dir          = var.LAMBDA_PATH
@@ -31,6 +32,7 @@ module "lambda_get_drivers_old" {
   dydb_table_permissions = ["dynamodb:Scan", "dynamodb:DescribeTable"]
   function_url_public    = true
 }
+//
 
 module "lambda_post" {
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
