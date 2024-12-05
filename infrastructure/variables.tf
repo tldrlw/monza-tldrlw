@@ -3,25 +3,6 @@ variable "APP_NAME" {
   default = "monza-tldrlw"
 }
 
-variable "IMAGE_TAG" {
-  type = string
-  # not having a default will force me to provide the latest image tag when running terraform locally
-  default = "a5f6e86"
-  # gets passed in from .github/workflows/infrastructure.yaml
-}
-
-variable "ENV" {
-  type    = string
-  default = "dvm"
-  # being passed into the ecs service module as env var, but not using it in the next.js app
-  # as of 9/30/24, "dvm" also gets passed in from .github/workflows/infrastructure.yaml
-}
-
-variable "HOSTNAME" {
-  type    = string
-  default = "monza.tldrlw.com"
-}
-
 variable "BLOG_TLDRLW_ALB" {
   type = object({
     arn  = string
@@ -38,15 +19,9 @@ variable "BLOG_TLDRLW_ALB_SG_ID" {
   default = "sg-07507bc51908ada43"
 }
 
-variable "TARGET_GROUP" {
-  type = object({
-    arn  = string
-    name = string
-  })
-  default = {
-    arn  = "arn:aws:elasticloadbalancing:us-east-1:920394549028:targetgroup/monza-tldrlw-tg/85e222105b2d8b48"
-    name = "monza-tldrlw-tg"
-  }
+variable "BLOG_TLDRLW_ECS_CLUSTER_NAME" {
+  type    = string
+  default = "main"
 }
 
 variable "BLOG_TLDRLW_VPC_ID" {
@@ -54,19 +29,38 @@ variable "BLOG_TLDRLW_VPC_ID" {
   default = "vpc-08a677394c24de810"
 }
 
-variable "BLOG_TLDRLW_ECS_CLUSTER_NAME" {
+variable "ENV" {
   type    = string
-  default = "main"
+  default = "dev"
+  # being passed into the ecs service module as env var, but not using it in the next.js app
+  # as of 9/30/24, "dvm" also gets passed in from .github/workflows/infrastructure.yaml
 }
 
-variable "REGION" {
+variable "HOSTNAME" {
   type    = string
-  default = "us-east-1"
+  default = "monza.tldrlw.com"
+}
+
+variable "IMAGE_TAG" {
+  type = string
+  # not having a default will force me to provide the latest image tag when running terraform locally
+  default = "f51c5b6"
+  # gets passed in from .github/workflows/infrastructure.yaml
 }
 
 variable "LAMBDA_PATH" {
   type    = string
   default = "lambda"
+}
+
+variable "PRIVATE_APIG_STAGE_NAME" {
+  type    = string
+  default = "prod"
+}
+
+variable "REGION" {
+  type    = string
+  default = "us-east-1"
 }
 
 variable "SVG_LOGOS" {
@@ -81,4 +75,20 @@ variable "SVG_LOGOS" {
 
 variable "SVG_LOGOS_SOURCE_PATH" {
   default = "/Users/refayathaque/Desktop/tldrlw/tldrlw-logo-zip-file/svg/" # Use the full path to avoid issues with `~`
+}
+
+variable "TARGET_GROUP" {
+  type = object({
+    arn  = string
+    name = string
+  })
+  default = {
+    arn  = "arn:aws:elasticloadbalancing:us-east-1:920394549028:targetgroup/monza-tldrlw-tg/85e222105b2d8b48"
+    name = "monza-tldrlw-tg"
+  }
+}
+
+variable "VPN_CIDR" {
+  type    = string
+  default = "10.1.0.0/22"
 }

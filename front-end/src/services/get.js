@@ -9,23 +9,23 @@ export default async function getConstructors(type) {
 
   const getLambdaFunctionUrl = (type) => {
     switch (type) {
-      case "constructors":
-        return (
-          process.env.LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL ||
-          "lambdaGetConstructorsFunctionUrl placeholder"
-        );
-      case "drivers":
-        return (
-          process.env.LAMBDA_GET_DRIVERS_FUNCTION_URL ||
-          "lambdaGetDriversFunctionUrl placeholder"
-        );
       case "insights":
         return (
           process.env.LAMBDA_GET_INSIGHTS || "lambdaGetFunctionUrl placeholder"
         );
+      case "constructors":
+        return (
+          process.env.LAMBDA_GET_CONSTRUCTORS ||
+          "lambdaGetConstructorsFunctionUrl placeholder"
+        );
+      case "drivers":
+        return (
+          process.env.LAMBDA_GET_DRIVERS ||
+          "lambdaGetDriversFunctionUrl placeholder"
+        );
       case "results":
         return (
-          process.env.LAMBDA_GET_RESULTS_FUNCTION_URL ||
+          process.env.LAMBDA_GET_RESULTS ||
           "lambdaGetResultsFunctionUrl placeholder"
         );
       default:
@@ -33,7 +33,7 @@ export default async function getConstructors(type) {
     }
   };
 
-  console.log(`front-end/src/services/get${type}.js`);
+  console.info(`front-end/src/services/get-<${type.toUpperCase()}>.js`);
 
   const requestOptions = {
     method: "GET",
@@ -58,10 +58,10 @@ export default async function getConstructors(type) {
       throw new Error("Network response was not ok");
     }
     data = await response.json();
-    // console.log(
-    //   `front-end/src/services/get${type}.js - API call successful`,
-    //   JSON.stringify(data, null, 2),
-    // );
+    console.log(
+      `front-end/src/services/get${type}.js - API call successful`,
+      JSON.stringify(data, null, 2),
+    );
     console.log(getLambdaFunctionUrl(type));
   } catch (error) {
     console.error(

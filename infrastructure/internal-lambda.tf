@@ -17,7 +17,7 @@ resource "aws_lambda_function" "drivers_update" {
   source_code_hash = data.archive_file.drivers_update.output_base64sha256
   environment {
     variables = {
-      LAMBDA_GET_DRIVERS_FUNCTION_URL = module.lambda_get_drivers.function_url
+      LAMBDA_GET_DRIVERS_FUNCTION_URL = module.lambda_get_drivers_old.function_url
       DRIVERS_DYDB_TABLE_NAME         = aws_dynamodb_table.drivers.id
       REGION                          = var.REGION
     }
@@ -53,7 +53,7 @@ resource "aws_lambda_function" "constructors_update" {
   source_code_hash = data.archive_file.constructors_update.output_base64sha256
   environment {
     variables = {
-      LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL = module.lambda_get_constructors.function_url
+      LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL = module.lambda_get_constructors_old.function_url
       CONSTRUCTORS_DYDB_TABLE_NAME         = aws_dynamodb_table.constructors.id
       REGION                               = var.REGION
     }

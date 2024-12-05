@@ -1,10 +1,11 @@
 module "ecs_service" {
+  # source                      = "git::https://github.com/tldrlw/terraform-modules.git//ecs-service?ref=dev"
   source                      = "git::https://github.com/tldrlw/terraform-modules.git//ecs-service"
-  app_name                    = var.APP_NAME
+  APP_NAME                    = var.APP_NAME
   ecr_repo_url                = aws_ecr_repository.main.repository_url
   image_tag                   = var.IMAGE_TAG
   ecs_cluster_id              = data.aws_ecs_cluster.blog_tldrlw.id
-  task_count                  = 1
+  ECS_CLUSTER_NAME            = var.BLOG_TLDRLW_ECS_CLUSTER_NAME
   alb_target_group_arn        = data.aws_lb_target_group.main.arn
   source_security_group_id    = data.aws_security_group.blog_tldrlw_alb.id
   security_group_egress_cidrs = ["0.0.0.0/0"]
@@ -13,15 +14,14 @@ module "ecs_service" {
   container_port              = 3000
   host_port                   = 3000
   environment_variables = [
-    # { name = "LAMBDA_GET_FUNCTION_URL", value = module.lambda_get.function_url },
-    # { name = "LAMBDA_GET_INSIGHTS", value = "https://${aws_api_gateway_rest_api.private_api.id}.execute-api.${var.REGION}.amazonaws.com/${var.ENV}${aws_api_gateway_resource.insights.path}" },
     { name = "LAMBDA_GET_INSIGHTS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["insights"]}" },
-    { name = "LAMBDA_GET_CONSTRUCTORS_FUNCTION_URL", value = module.lambda_get_constructors.function_url },
-    { name = "LAMBDA_GET_DRIVERS_FUNCTION_URL", value = module.lambda_get_drivers.function_url },
-    { name = "LAMBDA_GET_RESULTS_FUNCTION_URL", value = module.lambda_get_results.function_url },
+    { name = "LAMBDA_GET_CONSTRUCTORS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["constructors"]}" },
+    { name = "LAMBDA_GET_DRIVERS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["drivers"]}" },
+    { name = "LAMBDA_GET_RESULTS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["results"]}" },
     { name = "LAMBDA_POST_FUNCTION_URL", value = module.lambda_post.function_url },
     { name = "LAMBDA_POST_RESULT_FUNCTION_URL", value = module.lambda_post_result.function_url },
-    { name = "LAMBDA_POST_IMAGE_FUNCTION_URL", value = module.lambda_post_image.function_url },
+    # { name = "LAMBDA_POST_IMAGE", value = module.lambda_post_image.function_url },
+    { name = "LAMBDA_POST_IMAGE", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["results"]}" },
     { name = "ENV", value = var.ENV }
   ]
   # linux_arm64                 = true

@@ -3,7 +3,7 @@ import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb"; // ES Mo
 export const lambdaHandler = async (event, context) => {
   // console.log("event", event);
   // console.log("context", context);
-  // ^ structure is different to if the Lambda was hooked up to APIG with Cognito Auth
+  // ^ structure is different to if the Lambda was hooked up to APIG with/without Cognito Auth
   // Extracting requestContext and context info
   const { domainName, http, time } = event.requestContext;
   const { functionName, memoryLimitInMB, logGroupName, invokedFunctionArn } =
@@ -25,11 +25,7 @@ export const lambdaHandler = async (event, context) => {
   // Environment variables from Lambda configuration
   const limitAsEnvVar = process.env.LIMIT; // assuming it's coming from an environment variable
   const limit = parseInt(limitAsEnvVar, 10) ?? 10; // Convert to integer, fallback to 10 if null or undefined
-  // console.log("limitAsEnvVar", limitAsEnvVar);
-  // console.log("limitAsEnvVar typeof", typeof limitAsEnvVar);
-  // console.log("limit", limit);
-  // console.log("limit typeof", typeof limit);
-  const tableName = process.env.CONSTRUCTORS_DYDB_TABLE_NAME;
+  const tableName = process.env.DYDB_TABLE_NAME;
   const region = process.env.REGION;
 
   // DynamoDB client configuration
