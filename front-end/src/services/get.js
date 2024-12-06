@@ -7,26 +7,24 @@ export default async function getConstructors(type) {
   noStore(); // Opt into dynamic rendering
   // This value will be evaluated at runtime
 
-  const getLambdaFunctionUrl = (type) => {
+  const getLambdaURL = (type) => {
     switch (type) {
       case "insights":
         return (
-          process.env.LAMBDA_GET_INSIGHTS || "lambdaGetFunctionUrl placeholder"
+          process.env.LAMBDA_GET_INSIGHTS || "lambdaGetInsightsURL placeholder"
         );
       case "constructors":
         return (
           process.env.LAMBDA_GET_CONSTRUCTORS ||
-          "lambdaGetConstructorsFunctionUrl placeholder"
+          "lambdaGetConstructorsURL placeholder"
         );
       case "drivers":
         return (
-          process.env.LAMBDA_GET_DRIVERS ||
-          "lambdaGetDriversFunctionUrl placeholder"
+          process.env.LAMBDA_GET_DRIVERS || "lambdaGetDriversURL placeholder"
         );
       case "results":
         return (
-          process.env.LAMBDA_GET_RESULTS ||
-          "lambdaGetResultsFunctionUrl placeholder"
+          process.env.LAMBDA_GET_RESULTS || "lambdaGetResultsURL placeholder"
         );
       default:
         return "Invalid type provided";
@@ -46,7 +44,7 @@ export default async function getConstructors(type) {
 
   try {
     const response = await fetch(
-      getLambdaFunctionUrl(type),
+      getLambdaURL(type),
       { next: { tags: [type] } },
       // https://nextjs.org/docs/app/api-reference/functions/revalidateTag
       { cache: "force-cache" },
@@ -62,7 +60,7 @@ export default async function getConstructors(type) {
       `front-end/src/services/get${type}.js - API call successful`,
       JSON.stringify(data, null, 2),
     );
-    console.log(getLambdaFunctionUrl(type));
+    console.log(getLambdaURL(type));
   } catch (error) {
     console.error(
       `front-end/src/services/get${type}.js - API call failed`,
