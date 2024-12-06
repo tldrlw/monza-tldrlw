@@ -11,7 +11,7 @@ export default async function ListResults({ results, dashboardView = false }) {
       {results.map((result, index) => (
         <div
           key={index}
-          className={`mb-2 border-2 border-solid border-customOrangeLogo p-4 md:p-8 ${dashboardView ? "md:mb-2" : "md:mb-0"}`}
+          className={`mb-2 border-2 border-solid border-customOrangeLogo p-4 md:p-8 ${dashboardView ? "md:mb-2" : "md:mb-3"}`}
         >
           <h1 className="text-base md:text-xl">{result.Race.S}</h1>
           <h2 className="text-base font-bold md:mt-4 md:text-lg">

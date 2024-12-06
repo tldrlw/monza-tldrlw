@@ -14,24 +14,12 @@ output "TF_VAR_HOSTNAME" {
   value = var.HOSTNAME
 }
 
-output "module_lambda_post_result_function_url" {
-  value = module.lambda_post_result.function_url
-}
-
-output "module_lambda_post_result_arn" {
-  value = module.lambda_post_result.arn
-}
-
-output "module_lambda_post_image_function_url" {
+output "LAMBDA_POST_IMAGE_FUNCTION_URL" {
   value = module.lambda_post_image.function_url
 }
 
-output "module_lambda_post_image_arn" {
+output "LAMBDA_POST_IMAGE_ARN" {
   value = module.lambda_post_image.arn
-}
-
-output "lambda_drivers_update_arn" {
-  value = aws_lambda_function.drivers_update.arn
 }
 
 output "cognito_user_pool_id" {
