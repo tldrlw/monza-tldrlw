@@ -7,10 +7,12 @@ Route 53 [icon: aws-route-53]
 // lambda functions
 VPC Subnets (Private) [icon: aws-vpc] {
   Security Group [icon: aws-security-group] {
-    GetInsights [icon: aws-lambda, label: get-insights]
     GetConstructors [icon: aws-lambda, label: get-constructors]
     GetDrivers [icon: aws-lambda, label: get-drivers]
+    GetInsights [icon: aws-lambda, label: get-insights]
+    PostInsight [icon: aws-lambda, label: post-insight]
     GetResults [icon: aws-lambda, label: get-results]
+    PostResult [icon: aws-lambda, label: post-result]
   }
   VPC Endpoint (DyDB) [icon: aws-vpc]
 }
@@ -20,8 +22,6 @@ VPC Subnets (Public) [icon: aws-vpc] {
     VPC Endpoint (APIG) [icon: aws-vpc]
   }
 }
-PostInsight [icon: aws-lambda, label: post-insight]
-PostResult [icon: aws-lambda, label: post-result]
 PostImage [icon: aws-lambda, label: post-image]
 ConstructorsUpdate [icon: aws-lambda, label: constructors-update]
 DriversUpdate [icon: aws-lambda, label: drivers-update]

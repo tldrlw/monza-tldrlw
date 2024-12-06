@@ -109,6 +109,28 @@ module "lambda_post_insight" {
   VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
 }
 
+module "lambda_post_result" {
+  source           = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2"
+  DYDB_PERMISSIONS = ["dynamodb:BatchWriteItem"]
+  DYDB_TABLE_ARN   = aws_dynamodb_table.results.arn
+  ENV_VARS = {
+    DYDB_TABLE_NAME = aws_dynamodb_table.results.id,
+    REGION          = var.REGION
+  }
+  HANDLER_FILE_PREFIX              = "app-post-result"
+  HTTP_METHOD                      = "POST"
+  MEMORY_SIZE                      = 1028
+  NAME                             = "${var.APP_NAME}-post-result"
+  PRIVATE_APIG_EXECUTION_ARN       = module.lambda_stack.private_apig_execution_arn
+  PRIVATE_APIG_ID                  = module.lambda_stack.private_apig_id
+  PRIVATE_APIG_RESOURCE_ID         = module.lambda_stack.private_apig_resource_ids["results"]
+  PRIVATE_APIG_SECURITY_GROUP_ID   = module.lambda_stack.private_apig_security_group_id
+  PRIVATE_SUBNET_IDS               = module.lambda_stack.private_subnet_ids
+  SOURCE_DIR                       = "lambda"
+  VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
+  VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
+}
+
 # must modify locals and aws_api_gateway_deployment depends_on when adding new apig-lambda-2 instantiations, and also (maybe) PRIVATE_APIG_RESOURCES in lambda_stack module
 
 # lambda below not protected by private APIG, because image upload component in next.js running client-side, client-side code runs in browser, which does not have connectivity to the private APIG since it's not running server-side like other server-side GET API calls to lambdas (lambdas above), see 11/6/24 note in README for more on this

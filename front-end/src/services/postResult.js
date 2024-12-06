@@ -7,9 +7,8 @@ export default async function postResult(formData) {
 
   noStore(); // Opt into dynamic rendering
   // This value will be evaluated at runtime
-  const lambdaPostResultFunctionUrl =
-    process.env.LAMBDA_POST_RESULT_FUNCTION_URL ||
-    "lambdaPostResultFunctionUrl placeholder";
+  const lambdaPostResultURL =
+    process.env.LAMBDA_POST_RESULT || "lambdaPostResultURL placeholder";
 
   // console.log("front-end/src/services/postResult.js - formData", formData);
 
@@ -71,7 +70,7 @@ export default async function postResult(formData) {
   let data;
 
   try {
-    const response = await fetch(lambdaPostResultFunctionUrl, requestOptions);
+    const response = await fetch(lambdaPostResultURL, requestOptions);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
