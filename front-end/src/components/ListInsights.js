@@ -60,12 +60,18 @@ export default async function ListInsights({ dashboardView }) {
                 {dashboardView && (
                   <p className="mb-4 font-bold">ID: {insight.PK.S}</p>
                 )}
-                <a
-                  href={insight.Link.S}
-                  className="text-base font-bold text-blue-500 hover:underline md:text-lg"
-                >
-                  {insight.Title.S}
-                </a>
+                {insight.Title.S === "monza.tldrlw.com" ? (
+                  <span className="text-base font-bold text-slate-800 md:text-lg">
+                    {insight.Title.S}
+                  </span>
+                ) : (
+                  <a
+                    href={insight.Link.S}
+                    className="text-base font-bold text-blue-500 hover:underline md:text-lg"
+                  >
+                    {insight.Title.S}
+                  </a>
+                )}
                 <Pills insight={insight} dashboardView={dashboardView}></Pills>
                 <Insight insight={insight}></Insight>
               </div>
