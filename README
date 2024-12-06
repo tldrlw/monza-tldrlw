@@ -28,6 +28,10 @@
 
 ## random notes
 
+- 12/6/24 - tried to create a new λ for s3 image upload
+
+  - I was trying to integrate my S3 image upload Lambda function behind a private API Gateway endpoint, thinking that since my Next.js application and the gateway were both in the same VPC, everything would just work seamlessly. However, the key detail I overlooked is that the image upload logic in my Next.js app runs in the user’s browser, not on the server. Even though my app’s server-side code can talk to the private gateway inside the VPC, the client-side browser code operates outside of that protected network. As a result, the browser simply can’t reach the private endpoint directly, causing the upload attempt to fail.
+
 - 12/4/24 - ECS auto scaling enabled, check module repo README for more details
 
 - 10/11/24 - since `node_modules` in `infrastructure/lambda` is part of `.gitignore`, `node_modules` were not included in the lambda deployment package zip file when creating them in the workflow - solution was to include `npm install` in the `infrastructure/lambda` as part of the terraform `infrastructure.yaml` workflow - this wasn't an issue before because the other two lambda functions (`app-get.mjs` and `app-post.mjs`) do not rely on non-AWS sdk npm packages - lambda base layers come pre-packaged with the AWS sdks, so you don't need them available to the function within `node_modules`
