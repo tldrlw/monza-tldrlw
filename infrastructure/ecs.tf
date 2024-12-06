@@ -35,8 +35,8 @@ module "ecs_service" {
       value = "${local.base_url}${module.lambda_stack.private_apig_resource_paths["results"]}"
     },
     {
-      name  = "LAMBDA_POST_FUNCTION_URL"
-      value = module.lambda_post.function_url
+      name  = "LAMBDA_POST_INSIGHT"
+      value = "${local.base_url}${module.lambda_stack.private_apig_resource_paths["insights"]}"
     },
     {
       name  = "LAMBDA_POST_RESULT_FUNCTION_URL"

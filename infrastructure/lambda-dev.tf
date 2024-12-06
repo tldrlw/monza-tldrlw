@@ -74,6 +74,24 @@ module "lambda_get_drivers_dev" {
   function_url_public    = true
 }
 
+module "lambda_post_insight_dev" {
+  count               = var.ENV == "dev" ? 1 : 0
+  source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
+  source_dir          = var.LAMBDA_PATH
+  handler_file_prefix = "app-post-insight"
+  REST_method         = "POST"
+  function_name       = "${var.APP_NAME}-post-insight-${var.ENV}"
+  environment_variables = {
+    DYDB_TABLE_NAME = aws_dynamodb_table.insights.id,
+    REGION          = var.REGION
+  }
+  is_s3                  = false
+  is_dydb                = true
+  dydb_table_arn         = aws_dynamodb_table.insights.arn
+  dydb_table_permissions = ["dynamodb:BatchWriteItem"]
+  function_url_public    = true
+}
+
 # outputs are named the way they're set in front-end/.env.local, so just copy paste after running tf apply locally
 
 output "LAMBDA_GET_INSIGHTS" {
@@ -90,4 +108,8 @@ output "LAMBDA_GET_CONSTRUCTORS" {
 
 output "LAMBDA_GET_DRIVERS" {
   value = var.ENV == "dev" && length(module.lambda_get_drivers_dev) > 0 ? module.lambda_get_drivers_dev[0].function_url : null
+}
+
+output "LAMBDA_POST_INSIGHT" {
+  value = var.ENV == "dev" && length(module.lambda_post_insight_dev) > 0 ? module.lambda_post_insight_dev[0].function_url : null
 }
