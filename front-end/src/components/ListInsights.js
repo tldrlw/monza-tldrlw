@@ -60,7 +60,7 @@ export default async function ListInsights({ dashboardView }) {
                 {dashboardView && (
                   <p className="mb-4 font-bold">ID: {insight.PK.S}</p>
                 )}
-                {insight.Title.S === "monza.tldrlw.com" ? (
+                {insight.Link.S === "monza.tldrlw.com" ? (
                   <span className="text-base font-bold text-slate-800 md:text-lg">
                     {insight.Title.S}
                   </span>
