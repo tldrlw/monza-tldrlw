@@ -31,7 +31,7 @@ variable "BLOG_TLDRLW_VPC_ID" {
 
 variable "ENV" {
   type    = string
-  default = "prd"
+  default = "dev"
   # if "dev" will provision all local testing lambdas in infrastructure/lambda-dev.tf
   # being passed into the ecs service module as env var, but not using it in the next.js app
   # as of 9/30/24, "dvm" also gets passed in from .github/workflows/infrastructure.yaml

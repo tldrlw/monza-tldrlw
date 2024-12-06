@@ -4,23 +4,8 @@ import {
 } from "@aws-sdk/client-dynamodb"; // ES Modules import
 
 export const lambdaHandler = async (event, context) => {
-  // Extracting requestContext and context info
-  const { domainName, http, time } = event.requestContext;
-  const { functionName, memoryLimitInMB, logGroupName, invokedFunctionArn } =
-    context;
-
-  console.log("from `event.requestContext` and `context`", {
-    domainName,
-    method: http.method,
-    sourceIp: http.sourceIp,
-    userAgent: http.userAgent,
-    time,
-    // below from context
-    functionName,
-    memoryLimitInMB,
-    logGroupName,
-    invokedFunctionArn,
-  });
+  console.log("event", event);
+  console.log("context", context);
 
   // Environment variables from Lambda configuration
   const tableName = process.env.DYDB_TABLE_NAME;
