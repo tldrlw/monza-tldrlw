@@ -1,3 +1,7 @@
+locals {
+  base_url = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}"
+}
+
 module "ecs_service" {
   # source                      = "git::https://github.com/tldrlw/terraform-modules.git//ecs-service?ref=dev"
   source                      = "git::https://github.com/tldrlw/terraform-modules.git//ecs-service"
@@ -14,18 +18,41 @@ module "ecs_service" {
   container_port              = 3000
   host_port                   = 3000
   environment_variables = [
-    { name = "LAMBDA_GET_INSIGHTS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["insights"]}" },
-    { name = "LAMBDA_GET_CONSTRUCTORS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["constructors"]}" },
-    { name = "LAMBDA_GET_DRIVERS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["drivers"]}" },
-    { name = "LAMBDA_GET_RESULTS", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["results"]}" },
-    { name = "LAMBDA_POST_FUNCTION_URL", value = module.lambda_post.function_url },
-    { name = "LAMBDA_POST_RESULT_FUNCTION_URL", value = module.lambda_post_result.function_url },
-    # { name = "LAMBDA_POST_IMAGE", value = module.lambda_post_image.function_url },
-    { name = "LAMBDA_POST_IMAGE", value = "https://${module.lambda_stack.private_apig_id}.execute-api.${var.REGION}.amazonaws.com/${var.PRIVATE_APIG_STAGE_NAME}${module.lambda_stack.private_apig_resource_paths["results"]}" },
-    { name = "ENV", value = var.ENV }
+    {
+      name  = "LAMBDA_GET_INSIGHTS"
+      value = "${local.base_url}${module.lambda_stack.private_apig_resource_paths["insights"]}"
+    },
+    {
+      name  = "LAMBDA_GET_CONSTRUCTORS"
+      value = "${local.base_url}${module.lambda_stack.private_apig_resource_paths["constructors"]}"
+    },
+    {
+      name  = "LAMBDA_GET_DRIVERS"
+      value = "${local.base_url}${module.lambda_stack.private_apig_resource_paths["drivers"]}"
+    },
+    {
+      name  = "LAMBDA_GET_RESULTS"
+      value = "${local.base_url}${module.lambda_stack.private_apig_resource_paths["results"]}"
+    },
+    {
+      name  = "LAMBDA_POST_FUNCTION_URL"
+      value = module.lambda_post.function_url
+    },
+    {
+      name  = "LAMBDA_POST_RESULT_FUNCTION_URL"
+      value = module.lambda_post_result.function_url
+    },
+    {
+      name  = "LAMBDA_POST_IMAGE"
+      value = module.lambda_post_image.function_url
+    },
+    {
+      name  = "ENV"
+      value = var.ENV
+    }
   ]
   # linux_arm64                 = true
-  # ^ because using front-end/docker-push.sh
+  # ^ if using front-end/docker-push.sh
   # cpu                         = "512"
   # memory                      = "1024"
   # ^ cpu and memory values double of what is set as default in module
