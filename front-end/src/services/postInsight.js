@@ -7,8 +7,8 @@ export default async function postInsight(formData) {
 
   noStore(); // Opt into dynamic rendering
   // This value will be evaluated at runtime
-  const lambdaPostFunctionUrl =
-    process.env.LAMBDA_POST_FUNCTION_URL || "lambdaPostFunctionUrl placeholder";
+  const lambdaPostInsightURL =
+    process.env.LAMBDA_POST_INSIGHT || "lambdaPostInsightURL placeholder";
 
   // console.log("front-end/src/services/postInsight.js - formData", formData);
 
@@ -48,7 +48,7 @@ export default async function postInsight(formData) {
   let data;
 
   try {
-    const response = await fetch(lambdaPostFunctionUrl, requestOptions);
+    const response = await fetch(lambdaPostInsightURL, requestOptions);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
