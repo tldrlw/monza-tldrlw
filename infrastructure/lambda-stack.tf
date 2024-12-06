@@ -7,6 +7,7 @@ locals {
       module.lambda_get_drivers,
       module.lambda_get_results,
       module.lambda_post_insight,
+      module.lambda_post_result,
       # Add more Lambda module instantiations here, e.g.,...
       ] : {
       method_id = lambda_module.private_apig_method_id
@@ -42,6 +43,8 @@ resource "aws_api_gateway_deployment" "private" {
     module.lambda_get_results.private_apig_integration_uri,
     module.lambda_post_insight.private_apig_method_id,
     module.lambda_post_insight.private_apig_integration_uri,
+    module.lambda_post_result.private_apig_method_id,
+    module.lambda_post_result.private_apig_integration_uri,
   ]
   rest_api_id = module.lambda_stack.private_apig_id
   triggers = {
