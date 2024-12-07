@@ -88,6 +88,11 @@ export const drivers = [
     nationality: "United Kingdom 🇬🇧",
   },
   {
+    name: "Jack Doohan",
+    team: "Alpine Renault",
+    nationality: "Australia 🇦🇺",
+  },
+  {
     name: "Kevin Magnussen",
     team: "Haas Ferrari",
     nationality: "Denmark 🇩🇰",
