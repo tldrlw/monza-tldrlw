@@ -1,23 +1,8 @@
 export const drivers = [
   {
-    name: "Max Verstappen",
-    team: "Red Bull Racing Honda RBPT",
-    nationality: "Netherlands 🇳🇱",
-  },
-  {
-    name: "Lando Norris",
-    team: "McLaren Mercedes",
-    nationality: "United Kingdom 🇬🇧",
-  },
-  {
-    name: "Charles Leclerc",
-    team: "Ferrari",
-    nationality: "Monaco 🇲🇨",
-  },
-  {
-    name: "Oscar Piastri",
-    team: "McLaren Mercedes",
-    nationality: "Australia 🇦🇺",
+    name: "Alexander Albon",
+    team: "Williams Mercedes",
+    nationality: "Thailand 🇹🇭",
   },
   {
     name: "Carlos Sainz",
@@ -25,19 +10,19 @@ export const drivers = [
     nationality: "Spain 🇪🇸",
   },
   {
-    name: "Lewis Hamilton",
-    team: "Mercedes",
-    nationality: "United Kingdom 🇬🇧",
+    name: "Charles Leclerc",
+    team: "Ferrari",
+    nationality: "Monaco 🇲🇨",
   },
   {
-    name: "George Russell",
-    team: "Mercedes",
-    nationality: "United Kingdom 🇬🇧",
+    name: "Daniel Ricciardo",
+    team: "RB Honda RBPT",
+    nationality: "Australia 🇦🇺",
   },
   {
-    name: "Sergio Perez",
-    team: "Red Bull Racing Honda RBPT",
-    nationality: "Mexico 🇲🇽",
+    name: "Esteban Ocon",
+    team: "Alpine Renault",
+    nationality: "France 🇫🇷",
   },
   {
     name: "Fernando Alonso",
@@ -45,9 +30,24 @@ export const drivers = [
     nationality: "Spain 🇪🇸",
   },
   {
-    name: "Nico Hulkenberg",
+    name: "Franco Colapinto",
+    team: "Williams Mercedes",
+    nationality: "Argentina 🇦🇷",
+  },
+  {
+    name: "George Russell",
+    team: "Mercedes",
+    nationality: "United Kingdom 🇬🇧",
+  },
+  {
+    name: "Jack Doohan",
+    team: "Alpine Renault",
+    nationality: "Australia 🇦🇺",
+  },
+  {
+    name: "Kevin Magnussen",
     team: "Haas Ferrari",
-    nationality: "Germany 🇩🇪",
+    nationality: "Denmark 🇩🇰",
   },
   {
     name: "Lance Stroll",
@@ -55,18 +55,43 @@ export const drivers = [
     nationality: "Canada 🇨🇦",
   },
   {
-    name: "Yuki Tsunoda",
-    team: "RB Honda RBPT",
-    nationality: "Japan 🇯🇵",
+    name: "Lando Norris",
+    team: "McLaren Mercedes",
+    nationality: "United Kingdom 🇬🇧",
   },
   {
-    name: "Alexander Albon",
+    name: "Lewis Hamilton",
+    team: "Mercedes",
+    nationality: "United Kingdom 🇬🇧",
+  },
+  {
+    name: "Liam Lawson",
+    team: "RB Honda RBPT",
+    nationality: "New Zealand 🇳🇿",
+  },
+  {
+    name: "Logan Sargeant",
     team: "Williams Mercedes",
-    nationality: "Thailand 🇹🇭",
+    nationality: "United States 🇺🇸",
   },
   {
-    name: "Daniel Ricciardo",
-    team: "RB Honda RBPT",
+    name: "Max Verstappen",
+    team: "Red Bull Racing Honda RBPT",
+    nationality: "Netherlands 🇳🇱",
+  },
+  {
+    name: "Nico Hulkenberg",
+    team: "Haas Ferrari",
+    nationality: "Germany 🇩🇪",
+  },
+  {
+    name: "Oliver Bearman",
+    team: "Haas Ferrari",
+    nationality: "United Kingdom 🇬🇧",
+  },
+  {
+    name: "Oscar Piastri",
+    team: "McLaren Mercedes",
     nationality: "Australia 🇦🇺",
   },
   {
@@ -75,34 +100,9 @@ export const drivers = [
     nationality: "France 🇫🇷",
   },
   {
-    name: "Oliver Bearman",
-    team: "Haas Ferrari",
-    nationality: "United Kingdom 🇬🇧",
-  },
-  {
-    name: "Kevin Magnussen",
-    team: "Haas Ferrari",
-    nationality: "Denmark 🇩🇰",
-  },
-  {
-    name: "Esteban Ocon",
-    team: "Alpine Renault",
-    nationality: "France 🇫🇷",
-  },
-  {
-    name: "Franco Colapinto",
-    team: "Williams Mercedes",
-    nationality: "Argentina 🇦🇷",
-  },
-  {
-    name: "Zhou Guanyu",
-    team: "Kick Sauber Ferrari",
-    nationality: "China 🇨🇳",
-  },
-  {
-    name: "Logan Sargeant",
-    team: "Williams Mercedes",
-    nationality: "United States 🇺🇸",
+    name: "Sergio Perez",
+    team: "Red Bull Racing Honda RBPT",
+    nationality: "Mexico 🇲🇽",
   },
   {
     name: "Valtteri Bottas",
@@ -110,9 +110,14 @@ export const drivers = [
     nationality: "Finland 🇫🇮",
   },
   {
-    name: "Liam Lawson",
+    name: "Yuki Tsunoda",
     team: "RB Honda RBPT",
-    nationality: "New Zealand 🇳🇿",
+    nationality: "Japan 🇯🇵",
+  },
+  {
+    name: "Zhou Guanyu",
+    team: "Kick Sauber Ferrari",
+    nationality: "China 🇨🇳",
   },
 ];
 

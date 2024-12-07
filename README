@@ -20,11 +20,11 @@
 
 ## important things to know
 
-- if you need to update the list of drivers (their team, nationality, etc.), you need to do it in these places:
-  - `infrastructure/lambda-test/utils.mjs`
+- if you need to update the **LIST OF DRIVERS** (their team, nationality, etc.), you need to do it in these places:
+  - `infrastructure/lambda/utils.mjs`
   - `front-end/src/utils/index.js`
 - if you need to update the driver scoring system (sprint and race), you need to do it here:
-  - `infrastructure/lambda-test/utils.mjs`
+  - `infrastructure/lambda/utils.mjs`
 
 ## random notes
 
