@@ -70,4 +70,4 @@ jobs:
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
-          ignore-policy: './policy.rego'
+          ignore-policy: ".github/workflows/policy.rego'./policy.rego"
