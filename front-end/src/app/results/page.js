@@ -11,7 +11,7 @@ export default async function Results() {
   return (
     <main>
       <SubHeader currentPage="/results"></SubHeader>
-      <div className="md:mb-4">
+      <div className="mt-2 md:mb-4 md:mt-0">
         <ListResults results={sortedResults} dashboard={true}></ListResults>
       </div>
     </main>
