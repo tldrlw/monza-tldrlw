@@ -22,7 +22,7 @@ VPC Subnets (Public) [icon: aws-vpc] {
     VPC Endpoint (APIG) [icon: aws-vpc]
   }
 }
-PostImage [icon: aws-lambda, label: post-image]
+PostImage [icon: aws-lambda, label: post-image-func-url]
 ConstructorsUpdate [icon: aws-lambda, label: constructors-update]
 DriversUpdate [icon: aws-lambda, label: drivers-update]
 GetConstructorsFuncURL [icon: aws-lambda, label: get-constructors-func-url]
