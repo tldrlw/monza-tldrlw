@@ -7,10 +7,10 @@ WORKDIR /app
 # Copy the package.json and package-lock.json files
 COPY package*.json ./
 
-# Add a "resolutions" field to enforce dependency versions
+# Install npm-force-resolutions
 RUN npm install npm-force-resolutions
 
-# Apply resolutions to enforce specific versions of transitive dependencies
+# Apply resolutions and install dependencies
 RUN npx npm-force-resolutions && npm install --frozen-lockfile
 
 # Copy the rest of the application code
