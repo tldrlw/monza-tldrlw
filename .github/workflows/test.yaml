@@ -16,9 +16,6 @@ env:
   # ^ key needs _ID at the end for aws-actions/amazon-ecr-login@v2 to work
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   # ^ these are not directly referenced (e.g., as ${{ secrets.AWS_SECRET_ACCESS_KEY }}) anywhere below, but need to be set as environment variables for the step 'aws-actions/amazon-ecr-login@v2' to work
-  WORKFLOW_TRIGGER_REPO: monza-tldrlw
-  WORKFLOW_TRIGGER_BRANCH: main
-  WORKFLOW_TRIGGER_FILENAME: infrastructure.yaml
   COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
   COGNITO_USER_POOL_CLIENT_ID: ${{ secrets.COGNITO_USER_POOL_CLIENT_ID }}
 
