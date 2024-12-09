@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     paths:
-      - front-end/**
+      - my-app/**
       - .github/workflows/**
 
 env:
@@ -50,7 +50,7 @@ jobs:
         # was tagging images with full sha using ${{ github.sha }}, but this shortens it to what you see in the github UI, e.g., d996364
 
       - name: build the Docker image
-        working-directory: ./front-end
+        working-directory: ./my-app
         run: |
           docker build --no-cache --build-arg COGNITO_USER_POOL_ID="${{ env.COGNITO_USER_POOL_ID }}" \
                        --build-arg COGNITO_USER_POOL_CLIENT_ID="${{ env.COGNITO_USER_POOL_CLIENT_ID }}" \
