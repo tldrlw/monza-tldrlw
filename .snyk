@@ -3,4 +3,4 @@ ignore:
   SNYK-JS-CROSSSPAWN-8303230:
     - '*': # Apply to all instances of this vulnerability
         reason: "This vulnerability is not exploitable in our environment."
-        expires: "2024-12-31T23:59:59Z" # Optional expiry date
+        expires: "2025-01-31T23:59:59Z" # Optional expiry date
