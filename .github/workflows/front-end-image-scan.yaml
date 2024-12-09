@@ -1,4 +1,4 @@
-name: dev-security-scan
+name: front-end-image-scan
 
 on:
   push:
