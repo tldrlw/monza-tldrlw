@@ -1,6 +1,9 @@
 # Global ignores for the entire project
 
-# Ignore .env files for security (sensitive environment variables)
+# Ignore all node_modules directories in all locations
+node_modules/
+
+# Ignore environment variable files for security (sensitive environment variables)
 *.env
 *.env.local
 *.env.development.local
@@ -37,24 +40,14 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-# Ignore the 'front-end' Next.js-specific files and build outputs
+# Front-end-specific ignores
 front-end/.next/
-front-end/node_modules/
 front-end/out/
 front-end/dist/
-front-end/.env
-front-end/.env.local
-front-end/.env.development.local
-front-end/.env.test.local
-front-end/.env.production.local
 
-# Ignore the 'infrastructure' Terraform files
+# Infrastructure-specific ignores
 infrastructure/.terraform/
 infrastructure/.terraform.lock.hcl
-
-infrastructure/lambda/node_modules/
-
-# Ignore .zip files in the infrastructure directory
 infrastructure/*.zip
 
 # Ignore Terraform state files, these often contain sensitive data.
@@ -77,10 +70,9 @@ crash.log
 # Ignore Terraform provider plugin directories (usually not needed in VCS)
 .terraform/
 
-# Ignore vscode settings (optional, if you're using Visual Studio Code)
+# Editor-specific ignores
 .vscode/
-
-# Ignore JetBrains IDE settings (optional, if you're using IntelliJ, WebStorm, etc.)
 .idea/
 
+# Ignore specific test-related files
 test/cognito-creds.mjs
