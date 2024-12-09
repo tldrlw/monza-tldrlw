@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
     paths:
       - front-end/**
 
@@ -60,7 +61,7 @@ jobs:
                        --build-arg IMAGE="${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" \
                        -t "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" .
 
-      - name: Run Snyk to check Docker images for vulnerabilities
+      - name: running Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         # https://github.com/snyk/actions/tree/master/docker
         env:
@@ -69,12 +70,15 @@ jobs:
         with:
           image: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}
           args: --severity-threshold=high --policy-path=.snyk
+          # ^ example: https://github.com/SeldonIO/MLServer/blob/3f2c0431ad4e053549a623bc87d0e9662b61be49/.github/workflows/release.yml#L18
 
       - name: push Docker image to ECR
+        if: github.ref == 'refs/heads/main'
         run: |
           docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}
 
       - name: trigger Terraform workflow
+        if: github.ref == 'refs/heads/main'
         run: |
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
