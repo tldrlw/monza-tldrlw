@@ -5,7 +5,7 @@ FROM node:20-bullseye AS builder
 WORKDIR /app
 
 # Copy only package.json and package-lock.json to leverage Docker's caching mechanism for dependencies
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 # Install dependencies, including devDependencies, to prepare for the build
 RUN npm install --frozen-lockfile
