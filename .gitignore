@@ -1,8 +1,5 @@
 # Global ignores for the entire project
 
-# Ignore node_modules in any directory
-node_modules/
-
 # Ignore .env files for security (sensitive environment variables)
 *.env
 *.env.local
@@ -54,6 +51,8 @@ front-end/.env.production.local
 # Ignore the 'infrastructure' Terraform files
 infrastructure/.terraform/
 infrastructure/.terraform.lock.hcl
+
+infrastructure/lambda/node_modules/
 
 # Ignore .zip files in the infrastructure directory
 infrastructure/*.zip
