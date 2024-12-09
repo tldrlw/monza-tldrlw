@@ -1,5 +1,5 @@
 # Use the latest Node.js image as the base for building
-FROM node:20-bullseye AS builder
+FROM node:20-alpine AS builder
 
 # Accept the build argument
 ARG BUILD_TIME
@@ -35,7 +35,7 @@ COPY . .
 RUN npm run build
 
 # Use the latest Node.js slim image for the final production stage
-FROM node:20-slim AS runner
+FROM node:20-alpine AS runner
 
 # Set the working directory inside the container
 WORKDIR /app
