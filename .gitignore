@@ -1,7 +1,7 @@
 # Global ignores for the entire project
 
-# Ignore node_modules in any directory
-node_modules/
+# Ignore node_modules in my-app directory
+my-app/node_modules/
 
 # Ignore .env files for security (sensitive environment variables)
 *.env
