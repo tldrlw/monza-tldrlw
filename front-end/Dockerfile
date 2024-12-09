@@ -1,5 +1,4 @@
-# Use the official Node.js 18 image as the base image
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Accept the build argument
 ARG BUILD_TIME
@@ -34,8 +33,7 @@ COPY . .
 # Build the Next.js app
 RUN npm run build
 
-# Production image
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 
 # Set the working directory inside the container
 WORKDIR /app
