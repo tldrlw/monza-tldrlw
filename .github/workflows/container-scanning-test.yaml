@@ -66,4 +66,4 @@ jobs:
           # https://docs.snyk.io/snyk-api/rest-api/authentication-for-api/authenticate-for-the-api
         with:
           image: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}
-          args: --severity-threshold=high
+          args: --severity-threshold=medium
