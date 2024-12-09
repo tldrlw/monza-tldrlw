@@ -8,6 +8,8 @@ on:
       - my-app/**
       - .github/workflows/**
 
+# test
+
 env:
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   AWS_REGION: us-east-1
