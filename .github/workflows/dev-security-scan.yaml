@@ -1,4 +1,4 @@
-name: container-scanning-test
+name: dev-security-scan
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
       - dev
     paths:
       - front-end/**
-      - .github/workflows/**
 
 env:
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}

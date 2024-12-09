@@ -28,6 +28,12 @@
 
 ## random notes
 
+- 12/9/24
+
+  - `front-end/Dockerfile`
+  - Switching the base images to node:20-alpine helped eliminate the vulnerability because Alpine Linux is a minimalist, security-focused distribution with a significantly smaller attack surface compared to Debian-based images like bullseye. The previously reported vulnerability (SNYK-DEBIAN12-ZLIB-6008963) was introduced through the Debian package zlib, a core library used for compression. By moving to an Alpine-based image, the dependency chain changed, effectively removing the vulnerable version of zlib from the build. Additionally, Alpine’s lean architecture ensures fewer installed packages, reducing the likelihood of vulnerabilities while improving image size and performance. This switch is an example of how tailoring your base image to specific needs can enhance security and efficiency.
+  - To address the SNYK-JS-CROSSSPAWN-8303230 vulnerability, we utilized a .snyk policy file to explicitly mark it as ignored during vulnerability scans. This approach allowed us to document that the issue was not exploitable in our specific environment, ensuring transparency and maintaining focus on actionable vulnerabilities. The .snyk file configuration applied the ignore rule globally to all instances of the vulnerability across our dependency chain, along with a detailed reason for ignoring it and an optional expiration date (2025-01-31). This expiration date ensures periodic reevaluation of the vulnerability in case upstream fixes or environment changes occur. By integrating this policy into our workflow, we ensured that scans still provide meaningful results while avoiding unnecessary pipeline failures due to false positives or irrelevant vulnerabilities.
+
 - 12/6/24 - tried to create a new λ for s3 image upload
 
   - I was trying to integrate my S3 image upload Lambda function behind a private API Gateway endpoint, thinking that since my Next.js application and the gateway were both in the same VPC, everything would just work seamlessly. However, the key detail I overlooked is that the image upload logic in my Next.js app runs in the user’s browser, not on the server. Even though my app’s server-side code can talk to the private gateway inside the VPC, the client-side browser code operates outside of that protected network. As a result, the browser simply can’t reach the private endpoint directly, causing the upload attempt to fail.

@@ -60,15 +60,15 @@ jobs:
                        --build-arg IMAGE="${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" \
                        -t "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}" .
 
-      # - name: run Trivy vulnerability scanner
-      #   uses: aquasecurity/trivy-action@0.28.0
-      #   with:
-      #     image-ref: "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}"
-      #     format: "table"
-      #     exit-code: "1"
-      #     ignore-unfixed: true
-      #     vuln-type: "os,library"
-      #     severity: "CRITICAL,HIGH"
+      - name: Run Snyk to check Docker images for vulnerabilities
+        uses: snyk/actions/docker@master
+        # https://github.com/snyk/actions/tree/master/docker
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          # https://docs.snyk.io/snyk-api/rest-api/authentication-for-api/authenticate-for-the-api
+        with:
+          image: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}
+          args: --severity-threshold=high --policy-path=.snyk
 
       - name: push Docker image to ECR
         run: |
