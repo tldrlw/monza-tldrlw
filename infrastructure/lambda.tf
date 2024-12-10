@@ -24,7 +24,7 @@ module "lambda_get_insights" {
 module "lambda_get_insight" {
   # source = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2?ref=dev"
   source           = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2"
-  DYDB_PERMISSIONS = ["dynamodb:Scan", "dynamodb:DescribeTable"]
+  DYDB_PERMISSIONS = ["dynamodb:GetItem"]
   DYDB_TABLE_ARN   = aws_dynamodb_table.insights.arn
   ENV_VARS = {
     DYDB_TABLE_NAME = aws_dynamodb_table.insights.id,
