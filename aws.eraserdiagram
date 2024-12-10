@@ -10,6 +10,7 @@ VPC Subnets (Private) [icon: aws-vpc] {
     GetConstructors [icon: aws-lambda, label: get-constructors]
     GetDrivers [icon: aws-lambda, label: get-drivers]
     GetInsights [icon: aws-lambda, label: get-insights]
+    GetInsight [icon: aws-lambda, label: get-insights]
     PostInsight [icon: aws-lambda, label: post-insight]
     GetResults [icon: aws-lambda, label: get-results]
     PostResult [icon: aws-lambda, label: post-result]
@@ -50,8 +51,19 @@ Cognito [icon: aws-cognito]
 SSM [icon: aws-systems-manager]
 // github
 Github [icon: github]
-Github Actions [icon: github-actions]
-Merge [icon: git-merge]
+Github ActionDev [icon: github-actions, label: github-action] {
+  Docker BuildDev [icon: docker, label: build]
+  Synk Image Vulnerability ScanDev [icon: alert-triangle, label: synk-image-vuln-scan]
+}
+Github ActionPrd [icon: github-actions, label: github-action] {
+  Docker BuildPrd [icon: docker, label: build]
+  Synk Image Vulnerability ScanPrd [icon: alert-triangle, label: synk-image-vuln-scan]
+}
+Github ActionTF [icon: github-actions, label: github-action] {
+  Terraform [icon: terraform]
+}
+MergeDev [icon: git-merge, label: merge-to-dev]
+MergePrd [icon: git-merge, label: merge-to-prd]
 
 // connections
 Users > Route 53 > ELB > ECS Service
@@ -59,6 +71,7 @@ Users > Route 53 > ELB > ECS Service
 ECS Service > PostInsight, PostResult, PostImage
 
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetInsights > VPC Endpoint (DyDB) > Insights
+ECS Service > VPC Endpoint (APIG) > API Gateway > GetInsight > VPC Endpoint (DyDB) > Insights
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetConstructors > VPC Endpoint (DyDB) > Constructors
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetDrivers > VPC Endpoint (DyDB) > Drivers
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetResults > VPC Endpoint (DyDB) > Results
@@ -80,6 +93,11 @@ ECS Service > ECR
 ECS Service > Cognito
 Cognito > SSM: credentials stored using local-only script
 // github
-Github > Merge
-Merge > Github Actions: from feature to dev or main branch
-Github Actions > ECR: builds and pushes NextJS Docker image
+Github > MergeDev
+MergeDev > Docker BuildDev
+Docker BuildDev > Synk Image Vulnerability ScanDev
+Github > MergePrd
+MergePrd > Docker BuildPrd
+Docker BuildPrd > Synk Image Vulnerability ScanPrd
+Synk Image Vulnerability ScanPrd > ECR: push NextJS Docker image
+Github ActionPrd > Github ActionTF: triggers AFTER image pushed to ECR and passes image tag as TFVAR
