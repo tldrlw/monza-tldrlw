@@ -1,6 +1,6 @@
 import get from "@/services/get";
 import Image from "next/image";
-import Pill from "./Pills";
+import Pills from "./Pills";
 import Insight from "./Insight";
 import { sortDataByTime } from "@/utils";
 
