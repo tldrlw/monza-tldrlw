@@ -23,6 +23,10 @@ module "ecs_service" {
       value = "${local.base_url}${module.lambda_stack.private_apig_resource_paths["insights"]}"
     },
     {
+      name  = "LAMBDA_GET_INSIGHT"
+      value = "${local.base_url}${module.lambda_stack.private_apig_resource_paths["insight"]}"
+    },
+    {
       name  = "LAMBDA_GET_CONSTRUCTORS"
       value = "${local.base_url}${module.lambda_stack.private_apig_resource_paths["constructors"]}"
     },

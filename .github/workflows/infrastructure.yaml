@@ -41,9 +41,9 @@ jobs:
         with:
           node-version: "20"
 
-      - name: run npm install in lambda directory to have node_modules available prior to zipping
+      - name: run npm install in lambda/dependencies directory to have node_modules available prior to zipping
         id: npm-install
-        working-directory: ./infrastructure/lambda
+        working-directory: ./infrastructure/lambda/dependencies
         run: npm install
 
       - name: init

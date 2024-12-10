@@ -33,7 +33,7 @@ variable "ENV" {
   type    = string
   default = "dev"
   # if "dev" will provision all local testing lambdas in infrastructure/lambda-dev.tf
-  # being passed into the ecs service module as env var, but not using it in the next.js app
+  # being passed into the ecs service module as env var (value is 'prd' coming from .github/workflows/infrastructure.yaml), but not using it in the next.js app
   # as of 9/30/24, "dvm" also gets passed in from .github/workflows/infrastructure.yaml
 }
 
@@ -49,9 +49,14 @@ variable "IMAGE_TAG" {
   # gets passed in from .github/workflows/infrastructure.yaml
 }
 
-variable "LAMBDA_PATH" {
+variable "LAMBDA_PATH_DEPENDENCIES" {
   type    = string
-  default = "lambda"
+  default = "lambda/dependencies"
+}
+
+variable "LAMBDA_PATH_NO_DEPENDENCIES" {
+  type    = string
+  default = "lambda/no-dependencies"
 }
 
 variable "PRIVATE_APIG_STAGE_NAME" {

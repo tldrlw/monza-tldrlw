@@ -14,13 +14,13 @@ output "TF_VAR_HOSTNAME" {
   value = var.HOSTNAME
 }
 
-output "LAMBDA_POST_IMAGE_FUNCTION_URL" {
+output "LAMBDA_POST_IMAGE" {
   value = module.lambda_post_image.function_url
 }
 
-output "LAMBDA_POST_IMAGE_ARN" {
-  value = module.lambda_post_image.arn
-}
+# output "LAMBDA_POST_IMAGE_ARN" {
+#   value = module.lambda_post_image.arn
+# }
 
 output "cognito_user_pool_id" {
   value = aws_cognito_user_pool.main.id
