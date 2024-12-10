@@ -28,7 +28,7 @@ export default function InsightNew({ viewport = "desktop", insight }) {
             </Link>
           </span>
         )}
-        <p className="mt-2 text-sm font-bold text-emerald-800 md:text-base">
+        <p className="mt-2 text-sm font-bold text-emerald-800">
           {formatToHumanReadable(insight.DateTime.S)}
         </p>
       </div>
