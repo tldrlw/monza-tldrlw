@@ -10,7 +10,7 @@ VPC Subnets (Private) [icon: aws-vpc] {
     GetConstructors [icon: aws-lambda, label: get-constructors]
     GetDrivers [icon: aws-lambda, label: get-drivers]
     GetInsights [icon: aws-lambda, label: get-insights]
-    GetInsight [icon: aws-lambda, label: get-insights]
+    GetInsight [icon: aws-lambda, label: get-insight]
     PostInsight [icon: aws-lambda, label: post-insight]
     GetResults [icon: aws-lambda, label: get-results]
     PostResult [icon: aws-lambda, label: post-result]
@@ -68,16 +68,16 @@ MergePrd [icon: git-merge, label: merge-to-prd]
 // connections
 Users > Route 53 > ELB > ECS Service
 
-ECS Service > PostInsight, PostResult, PostImage
+ECS Service > PostImage
 
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetInsights > VPC Endpoint (DyDB) > Insights
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetInsight > VPC Endpoint (DyDB) > Insights
+ECS Service > VPC Endpoint (APIG) > API Gateway > PostInsight > VPC Endpoint (DyDB) > Insights
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetConstructors > VPC Endpoint (DyDB) > Constructors
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetDrivers > VPC Endpoint (DyDB) > Drivers
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetResults > VPC Endpoint (DyDB) > Results
+ECS Service > VPC Endpoint (APIG) > API Gateway > PostResult > VPC Endpoint (DyDB) > Results
 
-PostResult > Results
-PostInsight > Insights
 PostImage > Images
 DriversUpdate > GetDriversFuncURL
 ConstructorsUpdate > GetConstructorsFuncURL
