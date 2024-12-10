@@ -4,7 +4,7 @@ import { unstable_noStore as noStore } from "next/cache";
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
 import { cookies } from "next/headers";
 import { getLoggedInUser, sortDataByTime } from "@/utils";
-import NewResult from "@/components/NewResult";
+import NewResult from "@/components/AddResult";
 import ListResults from "@/components/ListResults";
 import get from "@/services/get";
 

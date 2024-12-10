@@ -1,8 +1,8 @@
 import { unstable_noStore as noStore } from "next/cache";
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
 import { Suspense } from "react";
-import ListInsights from "@/components/ListInsights";
-import NewInsight from "@/components/NewInsight";
+import ListInsights from "@/components/NU-ListInsights";
+import NewInsight from "@/components/AddInsight";
 import { cookies } from "next/headers";
 import Auth from "@/components/Auth";
 import SubHeader from "@/components/SubHeader";

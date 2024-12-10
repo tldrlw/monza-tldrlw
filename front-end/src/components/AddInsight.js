@@ -4,21 +4,40 @@ import InputField from "./InputField";
 import { constructors } from "@/utils";
 
 export default function NewInsight(lambdaPostImageFunctionUrl) {
+  // const types = [
+  //   "Free Practice 1",
+  //   "Free Practice 2",
+  //   "Free Practice 3",
+  //   "Sprint",
+  //   "Quali",
+  //   "Race",
+  //   "YouTube",
+  //   "News",
+  //   "Podcast",
+  //   "Other",
+  //   "LinkedIn",
+  //   "Threads",
+  // ];
+  // ^ keeping for potential analysis of data pre 12/10/24
+
   const types = [
-    "Free Practice 1",
-    "Free Practice 2",
-    "Free Practice 3",
-    "Sprint",
+    "Business",
+    "Cars",
+    "Partnerships",
+    "LinkedIn",
+    "News",
+    "Other",
+    "Podcast",
+    "Threads",
+    "YouTube",
+    "FP1",
+    "FP2",
+    "FP3",
     "Quali",
     "Race",
-    "YouTube",
-    "News",
-    "Podcast",
-    "Other",
-    "LinkedIn",
-    "Instagram",
-    "Threads",
+    "Sprint",
   ];
+
   // Sort the array above alphabetically
   const sortedTypes = types.sort();
 

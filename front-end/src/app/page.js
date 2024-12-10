@@ -1,7 +1,6 @@
 // import { unstable_noStore as noStore } from "next/cache";
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
 import ListInsights from "@/components/ListInsights";
-import ListInsightsNew from "@/components/ListInsightsNew";
 import { Suspense } from "react";
 import SubHeader from "@/components/SubHeader";
 
@@ -20,8 +19,10 @@ export default function App() {
   return (
     <main>
       <SubHeader></SubHeader>
-      <Suspense fallback={<p className="md:text-base text-sm">Loading insights...</p>}>
-        <ListInsightsNew></ListInsightsNew>
+      <Suspense
+        fallback={<p className="text-sm md:text-base">Loading insights...</p>}
+      >
+        <ListInsights></ListInsights>
       </Suspense>
     </main>
   );
