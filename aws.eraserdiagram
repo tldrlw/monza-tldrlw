@@ -10,6 +10,7 @@ VPC Subnets (Private) [icon: aws-vpc] {
     GetConstructors [icon: aws-lambda, label: get-constructors]
     GetDrivers [icon: aws-lambda, label: get-drivers]
     GetInsights [icon: aws-lambda, label: get-insights]
+    GetInsight [icon: aws-lambda, label: get-insight]
     PostInsight [icon: aws-lambda, label: post-insight]
     GetResults [icon: aws-lambda, label: get-results]
     PostResult [icon: aws-lambda, label: post-result]
@@ -45,41 +46,68 @@ VPC Subnets (Public) [icon: aws-vpc] {
     }
   }
 }
+// ecs auto scaling
+App Auto Scaling [icon: aws-application-auto-scaling]
+Cloudwatch Metric Alarms [icon: aws-cloudwatch]
 // cognito and ssm
 Cognito [icon: aws-cognito]
 SSM [icon: aws-systems-manager]
 // github
 Github [icon: github]
-Github Actions [icon: github-actions]
-Merge [icon: git-merge]
+Github ActionDev [icon: github-actions, label: github-action] {
+  Docker BuildDev [icon: docker, label: build]
+  Synk Image Vulnerability ScanDev [icon: alert-triangle, label: synk-image-vuln-scan]
+}
+Github ActionPrd [icon: github-actions, label: github-action] {
+  Docker BuildPrd [icon: docker, label: build]
+  Synk Image Vulnerability ScanPrd [icon: alert-triangle, label: synk-image-vuln-scan]
+}
+Github ActionTF [icon: github-actions, label: github-action] {
+  Terraform [icon: terraform]
+}
+MergeDev [icon: git-merge, label: merge-to-dev]
+MergePrd [icon: git-merge, label: merge-to-prd]
 
 // connections
 Users > Route 53 > ELB > ECS Service
 
-ECS Service > PostInsight, PostResult, PostImage
-
+// prd lambdas + post image lambda
+ECS Service > PostImage > Images
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetInsights > VPC Endpoint (DyDB) > Insights
+ECS Service > VPC Endpoint (APIG) > API Gateway > GetInsight > VPC Endpoint (DyDB) > Insights
+ECS Service > VPC Endpoint (APIG) > API Gateway > PostInsight > VPC Endpoint (DyDB) > Insights
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetConstructors > VPC Endpoint (DyDB) > Constructors
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetDrivers > VPC Endpoint (DyDB) > Drivers
 ECS Service > VPC Endpoint (APIG) > API Gateway > GetResults > VPC Endpoint (DyDB) > Results
+ECS Service > VPC Endpoint (APIG) > API Gateway > PostResult > VPC Endpoint (DyDB) > Results
 
-PostResult > Results
-PostInsight > Insights
-PostImage > Images
-DriversUpdate > GetDriversFuncURL
-ConstructorsUpdate > GetConstructorsFuncURL
+// ecs autoscaling
+Cloudwatch Metric Alarms > ECS Service
+Cloudwatch Metric Alarms > App Auto Scaling
+App Auto Scaling > ECS Service: scales TASKS in or out based on policy
+
 ECS Service > Images
+
 // internal lambda functions
 Results > DriversUpdate: stream trigger
 Results > ConstructorsUpdate: stream trigger
+DriversUpdate > GetDriversFuncURL
+ConstructorsUpdate > GetConstructorsFuncURL
 DriversUpdate > Drivers: write updated standings
 ConstructorsUpdate > Constructors: write updated standings
+
 // nextjs
 ECS Task < NextJS App
 ECS Service > ECR
 ECS Service > Cognito
 Cognito > SSM: credentials stored using local-only script
+
 // github
-Github > Merge
-Merge > Github Actions: from feature to dev or main branch
-Github Actions > ECR: builds and pushes NextJS Docker image
+Github > MergeDev
+MergeDev > Docker BuildDev
+Docker BuildDev > Synk Image Vulnerability ScanDev
+Github > MergePrd
+MergePrd > Docker BuildPrd
+Docker BuildPrd > Synk Image Vulnerability ScanPrd
+Synk Image Vulnerability ScanPrd > ECR: push NextJS Docker image
+Github ActionPrd > Github ActionTF: triggers AFTER image pushed to ECR and passes image tag as TFVAR
