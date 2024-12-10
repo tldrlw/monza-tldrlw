@@ -1,7 +1,7 @@
 # drivers
 data "archive_file" "drivers_update" {
   type       = "zip"
-  source_dir = "${path.root}/${var.LAMBDA_PATH}"
+  source_dir = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   # ^ using `source_dir` instead of `source_file` to have external dependencies (`node_modules`) in package
   # https://developer.hashicorp.com/terraform/language/expressions/references#path-root
   output_path = "${var.APP_NAME}-drivers-update.zip"
@@ -37,7 +37,7 @@ resource "aws_lambda_event_source_mapping" "results_to_drivers_stream_trigger" {
 # constructors
 data "archive_file" "constructors_update" {
   type       = "zip"
-  source_dir = "${path.root}/${var.LAMBDA_PATH}"
+  source_dir = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   # ^ using `source_dir` instead of `source_file` to have external dependencies (`node_modules`) in package
   # https://developer.hashicorp.com/terraform/language/expressions/references#path-root
   output_path = "${var.APP_NAME}-constructors-update.zip"

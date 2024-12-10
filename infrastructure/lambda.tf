@@ -16,7 +16,30 @@ module "lambda_get_insights" {
   PRIVATE_APIG_RESOURCE_ID         = module.lambda_stack.private_apig_resource_ids["insights"]
   PRIVATE_APIG_SECURITY_GROUP_ID   = module.lambda_stack.private_apig_security_group_id
   PRIVATE_SUBNET_IDS               = module.lambda_stack.private_subnet_ids
-  SOURCE_DIR                       = "lambda"
+  SOURCE_DIR                       = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
+  VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
+  VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
+}
+
+module "lambda_get_insight" {
+  # source = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2?ref=dev"
+  source           = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2"
+  DYDB_PERMISSIONS = ["dynamodb:Scan", "dynamodb:DescribeTable"]
+  DYDB_TABLE_ARN   = aws_dynamodb_table.insights.arn
+  ENV_VARS = {
+    DYDB_TABLE_NAME = aws_dynamodb_table.insights.id,
+    REGION          = var.REGION
+  }
+  HANDLER_FILE_PREFIX              = "app-get-insight"
+  HTTP_METHOD                      = "GET"
+  MEMORY_SIZE                      = 1028
+  NAME                             = "${var.APP_NAME}-get-insight"
+  PRIVATE_APIG_EXECUTION_ARN       = module.lambda_stack.private_apig_execution_arn
+  PRIVATE_APIG_ID                  = module.lambda_stack.private_apig_id
+  PRIVATE_APIG_RESOURCE_ID         = module.lambda_stack.private_apig_resource_ids["insight"]
+  PRIVATE_APIG_SECURITY_GROUP_ID   = module.lambda_stack.private_apig_security_group_id
+  PRIVATE_SUBNET_IDS               = module.lambda_stack.private_subnet_ids
+  SOURCE_DIR                       = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
   VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
 }
@@ -38,7 +61,7 @@ module "lambda_get_constructors" {
   PRIVATE_APIG_RESOURCE_ID         = module.lambda_stack.private_apig_resource_ids["constructors"]
   PRIVATE_APIG_SECURITY_GROUP_ID   = module.lambda_stack.private_apig_security_group_id
   PRIVATE_SUBNET_IDS               = module.lambda_stack.private_subnet_ids
-  SOURCE_DIR                       = "lambda"
+  SOURCE_DIR                       = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
   VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
 }
@@ -60,7 +83,7 @@ module "lambda_get_drivers" {
   PRIVATE_APIG_RESOURCE_ID         = module.lambda_stack.private_apig_resource_ids["drivers"]
   PRIVATE_APIG_SECURITY_GROUP_ID   = module.lambda_stack.private_apig_security_group_id
   PRIVATE_SUBNET_IDS               = module.lambda_stack.private_subnet_ids
-  SOURCE_DIR                       = "lambda"
+  SOURCE_DIR                       = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
   VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
 }
@@ -82,7 +105,7 @@ module "lambda_get_results" {
   PRIVATE_APIG_RESOURCE_ID         = module.lambda_stack.private_apig_resource_ids["results"]
   PRIVATE_APIG_SECURITY_GROUP_ID   = module.lambda_stack.private_apig_security_group_id
   PRIVATE_SUBNET_IDS               = module.lambda_stack.private_subnet_ids
-  SOURCE_DIR                       = "lambda"
+  SOURCE_DIR                       = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
   VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
 }
@@ -104,7 +127,7 @@ module "lambda_post_insight" {
   PRIVATE_APIG_RESOURCE_ID         = module.lambda_stack.private_apig_resource_ids["insights"]
   PRIVATE_APIG_SECURITY_GROUP_ID   = module.lambda_stack.private_apig_security_group_id
   PRIVATE_SUBNET_IDS               = module.lambda_stack.private_subnet_ids
-  SOURCE_DIR                       = "lambda"
+  SOURCE_DIR                       = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
   VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
 }
@@ -126,7 +149,7 @@ module "lambda_post_result" {
   PRIVATE_APIG_RESOURCE_ID         = module.lambda_stack.private_apig_resource_ids["results"]
   PRIVATE_APIG_SECURITY_GROUP_ID   = module.lambda_stack.private_apig_security_group_id
   PRIVATE_SUBNET_IDS               = module.lambda_stack.private_subnet_ids
-  SOURCE_DIR                       = "lambda"
+  SOURCE_DIR                       = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   VPC_ENDPOINT_DYDB_PREFIX_LIST_ID = module.lambda_stack.vpc_endpoint_dydb_prefix_list_id
   VPC_ID                           = var.BLOG_TLDRLW_VPC_ID
 }
@@ -138,7 +161,7 @@ module "lambda_post_result" {
 module "lambda_post_image" {
   # source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda?ref=dev"
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
-  source_dir          = var.LAMBDA_PATH
+  source_dir          = "${path.root}/${var.LAMBDA_PATH_DEPENDENCIES}"
   handler_file_prefix = "app-post-image"
   REST_method         = "POST"
   # ^ not actually used in module.aws_lambda_function_url.self because of use_wildcard_method_in_function_url below

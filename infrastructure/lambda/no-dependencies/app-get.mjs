@@ -3,7 +3,8 @@ import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb"; // ES Mo
 export const lambdaHandler = async (event, context) => {
   // Environment variables from Lambda configuration
   const limitAsEnvVar = process.env.LIMIT; // assuming it's coming from an environment variable
-  const limit = parseInt(limitAsEnvVar, 10) ?? 100; // Convert to integer, fallback to 100 if null or undefined
+  const limit = parseInt(limitAsEnvVar, 10) ?? 150; // Convert to integer, fallback to 150 if null or undefined
+  // The 10 in parseInt(limitAsEnvVar, 10) specifies the radix, or base, used to interpret the number being parsed. A radix of 10 tells parseInt to interpret the input as a decimal (base-10) number.
   const tableName = process.env.DYDB_TABLE_NAME;
   const region = process.env.REGION;
 

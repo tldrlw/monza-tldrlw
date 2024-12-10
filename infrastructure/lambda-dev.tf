@@ -5,7 +5,7 @@
 module "lambda_get_insights_dev" {
   count               = var.ENV == "dev" ? 1 : 0
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
-  source_dir          = var.LAMBDA_PATH
+  source_dir          = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   handler_file_prefix = "app-get"
   REST_method         = "GET"
   function_name       = "${var.APP_NAME}-get-insights-${var.ENV}"
@@ -20,10 +20,28 @@ module "lambda_get_insights_dev" {
   function_url_public    = true
 }
 
+module "lambda_get_insight_dev" {
+  count               = var.ENV == "dev" ? 1 : 0
+  source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
+  source_dir          = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
+  handler_file_prefix = "app-get-insight"
+  REST_method         = "GET"
+  function_name       = "${var.APP_NAME}-get-insight-${var.ENV}"
+  environment_variables = {
+    DYDB_TABLE_NAME = aws_dynamodb_table.insights.id,
+    REGION          = var.REGION
+  }
+  is_s3                  = false
+  is_dydb                = true
+  dydb_table_arn         = aws_dynamodb_table.insights.arn
+  dydb_table_permissions = ["dynamodb:GetItem"]
+  function_url_public    = true
+}
+
 module "lambda_get_results_dev" {
   count               = var.ENV == "dev" ? 1 : 0
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
-  source_dir          = var.LAMBDA_PATH
+  source_dir          = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   handler_file_prefix = "app-get"
   REST_method         = "GET"
   function_name       = "${var.APP_NAME}-get-results-${var.ENV}"
@@ -41,7 +59,7 @@ module "lambda_get_results_dev" {
 module "lambda_get_constructors_dev" {
   count               = var.ENV == "dev" ? 1 : 0
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
-  source_dir          = var.LAMBDA_PATH
+  source_dir          = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   handler_file_prefix = "app-get"
   REST_method         = "GET"
   function_name       = "${var.APP_NAME}-get-constructors-${var.ENV}"
@@ -59,7 +77,7 @@ module "lambda_get_constructors_dev" {
 module "lambda_get_drivers_dev" {
   count               = var.ENV == "dev" ? 1 : 0
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
-  source_dir          = var.LAMBDA_PATH
+  source_dir          = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   handler_file_prefix = "app-get"
   REST_method         = "GET"
   function_name       = "${var.APP_NAME}-get-drivers-${var.ENV}"
@@ -77,7 +95,7 @@ module "lambda_get_drivers_dev" {
 module "lambda_post_insight_dev" {
   count               = var.ENV == "dev" ? 1 : 0
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
-  source_dir          = var.LAMBDA_PATH
+  source_dir          = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   handler_file_prefix = "app-post-insight"
   REST_method         = "POST"
   function_name       = "${var.APP_NAME}-post-insight-${var.ENV}"
@@ -95,7 +113,7 @@ module "lambda_post_insight_dev" {
 module "lambda_post_result_dev" {
   count               = var.ENV == "dev" ? 1 : 0
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
-  source_dir          = var.LAMBDA_PATH
+  source_dir          = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   handler_file_prefix = "app-post-result"
   REST_method         = "POST"
   function_name       = "${var.APP_NAME}-post-result-${var.ENV}"
@@ -114,6 +132,10 @@ module "lambda_post_result_dev" {
 
 output "LAMBDA_GET_INSIGHTS" {
   value = var.ENV == "dev" && length(module.lambda_get_insights_dev) > 0 ? module.lambda_get_insights_dev[0].function_url : null
+}
+
+output "LAMBDA_GET_INSIGHT" {
+  value = var.ENV == "dev" && length(module.lambda_get_insight_dev) > 0 ? module.lambda_get_insight_dev[0].function_url : null
 }
 
 output "LAMBDA_GET_RESULTS" {

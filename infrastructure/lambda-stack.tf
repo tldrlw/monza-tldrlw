@@ -3,6 +3,7 @@ locals {
   methods_and_integrations = flatten([
     for lambda_module in [
       module.lambda_get_insights,
+      module.lambda_get_insight,
       module.lambda_get_constructors,
       module.lambda_get_drivers,
       module.lambda_get_results,
@@ -19,7 +20,7 @@ locals {
 module "lambda_stack" {
   source = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack?ref=dev"
   # source                        = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda-2-stack"
-  PRIVATE_APIG_RESOURCES        = ["insights", "constructors", "drivers", "results"]
+  PRIVATE_APIG_RESOURCES        = ["insights", "insight", "constructors", "drivers", "results"]
   PRIVATE_APIG_STAGE_NAME       = var.PRIVATE_APIG_STAGE_NAME
   APP_NAME                      = var.APP_NAME
   ECS_SERVICE_SECURITY_GROUP_ID = module.ecs_service.ecs_security_group_id
@@ -35,6 +36,8 @@ resource "aws_api_gateway_deployment" "private" {
     module.lambda_stack.private_apig_policy,
     module.lambda_get_insights.private_apig_method_id,
     module.lambda_get_insights.private_apig_integration_uri,
+    module.lambda_get_insight.private_apig_method_id,
+    module.lambda_get_insight.private_apig_integration_uri,
     module.lambda_get_constructors.private_apig_method_id,
     module.lambda_get_constructors.private_apig_integration_uri,
     module.lambda_get_drivers.private_apig_method_id,

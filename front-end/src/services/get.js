@@ -56,14 +56,17 @@ export default async function getConstructors(type) {
       throw new Error("Network response was not ok");
     }
     data = await response.json();
+    // console.log(
+    //   `front-end/src/services/get<${type.toUpperCase()}>.js - API call successful`,
+    //   JSON.stringify(data, null, 2),
+    // );
     console.log(
-      `front-end/src/services/get${type}.js - API call successful`,
-      JSON.stringify(data, null, 2),
+      `front-end/src/services/get<${type.toUpperCase()}>.js - API call successful`,
     );
     console.log(getLambdaURL(type));
   } catch (error) {
     console.error(
-      `front-end/src/services/get${type}.js - API call failed`,
+      `front-end/src/services/get<${type.toUpperCase()}>.js - API call failed`,
       error,
     );
   }

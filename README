@@ -21,7 +21,7 @@
 ## important things to know
 
 - if you need to update the **LIST OF DRIVERS** (their team, nationality, etc.), you need to do it in these places:
-  - `infrastructure/lambda/utils.mjs`
+  - `infrastructure/lambda/no-dependencies/utils.mjs`
   - `front-end/src/utils/index.js`
 - if you need to update the driver scoring system (sprint and race), you need to do it here:
   - `infrastructure/lambda/utils.mjs`
@@ -30,9 +30,16 @@
 
 - 12/9/24
 
+  - Lambda Directory Structure refactor
+    - You structured your Lambda deployment into dependencies and no-dependencies directories to minimize deployment package sizes and improve performance. By isolating functions needing external libraries, like file-type, you ensure other handlers remain lightweight, reducing cold start times and optimizing Lambda performance. This setup also aligns with AWS Lambda’s move to include AWS SDK v3 natively in Node.js 18 and later runtimes, eliminating the need to bundle redundant libraries. The smaller, more focused deployment packages improve execution speed and resource efficiency, critical for high-performing serverless applications.
+    - https://docs.aws.amazon.com/lambda/latest/dg/lambda-nodejs.html
+    - `dependencies/`
+      Contains Lambda functions that require external npm packages. Includes a `package.json` with the necessary dependencies.
+    - `no-dependencies/`
+      Contains Lambda functions that do not require any external packages. Includes a minimal `package.json` to enforce ES module usage.
   - `front-end/Dockerfile`
-  - Switching the base images to node:20-alpine helped eliminate the vulnerability because Alpine Linux is a minimalist, security-focused distribution with a significantly smaller attack surface compared to Debian-based images like bullseye. The previously reported vulnerability (SNYK-DEBIAN12-ZLIB-6008963) was introduced through the Debian package zlib, a core library used for compression. By moving to an Alpine-based image, the dependency chain changed, effectively removing the vulnerable version of zlib from the build. Additionally, Alpine’s lean architecture ensures fewer installed packages, reducing the likelihood of vulnerabilities while improving image size and performance. This switch is an example of how tailoring your base image to specific needs can enhance security and efficiency.
-  - To address the SNYK-JS-CROSSSPAWN-8303230 vulnerability, we utilized a .snyk policy file to explicitly mark it as ignored during vulnerability scans. This approach allowed us to document that the issue was not exploitable in our specific environment, ensuring transparency and maintaining focus on actionable vulnerabilities. The .snyk file configuration applied the ignore rule globally to all instances of the vulnerability across our dependency chain, along with a detailed reason for ignoring it and an optional expiration date (2025-01-31). This expiration date ensures periodic reevaluation of the vulnerability in case upstream fixes or environment changes occur. By integrating this policy into our workflow, we ensured that scans still provide meaningful results while avoiding unnecessary pipeline failures due to false positives or irrelevant vulnerabilities.
+    - Switching the base images to node:20-alpine helped eliminate the vulnerability because Alpine Linux is a minimalist, security-focused distribution with a significantly smaller attack surface compared to Debian-based images like bullseye. The previously reported vulnerability (SNYK-DEBIAN12-ZLIB-6008963) was introduced through the Debian package zlib, a core library used for compression. By moving to an Alpine-based image, the dependency chain changed, effectively removing the vulnerable version of zlib from the build. Additionally, Alpine’s lean architecture ensures fewer installed packages, reducing the likelihood of vulnerabilities while improving image size and performance. This switch is an example of how tailoring your base image to specific needs can enhance security and efficiency.
+    - To address the SNYK-JS-CROSSSPAWN-8303230 vulnerability, we utilized a .snyk policy file to explicitly mark it as ignored during vulnerability scans. This approach allowed us to document that the issue was not exploitable in our specific environment, ensuring transparency and maintaining focus on actionable vulnerabilities. The .snyk file configuration applied the ignore rule globally to all instances of the vulnerability across our dependency chain, along with a detailed reason for ignoring it and an optional expiration date (2025-01-31). This expiration date ensures periodic reevaluation of the vulnerability in case upstream fixes or environment changes occur. By integrating this policy into our workflow, we ensured that scans still provide meaningful results while avoiding unnecessary pipeline failures due to false positives or irrelevant vulnerabilities.
 
 - 12/6/24 - tried to create a new λ for s3 image upload
 

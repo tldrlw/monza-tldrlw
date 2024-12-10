@@ -1,7 +1,7 @@
 // currently being used by points calculator λs, will later be refactored to be in SG
 module "lambda_get_constructors_old" {
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
-  source_dir          = var.LAMBDA_PATH
+  source_dir          = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   handler_file_prefix = "app-get"
   REST_method         = "GET"
   function_name       = "${var.APP_NAME}-get-constructors-old"
@@ -18,7 +18,7 @@ module "lambda_get_constructors_old" {
 
 module "lambda_get_drivers_old" {
   source              = "git::https://github.com/tldrlw/terraform-modules.git//apig-lambda"
-  source_dir          = var.LAMBDA_PATH
+  source_dir          = "${path.root}/${var.LAMBDA_PATH_NO_DEPENDENCIES}"
   handler_file_prefix = "app-get"
   REST_method         = "GET"
   function_name       = "${var.APP_NAME}-get-drivers-old"

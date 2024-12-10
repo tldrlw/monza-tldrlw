@@ -33,6 +33,32 @@ export function sortDataByTime(data) {
   });
 }
 
+export function getImageSrc(imageLink) {
+  // console.log(imageLink);
+  const defaultImage =
+    // "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg";
+    "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-no-background.svg";
+  const validUrlPattern =
+    /^https:\/\/monza-tldrlw-images\.s3\.amazonaws\.com\/insights\//;
+  // Check if imageLink is a valid URL
+  if (!imageLink) {
+    console.warn("Missing or undefined imageLink, using default image.");
+    return defaultImage;
+  }
+  try {
+    const url = new URL(imageLink); // Validate if imageLink is a valid URL
+    if (validUrlPattern.test(url.href)) {
+      return imageLink; // If it matches the pattern, return the image URL
+    } else {
+      console.warn("Invalid URL pattern, using default image:", imageLink);
+      return defaultImage; // Invalid pattern, return default
+    }
+  } catch (err) {
+    console.error("Error parsing image URL, using default image:", err);
+    return defaultImage; // If invalid URL format, return default
+  }
+}
+
 export const constructors = [
   "Alpine Renault",
   "Aston Martin Aramco Mercedes",
