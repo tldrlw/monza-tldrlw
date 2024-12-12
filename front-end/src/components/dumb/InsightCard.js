@@ -2,13 +2,14 @@ import Image from "next/image";
 import Pills from "@/components/Pills";
 import InsightText from "@/components/dumb/InsightText";
 import { getImageSrc } from "@/utils";
+import { formatToHumanReadable } from "@/utils";
 
 export default function InsightCard({ insight, dashboardView }) {
   return (
     <div className="my-2 border-2 border-solid border-customOrangeLogo p-2">
       <div className="md:flex md:flex-row">
         {/* Text content for the insight */}
-        <div className="mb-2 md:basis-9/12">
+        <div className="mb-2 md:mb-0 md:basis-8/12 md:pr-10">
           {dashboardView && (
             <p className="mb-4 font-bold">
               {/* Display the primary key for dashboard view */}
@@ -30,12 +31,15 @@ export default function InsightCard({ insight, dashboardView }) {
             </a>
           )}
           {/* Render Pills and additional insight details */}
+          <p className="text-sm text-gray-500">
+            {formatToHumanReadable(insight.DateTime.S)}
+          </p>
           <Pills insight={insight} dashboardView={dashboardView} />
           <InsightText insight={insight} />
         </div>
 
         {/* Render the insight's associated image */}
-        <div className="flex items-center justify-end md:basis-3/12">
+        <div className="my-4 flex items-center justify-end md:my-0 md:basis-4/12">
           <Image
             src={getImageSrc(insight.ImageLink?.S)} // Use the helper function to get the correct src
             alt={
