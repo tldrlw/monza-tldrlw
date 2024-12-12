@@ -2,20 +2,49 @@ import get from "@/services/get";
 import Image from "next/image";
 import Pills from "./Pills";
 import Insight from "./Insight";
-import InsightNew from "./InsightNew";
-import { sortDataByTime, getImageSrc } from "@/utils";
+import { sortDataByTime } from "@/utils";
 
 export default async function ListInsights({ dashboardView }) {
   const { data: insights } = await get("insights");
-  // ^ getInsights() returns data a specific way, so destructuring out "data" and renaming the array to "insights"
-  // console.log(JSON.stringify(insights, null, 2));
+  // ^ getInsights() returns the following, so destructuring out "data" and renaming the array to "insights"
   const sortedInsights = sortDataByTime(insights);
   // console.log(sortedInsights);
 
   console.log(
-    "front-end/src/components/ListInsightsNew.js - # of insights - ",
+    "front-end/src/components/ListInsights.js - # of insights - ",
     insights.length,
   );
+
+  // delete later
+
+  // console.log(insights);
+  // console.log(JSON.stringify(insights, null, 2));
+
+  const getImageSrc = (imageLink) => {
+    // console.log(imageLink);
+    const defaultImage =
+      // "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-white.svg";
+      "https://monza-tldrlw-images.s3.amazonaws.com/logos/logo-no-background.svg";
+    const validUrlPattern =
+      /^https:\/\/monza-tldrlw-images\.s3\.amazonaws\.com\/insights\//;
+    // Check if imageLink is a valid URL
+    if (!imageLink) {
+      console.warn("Missing or undefined imageLink, using default image.");
+      return defaultImage;
+    }
+    try {
+      const url = new URL(imageLink); // Validate if imageLink is a valid URL
+      if (validUrlPattern.test(url.href)) {
+        return imageLink; // If it matches the pattern, return the image URL
+      } else {
+        console.warn("Invalid URL pattern, using default image:", imageLink);
+        return defaultImage; // Invalid pattern, return default
+      }
+    } catch (err) {
+      console.error("Error parsing image URL, using default image:", err);
+      return defaultImage; // If invalid URL format, return default
+    }
+  };
 
   return (
     <div>
@@ -27,7 +56,7 @@ export default async function ListInsights({ dashboardView }) {
           <div className="">
             {/* Render the list of strings properly */}
             <div className="md:flex md:flex-row">
-              <div className="mb-2 md:basis-9/12">
+              <div className="mb-2 md:basis-4/6">
                 {dashboardView && (
                   <p className="mb-4 font-bold">ID: {insight.PK.S}</p>
                 )}
@@ -44,10 +73,9 @@ export default async function ListInsights({ dashboardView }) {
                   </a>
                 )}
                 <Pills insight={insight} dashboardView={dashboardView}></Pills>
-                <InsightNew insight={insight}></InsightNew>
+                <Insight insight={insight}></Insight>
               </div>
-              <div className="flex items-center justify-end md:basis-3/12">
-                {/* <div className="flex items-center justify-end md:basis-3/12 border-2 border-sky-500"> */}
+              <div className="flex items-center justify-end md:basis-2/6">
                 <Image
                   src={getImageSrc(insight.ImageLink?.S)} // Use the helper function to get the correct src
                   alt={
@@ -62,7 +90,7 @@ export default async function ListInsights({ dashboardView }) {
                 />
               </div>
             </div>
-            <InsightNew viewport={"mobile"} insight={insight}></InsightNew>
+            <Insight viewport={"mobile"} insight={insight}></Insight>
           </div>
         </div>
       ))}
