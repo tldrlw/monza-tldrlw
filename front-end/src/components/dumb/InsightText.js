@@ -16,6 +16,9 @@ export default function InsightText({ viewport = "desktop", insight }) {
     .split(/(?<=[.!?])\s+/) // Regex to split by punctuation followed by a space
     .filter((sentence) => sentence.trim().length > 0); // Remove any empty sentences
 
+  // Check if there are multiple elements in insight.Insights.L
+  const showLink = insight.Insights.L.length > 1;
+
   return (
     <div className={`${roboto.className} mx-1 md:mx-2 md:mt-4`}>
       <div className={visibilityClass}>
@@ -26,14 +29,16 @@ export default function InsightText({ viewport = "desktop", insight }) {
                 {sentence}
               </li>
             ))}
-            <li className="leading-snug">
-              <Link
-                href={`/insight/${insight.PK.S}`}
-                className="text-blue-500 hover:underline"
-              >
-                Continue reading...
-              </Link>
-            </li>
+            {showLink && (
+              <li className="leading-snug">
+                <Link
+                  href={`/insight/${insight.PK.S}`}
+                  className="text-blue-500 hover:underline"
+                >
+                  Continue reading...
+                </Link>
+              </li>
+            )}
           </ul>
         )}
       </div>
