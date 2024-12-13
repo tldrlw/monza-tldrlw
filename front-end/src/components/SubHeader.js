@@ -118,7 +118,7 @@ export default function SubHeader() {
 
   return (
     <div className="flex justify-between">
-      <h1 className="mt-1 text-2xl md:text-3xl">monza🏎️🏁</h1>
+      <h1 className="mt-1 text-2xl md:text-3xl">monza🏎️</h1>
       <div className="mr-2 mt-3 md:mr-0">
         {/* Conditionally render the 'admin' link unless on specific pages */}
         {shouldRenderLoginLink && <LoginLink />}
