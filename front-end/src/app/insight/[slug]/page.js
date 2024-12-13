@@ -1,5 +1,6 @@
 import getInsight from "@/services/getInsight";
 import InsightFull from "@/components/InsightFull";
+import SubHeader from "@/components/SubHeader";
 
 export default async function Page({ params }) {
   const { data: insight } = await getInsight(params.slug);
@@ -7,6 +8,7 @@ export default async function Page({ params }) {
 
   return (
     <div>
+      <SubHeader></SubHeader>
       {/* <h1>Dynamic Page for ID: {params.slug}</h1> */}
       <InsightFull insight={insight}></InsightFull>
     </div>
