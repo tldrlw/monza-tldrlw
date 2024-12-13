@@ -25,6 +25,9 @@ export default function InsightFull({ viewport = "desktop", insight }) {
           {insight.Title.S}
         </a>
       )}
+      <p className="text-sm text-gray-500">
+        {formatToHumanReadable(insight.DateTime.S)}
+      </p>
       <Pills insight={insight}></Pills>
       <div className="mt-4 flex justify-center">
         <Image
@@ -37,19 +40,16 @@ export default function InsightFull({ viewport = "desktop", insight }) {
           className="shadow-lg" // Optional: Add styles like rounded corners or shadow for better aesthetics
         />
       </div>
-      <div className={`${roboto.className} mx-1 md:mx-2`}>
+      <div className={`${roboto.className} mx-1 mb-3 md:mx-2`}>
         <div>
           {insight.Insights.L.map((item, idx) => (
             <span
               key={idx}
-              className={`mt-4 block ${viewport === "desktop" ? "pr-6" : ""}`}
+              className={`mt-4 block ${viewport === "desktop" ? "pr-2" : ""}`}
             >
               {item.S}
             </span>
           ))}
-          <p className="mt-2 pb-2 text-sm font-bold text-emerald-800 md:text-base">
-            {formatToHumanReadable(insight.DateTime.S)}
-          </p>
         </div>
       </div>
     </div>

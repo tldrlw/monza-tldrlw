@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 // Reusable components for Links
@@ -17,17 +20,19 @@ const StandingsLink = ({ marginRight = true }) => (
       marginRight ? "mr-5 md:mr-10" : ""
     }`}
   >
-    <span className="md:hidden">👉​standings</span>
+    <span className="md:hidden">👉​stndngs</span>
     <span className="hidden md:inline">
       👉​standings (drivers & constructors)
     </span>
   </Link>
 );
 
-const HomeLink = () => (
+const HomeLink = ({ marginRight = true }) => (
   <Link
     href="/"
-    className="content-center text-sm italic hover:underline md:text-base"
+    className={`content-center text-sm italic hover:underline md:text-base ${
+      marginRight ? "mr-5 md:mr-10" : ""
+    }`}
   >
     👉​home
   </Link>
@@ -54,40 +59,51 @@ const DashboardResultsLink = () => (
 const LoginLink = () => (
   <Link
     href="/auth/login"
-    className="mr-5 content-center text-sm italic text-blue-100 hover:underline md:mr-10 md:text-base"
+    className="mr-5 content-center text-sm italic text-blue-50 hover:underline md:mr-10 md:text-base"
   >
     admin
   </Link>
 );
 
-export default function SubHeader({ currentPage = "/" }) {
+export default function SubHeader() {
+  const pathname = usePathname(); // Get the current path dynamically
+  console.log("Current Path (pathname):", pathname); // Debugging the current route
+
   const renderLinks = () => {
-    switch (currentPage) {
-      case "/dashboard":
+    switch (true) {
+      case pathname === "/dashboard":
         return <DashboardResultsLink />;
-      case "/dashboard/results":
+      case pathname === "/dashboard/results":
         return <DashboardLink />;
-      case "/":
+      case pathname === "/":
         return (
           <>
             <ResultsLink />
             <StandingsLink marginRight={false} />
           </>
         );
-      case "/standings":
+      case pathname === "/standings":
         return (
           <>
             <ResultsLink />
             <HomeLink />
           </>
         );
-      case "/auth/login":
+      case pathname === "/auth/login":
         return <HomeLink />;
-      case "/results":
+      case pathname === "/results":
         return (
           <>
             <StandingsLink />
             <HomeLink />
+          </>
+        );
+      case pathname.startsWith("/insight/"): // Handle dynamic insight routes
+        return (
+          <>
+            <HomeLink marginRight={true} />
+            <ResultsLink />
+            <StandingsLink marginRight={false} />
           </>
         );
       default:
@@ -96,9 +112,9 @@ export default function SubHeader({ currentPage = "/" }) {
   };
 
   const shouldRenderLoginLink =
-    currentPage !== "/auth/login" &&
-    currentPage !== "/dashboard" &&
-    currentPage !== "/dashboard/results";
+    pathname !== "/auth/login" &&
+    pathname !== "/dashboard" &&
+    pathname !== "/dashboard/results";
 
   return (
     <div className="flex justify-between">

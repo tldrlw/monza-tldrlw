@@ -50,6 +50,7 @@ export default function InsightCard({ insight, dashboardView }) {
             height={125} // Adjust height proportionally to width
             unoptimized // Disable image optimization for this specific image
             // without ^, uploaded images couldn't be fetched when deployed to prd (400 error, 'url' related), BUT no issues in dev, see notes section at the end
+            className="shadow-lg"
           />
         </div>
       </div>
