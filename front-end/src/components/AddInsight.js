@@ -35,6 +35,7 @@ export default function NewInsight(lambdaPostImageFunctionUrl) {
     "FP3",
     "Quali",
     "Race",
+    "Rumors",
     "Sprint",
   ];
 
