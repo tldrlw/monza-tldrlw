@@ -342,3 +342,40 @@ export const races = [
     endDate: "2024-12-08",
   },
 ];
+
+// used in AddInsight.js
+// export const insightTypes = [
+//   "Free Practice 1",
+//   "Free Practice 2",
+//   "Free Practice 3",
+//   "Sprint",
+//   "Quali",
+//   "Race",
+//   "YouTube",
+//   "News",
+//   "Podcast",
+//   "Other",
+//   "LinkedIn",
+//   "Threads",
+// ];
+// ^ old list, keeping for potential analysis of data pre 12/10/24
+export const insightTypes = [
+  "Business",
+  "Cars",
+  "Partnerships",
+  "LinkedIn",
+  "News",
+  "Other",
+  "Podcast",
+  "Threads",
+  "YouTube",
+  "FP1",
+  "FP2",
+  "FP3",
+  "Quali",
+  "Race",
+  "Rumors",
+  "Sprint",
+  "WEC",
+];
+// used in AddInsight.js
