@@ -1,7 +1,7 @@
 import { unstable_noStore as noStore } from "next/cache";
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
 import { Suspense } from "react";
-import ListInsights from "@/components/NU-ListInsights";
+import ListInsights from "@/components/ListInsights";
 import NewInsight from "@/components/AddInsight";
 import { cookies } from "next/headers";
 import Auth from "@/components/Auth";
@@ -34,7 +34,7 @@ export default function Dashboard() {
     // console.log(idTokenValue);
     return idTokenValue;
   }
-  // will need to pass idToken into NewInsight (and also ImageUpload component) component later when POST Lambdas are fronted by APIG with Cognito auth
+  // will need to pass idToken into NewInsight (and also ImageUpload component) component later when POST image upload Lambda is fronted by APIG with Cognito auth
 
   return (
     <main>
@@ -47,7 +47,7 @@ export default function Dashboard() {
           ></NewInsight>
         </div>
         <div className="basis-1/2">
-          <Suspense fallback={<p>Loading insights...</p>}>
+          <Suspense fallback={<p className="mt-1">Loading insights...</p>}>
             <ListInsights dashboardView={true}></ListInsights>
           </Suspense>
         </div>
