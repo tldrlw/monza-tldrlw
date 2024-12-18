@@ -45,7 +45,7 @@ variable "HOSTNAME" {
 variable "IMAGE_TAG" {
   type = string
   # not having a default will force me to provide the latest image tag when running terraform locally
-  default = "4c31813"
+  default = "bcd4997"
   # gets passed in from .github/workflows/infrastructure.yaml
 }
 

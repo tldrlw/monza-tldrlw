@@ -1,5 +1,5 @@
 import get from "@/services/get";
-import InsightCard from "@/components/dumb/InsightCard";
+import InsightCard from "@/components/insight/Card";
 import { sortDataByTime } from "@/utils";
 
 export default async function ListInsights({ dashboardView }) {

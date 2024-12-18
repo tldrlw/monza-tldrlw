@@ -27,7 +27,7 @@ export default function InsightText({
     <div className={`${roboto.className} mx-1 md:mx-2 md:mt-4`}>
       <div className={visibilityClass}>
         {sentences.length > 0 && (
-          <ul className="mb-2 list-square space-y-1 pl-3.5 md:mb-0">
+          <ul className="mb-2 list-square space-y-1 pl-3.5 md:mb-0 md:text-lg">
             {sentences.map((sentence, index) => (
               <li key={index} className="leading-snug">
                 {sentence}
