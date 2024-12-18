@@ -1,5 +1,5 @@
 import getInsight from "@/services/getInsight";
-import InsightFull from "@/components/InsightFull";
+import InsightFull from "@/components/insight/Full";
 import SubHeader from "@/components/SubHeader";
 
 export default async function Page({ params }) {
