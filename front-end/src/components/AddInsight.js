@@ -1,46 +1,11 @@
 import postInsight from "@/services/postInsight";
 import ImageUpload from "./ImageUpload";
 import InputField from "./InputField";
-import { constructors } from "@/utils";
+import { constructors, insightTypes } from "@/utils";
 
 export default function NewInsight(lambdaPostImageFunctionUrl) {
-  // const types = [
-  //   "Free Practice 1",
-  //   "Free Practice 2",
-  //   "Free Practice 3",
-  //   "Sprint",
-  //   "Quali",
-  //   "Race",
-  //   "YouTube",
-  //   "News",
-  //   "Podcast",
-  //   "Other",
-  //   "LinkedIn",
-  //   "Threads",
-  // ];
-  // ^ keeping for potential analysis of data pre 12/10/24
-
-  const types = [
-    "Business",
-    "Cars",
-    "Partnerships",
-    "LinkedIn",
-    "News",
-    "Other",
-    "Podcast",
-    "Threads",
-    "YouTube",
-    "FP1",
-    "FP2",
-    "FP3",
-    "Quali",
-    "Race",
-    "Rumors",
-    "Sprint",
-  ];
-
-  // Sort the array above alphabetically
-  const sortedTypes = types.sort();
+  // Sort the array above alphabetically (not really necessary since they're listed alphabetically, but sure... why not)
+  const sortedTypes = insightTypes.sort();
 
   const teamsWithNotTeamSpecific = ["Not team-specific", ...constructors];
 
