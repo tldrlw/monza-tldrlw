@@ -1,3 +1,5 @@
+// this service calls the λ function to query dydb to get out a specific item by primary key
+
 import { unstable_noStore as noStore } from "next/cache";
 
 export default async function getInsight(primaryKey) {

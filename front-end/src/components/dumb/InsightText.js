@@ -4,7 +4,11 @@ import Link from "next/link";
 
 const roboto = Roboto({ weight: "400", subsets: ["latin"] });
 
-export default function InsightText({ viewport = "desktop", insight }) {
+export default function InsightText({
+  dashboardView = false,
+  viewport = "desktop",
+  insight,
+}) {
   const visibilityClass =
     viewport === "mobile" ? "block md:hidden" : "hidden md:block";
 
@@ -17,7 +21,7 @@ export default function InsightText({ viewport = "desktop", insight }) {
     .filter((sentence) => sentence.trim().length > 0); // Remove any empty sentences
 
   // Check if there are multiple elements in insight.Insights.L
-  const showLink = insight.Insights.L.length > 1;
+  const showLink = !dashboardView && insight.Insights.L.length > 1;
 
   return (
     <div className={`${roboto.className} mx-1 md:mx-2 md:mt-4`}>

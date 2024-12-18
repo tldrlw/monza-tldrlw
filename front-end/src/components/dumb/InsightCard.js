@@ -4,16 +4,16 @@ import InsightText from "@/components/dumb/InsightText";
 import { getImageSrc } from "@/utils";
 import { formatToHumanReadable } from "@/utils";
 
-export default function InsightCard({ insight, dashboardView }) {
+export default function InsightCard({ insight, dashboardView = false }) {
   return (
     <div className="my-2 border-2 border-solid border-customOrangeLogo p-2">
       <div className="md:flex md:flex-row">
         {/* Text content for the insight */}
         <div className="mb-2 md:mb-0 md:basis-8/12 md:pr-10">
           {dashboardView && (
-            <p className="mb-4 font-bold">
+            <p className="font-bold md:text-sm">
               {/* Display the primary key for dashboard view */}
-              ID: {insight.PK.S}
+              {insight.PK.S}
             </p>
           )}
           {insight.Link.S === "monza.tldrlw.com" ? (
@@ -35,7 +35,7 @@ export default function InsightCard({ insight, dashboardView }) {
             {formatToHumanReadable(insight.DateTime.S)}
           </p>
           <Pills insight={insight} dashboardView={dashboardView} />
-          <InsightText insight={insight} />
+          <InsightText insight={insight} dashboardView={dashboardView} />
         </div>
 
         {/* Render the insight's associated image */}

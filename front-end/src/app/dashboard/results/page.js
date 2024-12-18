@@ -4,7 +4,7 @@ import { unstable_noStore as noStore } from "next/cache";
 // ^ https://github.com/vercel/next.js/discussions/44628#discussioncomment-7040424
 import { cookies } from "next/headers";
 import { getLoggedInUser, sortDataByTime } from "@/utils";
-import NewResult from "@/components/AddResult";
+import AddResult from "@/components/AddResult";
 import ListResults from "@/components/ListResults";
 import get from "@/services/get";
 
@@ -32,7 +32,7 @@ export default async function Results() {
       <div className="flex flex-col md:flex-row">
         <div className="basis-1/2 md:mb-2 md:mr-2">
           <Auth loggedInUser={loggedInUser}></Auth>
-          <NewResult></NewResult>
+          <AddResult></AddResult>
         </div>
         <div className="basis-1/2">
           <ListResults
