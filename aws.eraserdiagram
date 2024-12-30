@@ -52,6 +52,9 @@ Cloudwatch Metric Alarms [icon: aws-cloudwatch]
 // cognito and ssm
 Cognito [icon: aws-cognito]
 SSM [icon: aws-systems-manager]
+// off season
+CloudFront [icon: aws-cloudfront]
+S3 Static Website [icon: aws-simple-storage-service, label: HTML]
 // github
 Github [icon: github]
 Github ActionDev [icon: github-actions, label: github-action] {
@@ -70,6 +73,7 @@ MergePrd [icon: git-merge, label: merge-to-prd]
 
 // connections
 Users > Route 53 > ELB > ECS Service
+Route 53 > CloudFront: during off season > S3 Static Website
 
 // prd lambdas + post image lambda
 ECS Service > PostImage > Images
