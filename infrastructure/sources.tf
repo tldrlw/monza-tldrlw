@@ -43,6 +43,14 @@ data "aws_route53_zone" "tldrlw_com" {
   private_zone = false
 }
 
+data "aws_acm_certificate" "monza_tldrlw_com" {
+  domain   = "blog.tldrlw.com"
+  statuses = ["ISSUED"]
+}
+# arn:aws:acm:us-east-1:920394549028:certificate/5963027a-2454-49e5-a335-a8e04b2df748
+# monza.tldrlw.com is listed in the SANs
+# ^ used in infrastructure/cloudfront-off-season.tf to force https
+
 // cognito
 
 # Retrieve the Cognito username from SSM Parameter Store
@@ -79,3 +87,5 @@ data "aws_internet_gateway" "blog_tldrlw" {
     values = [var.BLOG_TLDRLW_VPC_ID]
   }
 }
+
+data "aws_region" "current" {}

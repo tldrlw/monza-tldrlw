@@ -1,3 +1,8 @@
+variable "OFF_SEASON" {
+  type = bool
+  default = false
+}
+
 variable "APP_NAME" {
   type    = string
   default = "monza-tldrlw"
